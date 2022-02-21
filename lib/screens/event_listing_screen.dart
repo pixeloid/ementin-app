@@ -2,14 +2,16 @@ import 'package:eventapp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class EventListingPage extends StatefulWidget {
-  const EventListingPage({Key? key}) : super(key: key);
+import '../event_card.dart';
+
+class EventListingScreen extends StatefulWidget {
+  const EventListingScreen({Key? key}) : super(key: key);
 
   @override
-  _EventListingPage createState() => _EventListingPage();
+  _EventListingScreen createState() => _EventListingScreen();
 }
 
-class _EventListingPage extends State<EventListingPage> {
+class _EventListingScreen extends State<EventListingScreen> {
   final String allEventsGraphQL = r'''
     query {
       events {
@@ -45,19 +47,9 @@ class _EventListingPage extends State<EventListingPage> {
           final eventList = result.data?['events']['edges'];
           return Column(
             children: [
-              Button(),
               Expanded(child: ListView.builder(itemBuilder: (context, index) {
                 var event = eventList[index]['node'];
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 8.0),
-                    child: Text(
-                      event['name'],
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                );
+                return EventCard(id: event['id'], name: event['name']);
               }))
             ],
           );
