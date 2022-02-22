@@ -20,13 +20,10 @@ class EventCard extends StatelessWidget {
     return InkWell(
       onTap: () => selectEvent(context),
       splashColor: Theme.of(context).primaryColor,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
-          child: Text(
-            name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+      child: GridTile(
+        child: Text(
+          name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
