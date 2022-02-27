@@ -1,4 +1,3 @@
-import 'package:eventapp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -45,13 +44,18 @@ class _EventListingScreen extends State<EventListingScreen> {
           }
 
           final eventList = result.data?['events']['edges'];
-          return Column(
-            children: [
-              Expanded(child: ListView.builder(itemBuilder: (context, index) {
-                var event = eventList[index]['node'];
-                return EventCard(id: event['id'], name: event['name']);
-              }))
-            ],
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: eventList.length,
+            itemBuilder: (ctx, i) => EventCard(
+                id: eventList[i]['node']['id'],
+                name: eventList[i]['node']['name']),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
           );
         },
       ),
