@@ -4,23 +4,10 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    {
-      "name": "Launch Chrome",
-      "request": "launch",
-      "type": "pwa-chrome",
-      "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "name": "ementin-app",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "ementin-app (profile mode)",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    }
+  {
+    "name": "Flutter: Attach to Device",
+    "type": "dart",
+    "request": "attach"
+  }
   ]
 }

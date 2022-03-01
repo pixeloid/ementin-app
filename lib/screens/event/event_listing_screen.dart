@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../event_card.dart';
+import '../../widgets/event_card.dart';
 
 class EventListingScreen extends StatefulWidget {
   const EventListingScreen({Key? key}) : super(key: key);

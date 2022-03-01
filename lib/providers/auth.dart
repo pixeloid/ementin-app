@@ -86,8 +86,7 @@ class Auth with ChangeNotifier {
     }
 
     String? userData = prefs.getString('userData');
-    final extractedUserData =
-        jsonDecode(userData as String) as Map<String, Object>;
+    Map<String, dynamic> extractedUserData = jsonDecode(userData!);
     final expiryDate =
         DateTime.parse(extractedUserData['expiryDate'].toString());
 
