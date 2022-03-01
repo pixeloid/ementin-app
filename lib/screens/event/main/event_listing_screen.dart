@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../../widgets/event_card.dart';
+import '../../../widgets/event_card.dart';
 
 class EventListingScreen extends StatefulWidget {
   const EventListingScreen({Key? key}) : super(key: key);
+  static const route = '/event/list';
 
   @override
   _EventListingScreen createState() => _EventListingScreen();

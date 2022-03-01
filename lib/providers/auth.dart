@@ -46,8 +46,8 @@ class Auth with ChangeNotifier {
         ),
       );
       final responseData = json.decode(response.body);
-      if (responseData['error'] != null) {
-        throw HttpException(responseData['error']['message']);
+      if (response.statusCode != 200) {
+        throw HttpException(responseData['message']);
       }
       _token = responseData['token'];
 
@@ -67,7 +67,7 @@ class Auth with ChangeNotifier {
       );
       prefs.setString('userData', userData);
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 

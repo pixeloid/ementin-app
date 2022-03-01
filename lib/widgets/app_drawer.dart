@@ -1,3 +1,4 @@
+import 'package:eventapp/screens/event/main/event_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.list_sharp),
             title: const Text('Események listája'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/events');
+              Navigator.of(context).pushNamed(EventListingScreen.route);
             },
           ),
           // Divider(),

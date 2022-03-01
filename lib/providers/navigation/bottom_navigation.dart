@@ -1,3 +1,4 @@
+import 'package:eventapp/screens/event/main/event_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,15 +52,15 @@ class BottomNavigationProvider extends ChangeNotifier {
     ),
     SECOND_SCREEN: Screen(
       title: 'Second',
-      child: const EventMainProgramScreen(),
-      initialRoute: EventMainProgramScreen.route,
+      child: const EventListingScreen(),
+      initialRoute: EventListingScreen.route,
       navigatorState: GlobalKey<NavigatorState>(),
       onGenerateRoute: (settings) {
         print('Generating route: ${settings.name}');
         switch (settings.name) {
           default:
             return MaterialPageRoute(
-                builder: (_) => const EventMainProgramScreen());
+                builder: (_) => const EventListingScreen());
         }
       },
       scrollController: ScrollController(),
