@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:eventapp/screens/event/main/event_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,20 +7,19 @@ import 'package:provider/provider.dart';
 import '../../models/screen.dart';
 import '../../screens/root_screen.dart';
 import '../../screens/event/main/event_main_info_screen.dart';
-import '../../screens/event/main/event_main_program_screen.dart';
 import '../../screens/event/main/pushed_screen.dart';
 import '../../widgets/exit_dialog.dart';
 
-const INFO = 0;
-const SECOND_SCREEN = 1;
-const THIRD_SCREEN = 2;
+const info = 0;
+const profile = 1;
+const favourites = 2;
 
 class BottomNavigationProvider extends ChangeNotifier {
   /// Shortcut method for getting [NavigationProvider].
   static BottomNavigationProvider of(BuildContext context) =>
       Provider.of<BottomNavigationProvider>(context, listen: false);
 
-  int _currentScreenIndex = INFO;
+  int _currentScreenIndex = info;
 
   int get currentTabIndex => _currentScreenIndex;
 
@@ -26,14 +27,14 @@ class BottomNavigationProvider extends ChangeNotifier {
     print('Generating route: ${settings.name}');
     switch (settings.name) {
       case PushedScreen.route:
-        return MaterialPageRoute(builder: (_) => PushedScreen());
+        return MaterialPageRoute(builder: (_) => const PushedScreen());
       default:
         return MaterialPageRoute(builder: (_) => const EventRootScreen());
     }
   }
 
   final Map<int, Screen> _screens = {
-    INFO: Screen(
+    info: Screen(
       title: 'First',
       child: const EventMainInfoScreen(),
       initialRoute: EventMainInfoScreen.route,
@@ -42,7 +43,7 @@ class BottomNavigationProvider extends ChangeNotifier {
         print('Generating route: ${settings.name}');
         switch (settings.name) {
           case PushedScreen.route:
-            return MaterialPageRoute(builder: (_) => PushedScreen());
+            return MaterialPageRoute(builder: (_) => const PushedScreen());
           default:
             return MaterialPageRoute(
                 builder: (_) => const EventMainInfoScreen());
@@ -50,7 +51,7 @@ class BottomNavigationProvider extends ChangeNotifier {
       },
       scrollController: ScrollController(),
     ),
-    SECOND_SCREEN: Screen(
+    profile: Screen(
       title: 'Second',
       child: const EventListingScreen(),
       initialRoute: EventListingScreen.route,
@@ -65,16 +66,16 @@ class BottomNavigationProvider extends ChangeNotifier {
       },
       scrollController: ScrollController(),
     ),
-    THIRD_SCREEN: Screen(
+    favourites: Screen(
       title: 'Second',
-      child: PushedScreen(),
+      child: const PushedScreen(),
       initialRoute: PushedScreen.route,
       navigatorState: GlobalKey<NavigatorState>(),
       onGenerateRoute: (settings) {
         print('Generating route: ${settings.name}');
         switch (settings.name) {
           default:
-            return MaterialPageRoute(builder: (_) => PushedScreen());
+            return MaterialPageRoute(builder: (_) => const PushedScreen());
         }
       },
       scrollController: ScrollController(),
@@ -115,8 +116,8 @@ class BottomNavigationProvider extends ChangeNotifier {
       currentNavigatorState.pop();
       return false;
     } else {
-      if (currentTabIndex != INFO) {
-        setTab(INFO);
+      if (currentTabIndex != info) {
+        setTab(info);
         notifyListeners();
         return false;
       } else {
