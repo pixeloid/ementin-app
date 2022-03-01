@@ -3,7 +3,7 @@
 import 'package:eventapp/providers/auth.dart';
 import 'package:eventapp/providers/navigation/bottom_navigation.dart';
 import 'package:eventapp/screens/auth/auth_screen.dart';
-import 'package:eventapp/screens/event/event_listing_screen.dart';
+import 'package:eventapp/screens/event/main/event_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
