@@ -1,18 +1,19 @@
+import 'package:eventapp/providers/event.dart';
 import 'package:flutter/material.dart';
 
-class EventCard extends StatelessWidget {
-  final String id;
+import '../screens/event/main/event_main_info_screen.dart';
 
-  final String name;
+class EventCard extends StatelessWidget {
+  final Event event;
 
   const EventCard({
     Key? key,
-    required this.id,
-    required this.name,
+    required this.event,
   }) : super(key: key);
 
   void selectEvent(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed('/event', arguments: {'id': id, 'name': name});
+    Navigator.of(ctx).pushNamed(EventMainInfoScreen.route,
+        arguments: {'id': id, 'name': name});
   }
 
   @override
@@ -22,7 +23,7 @@ class EventCard extends StatelessWidget {
       splashColor: Theme.of(context).primaryColor,
       child: GridTile(
         child: Text(
-          name,
+          event.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

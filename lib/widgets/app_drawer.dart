@@ -23,7 +23,8 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.list_sharp),
             title: const Text('Események listája'),
             onTap: () {
-              Navigator.of(context).pushNamed(EventListingScreen.route);
+              Navigator.of(context)
+                  .pushReplacementNamed(EventListingScreen.route);
             },
           ),
           // Divider(),
@@ -63,7 +64,7 @@ class AppDrawer extends StatelessWidget {
                   title: const Text('Login'),
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacementNamed('/auth');
+                    Navigator.of(context).pushNamed('/auth');
                   },
                 ),
         ],

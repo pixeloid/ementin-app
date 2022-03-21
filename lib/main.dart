@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:eventapp/navigation/app_router.dart';
 import 'package:eventapp/providers/auth.dart';
 import 'package:eventapp/providers/navigation/bottom_navigation.dart';
-import 'package:eventapp/screens/auth/auth_screen.dart';
 import 'package:eventapp/screens/event/main/event_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -47,12 +47,8 @@ class MyApp extends StatelessWidget {
                         .textTheme, // If this is not set, then ThemeData.light().textTheme is used.
                   ),
                 ),
-                routes: {
-                  '/auth': (ctx) => AuthScreen(),
-                  '/events': (ctx) => EventListingScreen(),
-                },
-                onGenerateRoute:
-                    BottomNavigationProvider.of(ctx).onGenerateRoute,
+                onGenerateRoute: AppRouter.generateRoute,
+                initialRoute: EventListingScreen.route,
               )),
     );
   }

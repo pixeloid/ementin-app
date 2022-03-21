@@ -8,6 +8,10 @@ class EventMainInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(Icons.map_outlined);
+    return const Scaffold(
+      body: Center(
+        child: Text('Event details'),
+      ),
+    );
   }
 }

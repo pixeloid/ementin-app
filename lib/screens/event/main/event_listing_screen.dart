@@ -12,6 +12,9 @@ class EventListingScreen extends StatefulWidget {
 }
 
 class _EventListingScreen extends State<EventListingScreen> {
+  var _isInit = true;
+  var _isLoading = false;
+
   final String allEventsGraphQL = r'''
     query {
       events {
@@ -24,6 +27,22 @@ class _EventListingScreen extends State<EventListingScreen> {
       }
     }
 ''';
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +71,7 @@ class _EventListingScreen extends State<EventListingScreen> {
                 id: eventList[i]['node']['id'],
                 name: eventList[i]['node']['name']),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 3 / 2,
+              crossAxisCount: 1,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),

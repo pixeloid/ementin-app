@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/screen.dart';
+import '../../screens/event/main/event_main_program_screen.dart';
 import '../../screens/root_screen.dart';
 import '../../screens/event/main/event_main_info_screen.dart';
 import '../../screens/event/main/pushed_screen.dart';
@@ -24,7 +25,7 @@ class BottomNavigationProvider extends ChangeNotifier {
   int get currentTabIndex => _currentScreenIndex;
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    print('Generating route: ${settings.name}');
+    print('onGenerateRoute: ${settings.name}');
     switch (settings.name) {
       case PushedScreen.route:
         return MaterialPageRoute(builder: (_) => const PushedScreen());
@@ -35,12 +36,12 @@ class BottomNavigationProvider extends ChangeNotifier {
 
   final Map<int, Screen> _screens = {
     info: Screen(
-      title: 'First',
+      title: 'EventMainInfoScreen',
       child: const EventMainInfoScreen(),
       initialRoute: EventMainInfoScreen.route,
       navigatorState: GlobalKey<NavigatorState>(),
       onGenerateRoute: (settings) {
-        print('Generating route: ${settings.name}');
+        print('Generating EventMainInfoScreen route: ${settings.name}');
         switch (settings.name) {
           case PushedScreen.route:
             return MaterialPageRoute(builder: (_) => const PushedScreen());
@@ -52,12 +53,12 @@ class BottomNavigationProvider extends ChangeNotifier {
       scrollController: ScrollController(),
     ),
     profile: Screen(
-      title: 'Second',
+      title: 'EventListingScreen',
       child: const EventListingScreen(),
       initialRoute: EventListingScreen.route,
       navigatorState: GlobalKey<NavigatorState>(),
       onGenerateRoute: (settings) {
-        print('Generating route: ${settings.name}');
+        print('Generating EventListingScreen route: ${settings.name}');
         switch (settings.name) {
           default:
             return MaterialPageRoute(
@@ -67,15 +68,17 @@ class BottomNavigationProvider extends ChangeNotifier {
       scrollController: ScrollController(),
     ),
     favourites: Screen(
-      title: 'Second',
-      child: const PushedScreen(),
+      title: 'EventMainProgramScreen',
+      child: const EventMainProgramScreen(),
       initialRoute: PushedScreen.route,
       navigatorState: GlobalKey<NavigatorState>(),
       onGenerateRoute: (settings) {
-        print('Generating route: ${settings.name}');
+        print('Generating EventMainProgramScreen route: ${settings.name}');
         switch (settings.name) {
           default:
-            return MaterialPageRoute(builder: (_) => const PushedScreen());
+            return MaterialPageRoute(
+              builder: (_) => const EventMainProgramScreen(),
+            );
         }
       },
       scrollController: ScrollController(),
