@@ -1,15 +1,15 @@
-import 'package:eventapp/screens/event/main/event_listing_screen.dart';
+//import 'package:eventapp/app_define/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/auth.dart';
+import '../providers/auth_provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Auth>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
 
     return Drawer(
       child: Column(
@@ -23,8 +23,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.list_sharp),
             title: const Text('Események listája'),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(EventListingScreen.route);
+              // Navigator.of(context).pushReplacementNamed(AppRoute.routeEvent);
             },
           ),
           // Divider(),

@@ -1,19 +1,19 @@
-import 'package:eventapp/providers/event.dart';
+import 'package:eventapp/models/event_model.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/event/main/event_main_info_screen.dart';
-
 class EventCard extends StatelessWidget {
-  final Event event;
+  final EventModel? event;
 
   const EventCard({
     Key? key,
-    required this.event,
+    this.event,
   }) : super(key: key);
 
-  void selectEvent(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(EventMainInfoScreen.route,
-        arguments: {'id': id, 'name': name});
+  void selectEvent(context) async {
+    print(context.toString());
+    // context.navigator()?.pushNamed(AppRoute.routeEvent).then((_) async {
+    //  await provider.getProfile();
+    //  });
   }
 
   @override
@@ -21,11 +21,9 @@ class EventCard extends StatelessWidget {
     return InkWell(
       onTap: () => selectEvent(context),
       splashColor: Theme.of(context).primaryColor,
-      child: GridTile(
-        child: Text(
-          event.name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+      child: Text(
+        event!.name,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

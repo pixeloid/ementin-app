@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttour/app_define/app_assets.dart';
+import 'package:eventapp/app_define/app_assets.dart';
 import 'package:provider/provider.dart';
 
 class AppTheme {
@@ -33,7 +32,6 @@ class AppTheme {
   ThemeData buildThemeData() {
     return ThemeData(
       primaryColor: primaryColor,
-      accentColor: accentColor,
       fontFamily: assets.fontRoboto,
       pageTransitionsTheme: _buildPageTransitionsTheme(),
       buttonTheme: _buildButtonTheme(),

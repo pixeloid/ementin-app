@@ -1,4 +1,4 @@
-import 'package:fluttour/app_define/app_config.dart';
+import 'package:eventapp/app_define/app_config.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphQLAPIClient {
@@ -39,7 +39,7 @@ class GraphQLAPIClient {
   Future<QueryResult> execute(String queries) async {
     final WatchQueryOptions _options = WatchQueryOptions(
       document: gql(queries),
-      pollInterval: Duration(seconds: 15),
+      pollInterval: const Duration(seconds: 15),
       fetchResults: true,
     );
     return await _client().query(_options);
@@ -47,18 +47,20 @@ class GraphQLAPIClient {
 
   /// Handle exception
   void handleException(QueryResult queryResult) {
-    if (queryResult.exception.linkException is HttpLinkServerException) {
+    if (queryResult.exception?.linkException is HttpLinkServerException) {
       HttpLinkServerException httpLink =
-          queryResult.exception.linkException as HttpLinkServerException;
+          queryResult.exception?.linkException as HttpLinkServerException;
       if (httpLink.parsedResponse?.errors?.isNotEmpty == true) {
+        // ignore: avoid_print
         print(
             "::: GraphQL error message log: ${httpLink.parsedResponse?.errors?.first.message}");
       }
       return;
     }
-    if (queryResult.exception.linkException is NetworkException) {
+    if (queryResult.exception?.linkException is NetworkException) {
       NetworkException networkException =
-          queryResult.exception.linkException as NetworkException;
+          queryResult.exception?.linkException as NetworkException;
+      // ignore: avoid_print
       print("::: GraphQL error message log: ${networkException.message}");
       return;
     }
