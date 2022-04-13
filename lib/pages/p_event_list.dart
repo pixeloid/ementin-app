@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:eventapp/widgets/event_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +11,14 @@ import 'package:eventapp/generated/l10n.dart';
 
 import 'package:provider/provider.dart';
 
-class PHome extends StatefulWidget {
-  const PHome({Key? key}) : super(key: key);
+class PEventList extends StatefulWidget {
+  const PEventList({Key? key}) : super(key: key);
 
   @override
-  _PHomeState createState() => _PHomeState();
+  _PEventListState createState() => _PEventListState();
 }
 
-class _PHomeState extends State<PHome> with HeaderDelegate {
+class _PEventListState extends State<PEventList> with HeaderDelegate {
   ///TicketsProvider
   late EventProvider _provider;
 
@@ -44,14 +46,11 @@ class _PHomeState extends State<PHome> with HeaderDelegate {
                   delegate: this),
               if (eventList == null)
                 Container(
-                    padding: EdgeInsets.only(top: 150.H),
                     child: CupertinoActivityIndicator(
-                      radius: 16.SP,
-                    ))
+                  radius: 16.SP,
+                ))
               else if (eventList.isEmpty)
-                Container(
-                    padding: EdgeInsets.only(top: 200.H),
-                    child: Text(S.of(context).data_is_empty))
+                Container(child: Text(S.of(context).data_is_empty))
               else
                 Expanded(
                   child: NotificationListener<ScrollNotification>(
@@ -69,20 +68,18 @@ class _PHomeState extends State<PHome> with HeaderDelegate {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Container(
-                                        padding: EdgeInsets.all(20.SP),
                                         child: Row(
-                                          children: <EventCard>[
-                                            EventCard(event: eventList[index]),
-                                          ],
-                                        ));
+                                      children: <EventCard>[
+                                        EventCard(event: eventList[index]),
+                                      ],
+                                    ));
                                   }),
                               Container(
-                                  margin: EdgeInsets.only(bottom: 20.H),
                                   child: provider.isNoMoreData
                                       ? Text(S.of(context).no_more_data)
                                       : provider.isLoading
                                           ? CupertinoActivityIndicator(
-                                              radius: 8.SP)
+                                              radius: 8)
                                           : null)
                             ],
                           ),
