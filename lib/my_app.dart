@@ -84,7 +84,6 @@ Future<void> myMain() async {
     ChangeNotifierProvider<AppThemeProvider>(
       create: (_) => AppThemeProvider(),
     ),
-    ChangeNotifierProvider<AppThemeProvider>(create: (_) => AppThemeProvider()),
     ChangeNotifierProvider<AuthProvider>(
       create: (_) => AuthProvider(),
     ),

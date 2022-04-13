@@ -4,6 +4,7 @@ import 'package:eventapp/app_define/app_assets.dart';
 import 'package:eventapp/app_define/app_color.dart';
 import 'package:eventapp/utils/extension/app_extension.dart';
 import 'package:eventapp/app_define/app_style.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 mixin HeaderDelegate {
   void onBack();
@@ -37,37 +38,40 @@ class WHeader extends StatelessWidget with DynamicSize {
         child: Column(
           children: <Widget>[
             Container(
-              height: 40.H,
+              height: 40.h,
             ),
             SizedBox(
-              height: 44.H,
+              height: 44.h,
               child: Stack(
                 children: <Widget>[
                   SizedBox(
-                    height: 44.H,
+                    height: 44.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          title ?? '',
-                          style: boldTextStyle(20.SP, color: AppColors.black),
-                        ),
+                        Flexible(
+                          child: Text(
+                            title ?? '',
+                            //    style: boldTextStyle(16.SP, color: AppColors.black),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 44.H,
+                    height: 44.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(
-                          width: 17.W,
+                          width: 17.w,
                         ),
                         SizedBox(
-                          width: 28.W,
-                          height: 18.H,
+                          width: 28.w,
+                          height: 18.h,
                           child: InkWell(
                             onTap: () {
                               if (delegate != null) {

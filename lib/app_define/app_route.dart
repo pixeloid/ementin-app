@@ -6,21 +6,15 @@ import '../pages/p_home.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
-  routes: [
+  routes: <AutoRoute>[
     AutoRoute(
-      path: 'home',
       initial: true,
       page: PHome,
-      name: 'Home',
     ),
     AutoRoute(
-      path: 'auth',
-      name: 'AuthRouter',
       page: AuthScreen,
     ),
     AutoRoute(
-      path: 'event',
-      name: 'EventRouter',
       page: PEvent,
       children: [],
     ),
