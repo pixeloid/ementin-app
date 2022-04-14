@@ -6,19 +6,28 @@ import '../utils/other/notifier_safety.dart';
 class EventProvider extends ChangeNotifierSafety {
   EventProvider(this._eventRequest);
 
-  /// TicketRequest
   late final EventRequest _eventRequest;
 
-  /// List of EventModel
   List<EventModel?>? _events;
+
   List<EventModel?>? get events => _events;
   set events(List<EventModel?>? value) {
     _events = value;
     notifyListeners();
   }
 
+  String _selectedEvent = '';
+
+  set selectedEvent(String id) {
+    _selectedEvent = id;
+    notifyListeners();
+  }
+
+  String get selectedEvent => _selectedEvent;
+
   /// Loading state
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
   set isLoading(bool value) {
     _isLoading = value;
@@ -52,5 +61,9 @@ class EventProvider extends ChangeNotifierSafety {
     _isLoading = false;
     isNoMoreData = false;
     _events = null;
+  }
+
+  getById(String id) {
+    return events?.firstWhere((element) => element?.id == id);
   }
 }

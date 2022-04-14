@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PMaterial extends StatelessWidget {
-  const PMaterial({required this.child, Key? key}) : super(key: key);
+class BasePage extends StatelessWidget {
+  const BasePage({required this.child, Key? key}) : super(key: key);
 
   final Widget child;
 

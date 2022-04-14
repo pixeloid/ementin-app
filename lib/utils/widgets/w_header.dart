@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:eventapp/utils/other/dynamic_size.dart';
 import 'package:eventapp/app_define/app_assets.dart';
-import 'package:eventapp/app_define/app_color.dart';
-import 'package:eventapp/utils/extension/app_extension.dart';
-import 'package:eventapp/app_define/app_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 mixin HeaderDelegate {
-  void onBack();
+  void onBack(BuildContext context);
 }
 
 class WHeader extends StatelessWidget with DynamicSize {
@@ -75,7 +72,7 @@ class WHeader extends StatelessWidget with DynamicSize {
                           child: InkWell(
                             onTap: () {
                               if (delegate != null) {
-                                delegate?.onBack();
+                                delegate?.onBack(context);
                               } else {
                                 //    context.navigator()?.pop();
                               }

@@ -7,8 +7,8 @@ import '../../providers/auth_provider.dart';
 
 enum AuthMode { signup, login }
 
-class AuthScreen extends StatelessWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+class AuthPage extends StatelessWidget {
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

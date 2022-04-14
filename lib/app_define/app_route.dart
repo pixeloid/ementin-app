@@ -1,36 +1,51 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/pages/auth/p_auth.dart';
-import 'package:eventapp/pages/event/main/p_event_info.dart';
+import 'package:eventapp/pages/auth/auth_page.dart';
+import 'package:eventapp/pages/event/main/event_info_page.dart';
+import 'package:eventapp/pages/main/main_page.dart';
+import 'package:eventapp/pages/profile_page.dart';
 
-import '../pages/event/main/p_event_program.dart';
-import '../pages/event/p_event_main.dart';
-import '../pages/p_event_list.dart';
+import '../pages/event/main/event_program_page.dart';
+import '../pages/event/event_main_page.dart';
+import '../pages/event_list_page.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
-      path: '/home',
-      page: PEventList,
+      path: '/events',
+      initial: true,
+      page: EventListPage,
     ),
+
     AutoRoute(
-      path: '/auth',
-      page: AuthScreen,
-    ),
-    AutoRoute(
-      path: '/event',
-      page: PEventMain,
+      path: '/main',
+      page: MainPage,
       children: [
         AutoRoute(
-          path: 'info',
-          page: PEventInfo,
+          path: 'event',
+          page: EventMainPage,
+          children: [
+            AutoRoute(
+              path: 'info',
+              page: EventInfoPage,
+            ),
+            AutoRoute(
+              path: 'program',
+              page: EventProgramPage,
+            ),
+          ],
         ),
         AutoRoute(
-          path: 'program',
-          page: PEventProgram,
+          path: 'profile',
+          page: ProfilePage,
+        ),
+        AutoRoute(
+          path: 'auth',
+          page: AuthPage,
         ),
       ],
     ),
+
     //  AutoRoute(
     //    path: 'settings',
     //    name: 'SettingsRouter',

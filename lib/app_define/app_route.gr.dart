@@ -10,112 +10,129 @@
 //
 // ignore_for_file: type=lint
 
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:flutter/material.dart' as _i9;
 
-import '../models/event_model.dart' as _i8;
-import '../pages/auth/p_auth.dart' as _i2;
-import '../pages/event/main/p_event_info.dart' as _i4;
-import '../pages/event/main/p_event_program.dart' as _i5;
-import '../pages/event/p_event_main.dart' as _i3;
-import '../pages/p_event_list.dart' as _i1;
+import '../pages/auth/auth_page.dart' as _i5;
+import '../pages/event/event_main_page.dart' as _i3;
+import '../pages/event/main/event_info_page.dart' as _i6;
+import '../pages/event/main/event_program_page.dart' as _i7;
+import '../pages/event_list_page.dart' as _i1;
+import '../pages/main/main_page.dart' as _i2;
+import '../pages/profile_page.dart' as _i4;
 
-class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
+class AppRouter extends _i8.RootStackRouter {
+  AppRouter([_i9.GlobalKey<_i9.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
-    PEventList.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.PEventList());
+  final Map<String, _i8.PageFactory> pagesMap = {
+    EventListRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i1.EventListPage());
     },
-    AuthScreen.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.AuthScreen());
+    MainRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.MainPage());
     },
-    PEventMain.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.PEventMain());
+    EventMainRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i3.EventMainPage());
     },
-    PEventInfo.name: (routeData) {
-      final args = routeData.argsAs<PEventInfoArgs>(
-          orElse: () => const PEventInfoArgs());
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i4.PEventInfo(key: args.key, event: args.event));
+    ProfileRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.ProfilePage());
     },
-    PEventProgram.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.PEventProgram());
+    AuthRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.AuthPage());
+    },
+    EventInfoRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i6.EventInfoPage());
+    },
+    EventProgramRoute.name: (routeData) {
+      return _i8.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i7.EventProgramPage());
     }
   };
 
   @override
-  List<_i6.RouteConfig> get routes => [
-        _i6.RouteConfig(PEventList.name, path: '/home'),
-        _i6.RouteConfig(AuthScreen.name, path: '/auth'),
-        _i6.RouteConfig(PEventMain.name, path: '/event', children: [
-          _i6.RouteConfig(PEventInfo.name,
-              path: 'info', parent: PEventMain.name),
-          _i6.RouteConfig(PEventProgram.name,
-              path: 'program', parent: PEventMain.name)
+  List<_i8.RouteConfig> get routes => [
+        _i8.RouteConfig('/#redirect',
+            path: '/', redirectTo: '/events', fullMatch: true),
+        _i8.RouteConfig(EventListRoute.name, path: '/events'),
+        _i8.RouteConfig(MainRoute.name, path: '/main', children: [
+          _i8.RouteConfig(EventMainRoute.name,
+              path: 'event',
+              parent: MainRoute.name,
+              children: [
+                _i8.RouteConfig(EventInfoRoute.name,
+                    path: 'info', parent: EventMainRoute.name),
+                _i8.RouteConfig(EventProgramRoute.name,
+                    path: 'program', parent: EventMainRoute.name)
+              ]),
+          _i8.RouteConfig(ProfileRoute.name,
+              path: 'profile', parent: MainRoute.name),
+          _i8.RouteConfig(AuthRoute.name, path: 'auth', parent: MainRoute.name)
         ])
       ];
 }
 
 /// generated route for
-/// [_i1.PEventList]
-class PEventList extends _i6.PageRouteInfo<void> {
-  const PEventList() : super(PEventList.name, path: '/home');
+/// [_i1.EventListPage]
+class EventListRoute extends _i8.PageRouteInfo<void> {
+  const EventListRoute() : super(EventListRoute.name, path: '/events');
 
-  static const String name = 'PEventList';
+  static const String name = 'EventListRoute';
 }
 
 /// generated route for
-/// [_i2.AuthScreen]
-class AuthScreen extends _i6.PageRouteInfo<void> {
-  const AuthScreen() : super(AuthScreen.name, path: '/auth');
+/// [_i2.MainPage]
+class MainRoute extends _i8.PageRouteInfo<void> {
+  const MainRoute({List<_i8.PageRouteInfo>? children})
+      : super(MainRoute.name, path: '/main', initialChildren: children);
 
-  static const String name = 'AuthScreen';
+  static const String name = 'MainRoute';
 }
 
 /// generated route for
-/// [_i3.PEventMain]
-class PEventMain extends _i6.PageRouteInfo<void> {
-  const PEventMain({List<_i6.PageRouteInfo>? children})
-      : super(PEventMain.name, path: '/event', initialChildren: children);
+/// [_i3.EventMainPage]
+class EventMainRoute extends _i8.PageRouteInfo<void> {
+  const EventMainRoute({List<_i8.PageRouteInfo>? children})
+      : super(EventMainRoute.name, path: 'event', initialChildren: children);
 
-  static const String name = 'PEventMain';
+  static const String name = 'EventMainRoute';
 }
 
 /// generated route for
-/// [_i4.PEventInfo]
-class PEventInfo extends _i6.PageRouteInfo<PEventInfoArgs> {
-  PEventInfo({_i7.Key? key, _i8.EventModel? event})
-      : super(PEventInfo.name,
-            path: 'info', args: PEventInfoArgs(key: key, event: event));
+/// [_i4.ProfilePage]
+class ProfileRoute extends _i8.PageRouteInfo<void> {
+  const ProfileRoute() : super(ProfileRoute.name, path: 'profile');
 
-  static const String name = 'PEventInfo';
-}
-
-class PEventInfoArgs {
-  const PEventInfoArgs({this.key, this.event});
-
-  final _i7.Key? key;
-
-  final _i8.EventModel? event;
-
-  @override
-  String toString() {
-    return 'PEventInfoArgs{key: $key, event: $event}';
-  }
+  static const String name = 'ProfileRoute';
 }
 
 /// generated route for
-/// [_i5.PEventProgram]
-class PEventProgram extends _i6.PageRouteInfo<void> {
-  const PEventProgram() : super(PEventProgram.name, path: 'program');
+/// [_i5.AuthPage]
+class AuthRoute extends _i8.PageRouteInfo<void> {
+  const AuthRoute() : super(AuthRoute.name, path: 'auth');
 
-  static const String name = 'PEventProgram';
+  static const String name = 'AuthRoute';
+}
+
+/// generated route for
+/// [_i6.EventInfoPage]
+class EventInfoRoute extends _i8.PageRouteInfo<void> {
+  const EventInfoRoute() : super(EventInfoRoute.name, path: 'info');
+
+  static const String name = 'EventInfoRoute';
+}
+
+/// generated route for
+/// [_i7.EventProgramPage]
+class EventProgramRoute extends _i8.PageRouteInfo<void> {
+  const EventProgramRoute() : super(EventProgramRoute.name, path: 'program');
+
+  static const String name = 'EventProgramRoute';
 }
