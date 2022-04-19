@@ -2,8 +2,7 @@ import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/data/api/graphql_client.dart';
 
 class EventRequest extends GraphQLAPIClient {
-  Future<List<EventModel>> getEvents(
-      {required int first, required int skip}) async {
+  Future<List<EventModel>> getEvents() async {
     /// Query
     String fetchEvents = """
     query {
@@ -17,7 +16,7 @@ class EventRequest extends GraphQLAPIClient {
       }
     }
     """;
-    final result = await execute(fetchEvents);
+    final result = await execute(queries: fetchEvents);
     if (result.hasException) {
       handleException(result);
       return [];

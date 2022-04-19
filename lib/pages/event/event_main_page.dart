@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/pages/event/main/event_info_page.dart';
+import 'package:eventapp/pages/event/main/event_program_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,8 +39,8 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
                           top: BorderSide(color: Colors.grey, width: 0.5))),
                   child: const TabBarView(
                     children: [
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_transit),
+                      EventProgramPage(),
+                      EventInfoPage(),
                     ],
                   ),
                 ),

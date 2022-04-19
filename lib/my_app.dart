@@ -1,11 +1,12 @@
+import 'package:eventapp/data/api/request/program_request.dart';
 import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/providers/locale_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:eventapp/generated/l10n.dart';
 import 'package:eventapp/providers/auth_provider.dart';
-import 'package:eventapp/data/api/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_theme.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'app_define/app_route.gr.dart';
 import 'data/api/request/event_request.dart';
+import 'providers/program_provider.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -89,6 +91,14 @@ Future<void> myMain() async {
     ),
     ChangeNotifierProvider<LocaleProvider>(
       create: (_) => LocaleProvider(),
+    ),
+    Provider<ProgramRequest>(
+      create: (_) => ProgramRequest(),
+    ),
+    ChangeNotifierProvider<ProgramProvider>(
+      create: (BuildContext context) => ProgramProvider(
+        context.read<ProgramRequest>(),
+      ),
     ),
   ], child: const MyApp()));
 }

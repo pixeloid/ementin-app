@@ -7,6 +7,7 @@ extension ProductionEnvironment on Environment {
         graphQLEndPoint:
             'https://api-ap-northeast-1.graphcms.com/v2/ckpphjwhcz1bo01xsbdkx7rjx/production',
         googleApiKey: '',
-        websocketEndpoint: 'ws://');
+        websocketEndpoint: 'ws://',
+        restEndPoint: '');
   }
 }

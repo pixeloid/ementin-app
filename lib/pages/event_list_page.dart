@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/widgets/event_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class _EventListPageState extends State<EventListPage> with HeaderDelegate {
     return BasePage(child: Consumer<EventProvider>(
       builder: (BuildContext context, EventProvider provider, _) {
         final eventList = provider.events;
+        final auth = Provider.of<AuthProvider>(context, listen: false);
+
+        auth.tryAutoLogin();
+
         return Container(
           color: Colors.white,
           child: Column(
@@ -62,6 +67,7 @@ class _EventListPageState extends State<EventListPage> with HeaderDelegate {
                         ],
                       );
                     }),
+              Text(auth.token.toString()),
             ],
           ),
         );

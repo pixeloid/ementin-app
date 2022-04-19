@@ -5,7 +5,8 @@ class Environment {
   Environment(
       {required this.graphQLEndPoint,
       required this.googleApiKey,
-      required this.websocketEndpoint});
+      required this.websocketEndpoint,
+      required this.restEndPoint});
 
   /// Prod environment
   factory Environment.production() {
@@ -20,4 +21,5 @@ class Environment {
   final String graphQLEndPoint;
   final String googleApiKey;
   final String websocketEndpoint;
+  final String restEndPoint;
 }

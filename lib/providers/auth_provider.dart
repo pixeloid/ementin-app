@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:eventapp/app_define/app_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -33,7 +34,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
-    final url = Uri.parse('https://figyek2022.ementin.hu/api/login_check');
+    final url = Uri.parse(AppConfig.shared.env!.restEndPoint + '/login_check');
     try {
       final response = await http.post(
         url,
