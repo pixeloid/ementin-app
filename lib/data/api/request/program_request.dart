@@ -2,11 +2,11 @@ import 'package:eventapp/data/api/graphql_client.dart';
 import 'package:eventapp/models/program_model.dart';
 
 class ProgramRequest extends GraphQLAPIClient {
-  Future<List<ProgramModel>> getProgram() async {
+  Future<List<ProgramModel>> getProgram(eventId) async {
     /// Query
     String fetchProgram = """
-   query GetPresentationSections(\$input: Int!){
-      presentationSections(event_id: \$input){
+   query GetPresentationSections(\$input: String!){
+      presentationSections(event: \$input){
         edges {
             node {
                 name
@@ -48,9 +48,8 @@ class ProgramRequest extends GraphQLAPIClient {
     }
 
     """;
-    const code = 12;
     final result =
-        await execute(queries: fetchProgram, variables: {"input": code});
+        await execute(queries: fetchProgram, variables: {"input": eventId});
     if (result.hasException) {
       handleException(result);
       return [];

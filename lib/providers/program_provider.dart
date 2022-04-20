@@ -25,10 +25,9 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   /// Get Tickets
-  Future<void> getProgram() async {
-    final result = await _programRequest.getProgram();
-    program ??= <ProgramModel>[];
-    program?.addAll(result);
+  Future<void> getProgram(String eventId) async {
+    final result = await _programRequest.getProgram(eventId);
+    program = result;
     isLoading = false;
   }
 

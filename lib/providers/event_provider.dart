@@ -38,8 +38,7 @@ class EventProvider extends ChangeNotifierSafety {
   /// Get Tickets
   Future<void> getEvents() async {
     final result = await _eventRequest.getEvents();
-    events ??= <EventModel>[];
-    events?.addAll(result);
+    events = result;
     isLoading = false;
   }
 

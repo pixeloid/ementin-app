@@ -1,3 +1,4 @@
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,10 @@ class EventProgramPage extends StatelessWidget {
   }) : super(key: key);
 
   Future<void> _refreshProgram(BuildContext context) async {
-    await Provider.of<ProgramProvider>(context, listen: false).getProgram();
+    final eventId =
+        Provider.of<EventProvider>(context, listen: false).selectedEvent;
+    await Provider.of<ProgramProvider>(context, listen: false)
+        .getProgram(eventId);
   }
 
   @override
