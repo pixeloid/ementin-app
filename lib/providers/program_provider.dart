@@ -7,10 +7,15 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   late final ProgramRequest _programRequest;
 
-  List<ProgramModel?>? _program;
+  late List<ProgramModel> _program;
 
-  List<ProgramModel?>? get program => _program;
-  set program(List<ProgramModel?>? value) {
+  List<ProgramModel> get program => _program;
+
+  get numItems => _program.length;
+
+  get numLikes => _program.where((program) => program.isLiked).length;
+
+  set program(List<ProgramModel> value) {
     _program = value;
     notifyListeners();
   }
@@ -34,6 +39,11 @@ class ProgramProvider extends ChangeNotifierSafety {
   @override
   void resetState() {
     _isLoading = false;
-    _program = null;
+    _program = [];
+  }
+
+  void toggleLike(ProgramModel program) {
+    program.toggleLike();
+    notifyListeners();
   }
 }

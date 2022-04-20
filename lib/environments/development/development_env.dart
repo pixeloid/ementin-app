@@ -4,8 +4,8 @@ extension DevelopmentEnvironment on Environment {
   /// Product environment
   static Environment development() {
     return Environment(
-        graphQLEndPoint: 'http://192.168.0.17:8095/api/graphql',
-        restEndPoint: 'http://192.168.0.17:8095/api',
+        graphQLEndPoint: 'https://home.ementin.hu/api/graphql',
+        restEndPoint: 'http://home.ementin.hu/api',
         googleApiKey: '',
         websocketEndpoint: 'ws://');
   }

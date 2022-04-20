@@ -28,9 +28,9 @@ class EventProgramPage extends StatelessWidget {
               builder: (ctx, programData, _) => Padding(
                 padding: const EdgeInsets.all(8),
                 child: ListView.builder(
-                  itemCount: programData.program?.length,
+                  itemCount: programData.numItems,
                   itemBuilder: (_, i) {
-                    var program = programData.program![i];
+                    var program = programData.program[i];
                     return Container(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -39,17 +39,22 @@ class EventProgramPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                program!.name,
+                                program.name,
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ],
                           ),
                           IconButton(
-                              icon: const Icon(Icons.favorite_border),
+                              icon: Icon(program.isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border),
                               iconSize: 30,
                               color: Colors.grey[400],
                               // 5
                               onPressed: () {
+                                Provider.of<ProgramProvider>(context,
+                                        listen: false)
+                                    .toggleLike(program);
                                 const snackBar =
                                     SnackBar(content: Text('Favorite Pressed'));
                                 ScaffoldMessenger.of(context)

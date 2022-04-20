@@ -12,21 +12,29 @@ class ProgramDayModel {
 }
 
 class ProgramModel {
+  final String id;
+  final String name;
+  bool isLiked;
+
   ProgramModel({
     required this.name,
     required this.id,
+    required this.isLiked,
   });
 
   factory ProgramModel.fromJson(Map<String, dynamic> json) => ProgramModel(
         id: json['id'] as String,
         name: json['name'] as String,
+        isLiked: false,
       );
-
-  final String id;
-  final String name;
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "id": id,
+        "isLiked": isLiked,
       };
+
+  void toggleLike() {
+    isLiked = !isLiked;
+  }
 }
