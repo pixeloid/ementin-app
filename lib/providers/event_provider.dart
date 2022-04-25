@@ -8,11 +8,11 @@ class EventProvider extends ChangeNotifierSafety {
 
   late final EventRequest _eventRequest;
 
-  List<EventModel?>? _events;
+  List<EventModel> _events = [];
 
-  List<EventModel?>? get events => _events;
+  List<EventModel> get events => _events;
 
-  set events(List<EventModel?>? value) {
+  set events(List<EventModel> value) {
     _events = value;
     notifyListeners();
   }
@@ -45,10 +45,10 @@ class EventProvider extends ChangeNotifierSafety {
   @override
   void resetState() {
     _isLoading = false;
-    _events = null;
+    _events = [];
   }
 
   getById(String id) {
-    return events?.firstWhere((element) => element?.id == id);
+    return events.firstWhere((element) => element.id == id);
   }
 }

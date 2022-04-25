@@ -7,7 +7,7 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   late final ProgramRequest _programRequest;
 
-  late List<ProgramModel> _program;
+  List<ProgramModel> _program = [];
 
   List<ProgramModel> get program => _program;
 

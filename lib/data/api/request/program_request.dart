@@ -10,6 +10,8 @@ class ProgramRequest extends GraphQLAPIClient {
         edges {
             node {
                 name
+                start
+                end
                 event{
                     id
                 }
@@ -24,6 +26,8 @@ class ProgramRequest extends GraphQLAPIClient {
                         node{
                         id
                         title
+                        start
+                        end
                         authors {
                             edges {
                                 node {

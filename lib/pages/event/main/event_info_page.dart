@@ -1,4 +1,3 @@
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/pages/base/base_page.dart';

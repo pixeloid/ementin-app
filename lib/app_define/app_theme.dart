@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_assets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class AppTheme {
@@ -35,7 +36,7 @@ class AppTheme {
       fontFamily: assets.fontRoboto,
       pageTransitionsTheme: _buildPageTransitionsTheme(),
       buttonTheme: _buildButtonTheme(),
-      textTheme: _buildTextTheme(),
+      textTheme: GoogleFonts.poppinsTextTheme(),
     );
   }
 

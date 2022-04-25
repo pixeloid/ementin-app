@@ -47,6 +47,8 @@ dependencies:
   permission_handler: ^9.1.0
   qr_code_scanner: ^0.7.0
   qr_flutter: ^4.0.0
+  flutter_rating_bar: ^4.0.0
+  flutter_svg : ^1.0.3
 
 
 flutter_intl:
@@ -79,31 +81,6 @@ flutter:
     - assets/app/icons/
     - assets/app/fonts/
 
-  fonts:
-  - family: MontserratAlternates
-    fonts:
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-Thin.ttf
-        weight: 100
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-ThinItalic.ttf
-        style: italic
-        weight: 100
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-Light.ttf
-        weight: 300
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-LightItalic.ttf
-        style: italic
-        weight: 300
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-Regular.ttf
-        weight: 400
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-Bold.ttf
-        weight: 700
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-BoldItalic.ttf
-        style: italic
-        weight: 700
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-Black.ttf
-        weight: 900
-      - asset: assets/app/fonts/Montserrat_Alternates/MontserratAlternates-BlackItalic.ttf
-        style: italic
-        weight: 900
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
