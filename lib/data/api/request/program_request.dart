@@ -2,7 +2,7 @@ import 'package:eventapp/data/api/graphql_client.dart';
 import 'package:eventapp/models/program_model.dart';
 
 class ProgramRequest extends GraphQLAPIClient {
-  Future<List<ProgramSectionModel>> getProgram(eventId) async {
+  Future<List<SectionModel>> getProgram(eventId) async {
     /// Query
     String fetchProgram = """
    query GetPresentationSections(\$input: String!){
@@ -60,8 +60,7 @@ class ProgramRequest extends GraphQLAPIClient {
     }
     final Map<String, dynamic>? data = result.data;
     return (data?["presentationSections"]["edges"] as List<dynamic>)
-        .map((e) =>
-            ProgramSectionModel.fromJson(e["node"] as Map<String, dynamic>))
+        .map((e) => SectionModel.fromJson(e["node"] as Map<String, dynamic>))
         .toList();
   }
 }
