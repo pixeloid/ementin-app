@@ -7,16 +7,16 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   late final ProgramRequest _programRequest;
 
-  List<SectionModel> _program = [];
+  List<ProgramSectionModel> _programSections = [];
 
-  List<SectionModel> get program => _program;
+  List<ProgramSectionModel> get programSections => _programSections;
 
-  get numItems => _program.length;
+  get numItems => _programSections.length;
 
   get numLikes => 0; //_program.where((program) => program.isLiked).length;
 
-  set program(List<SectionModel> value) {
-    _program = value;
+  set programSections(List<ProgramSectionModel> value) {
+    _programSections = value;
     notifyListeners();
   }
 
@@ -29,23 +29,32 @@ class ProgramProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 
-  ProgramSectionModel get activeProgram => _program[2];
+  ProgramSectionModel get activeProgram => _programSections[2];
 
   /// Get Tickets
   Future<void> getProgram(String eventId) async {
     final result = await _programRequest.getProgram(eventId);
-    program = result;
+    programSections = result;
     isLoading = false;
   }
 
   @override
   void resetState() {
     _isLoading = false;
-    _program = [];
+    _programSections = [];
   }
 
-  void toggleLike(ProgramSectionModel program) {
-    program.toggleLike();
+  void toggleLike(id) {
+    final programPresentation = findPresentationById(id);
+
+    programPresentation.toggleLike();
     notifyListeners();
+  }
+
+  ProgramPresentationModel findPresentationById(id) {
+    return _programSections
+        .expand((programSection) => programSection.presentations)
+        .toList()
+        .firstWhere((element) => element.id == id);
   }
 }

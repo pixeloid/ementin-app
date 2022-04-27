@@ -32,10 +32,10 @@ class EventProgramPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: programData.numItems,
                   itemBuilder: (_, i) {
-                    var section = programData.program[i];
+                    var section = programData.programSections[i];
                     return Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Container(
@@ -88,17 +88,16 @@ class EventProgramPage extends StatelessWidget {
                               Column(
                                 children: [
                                   ListView.builder(
-                                    itemCount: section.program.length,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: section.presentations.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (_, i) {
-                                      return Container(
+                                      return SizedBox(
                                         width: 300,
-                                        child: Row(
-                                          children: [
-                                            Text(section.program[i].title)
-                                          ],
-                                        ),
+                                        child: ProgramItem(
+                                            presentation:
+                                                section.presentations[i]),
                                       );
                                     },
                                   )
@@ -112,57 +111,56 @@ class EventProgramPage extends StatelessWidget {
                   },
                 ),
               ),
-              RatingBar.builder(
-                initialRating: 3,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  switch (index) {
-                    case 0:
-                      return const Icon(
-                        Icons.sentiment_very_dissatisfied,
-                        color: Colors.red,
-                      );
-                    case 1:
-                      return const Icon(
-                        Icons.sentiment_dissatisfied,
-                        color: Colors.redAccent,
-                      );
-                    case 2:
-                      return const Icon(
-                        Icons.sentiment_neutral,
-                        color: Colors.amber,
-                      );
-                    case 3:
-                      return const Icon(
-                        Icons.sentiment_satisfied,
-                        color: Colors.lightGreen,
-                      );
-                    default:
-                      return const Icon(
-                        Icons.sentiment_very_satisfied,
-                        color: Colors.green,
-                      );
-                  }
-                },
-                onRatingUpdate: (rating) {},
-              )
+            ),
+    );
+  }
+}
+
+class ProgramItem extends StatelessWidget {
+  const ProgramItem({
+    Key? key,
+    required this.presentation,
+  }) : super(key: key);
+
+  final ProgramPresentationModel presentation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+              bottomLeft: Radius.circular(8),
+              bottomRight: Radius.circular(8),
+            ),
+            color: const Color.fromRGBO(255, 255, 255, 1),
+            border: Border.all(
+              color: const Color.fromRGBO(243, 244, 246, 1),
+              width: 1,
+            ),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  presentation.title + presentation.id,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                ),
+              ),
+              LoveButton(presentation: presentation),
             ],
           ),
-          IconButton(
-              icon: Icon(programSection.isLiked
-                  ? Icons.favorite
-                  : Icons.favorite_border),
-              iconSize: 30,
-              color: Colors.grey[400],
-              // 5
-              onPressed: () {
-                Provider.of<ProgramProvider>(context, listen: false)
-                    .toggleLike(programSection);
-                const snackBar = SnackBar(content: Text('Favorite Pressed'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -216,21 +214,22 @@ class MyRatingBar extends StatelessWidget {
 class LoveButton extends StatelessWidget {
   const LoveButton({
     Key? key,
-    required this.section,
+    required this.presentation,
   }) : super(key: key);
 
-  final ProgramModel section;
+  final ProgramPresentationModel presentation;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: Icon(section.isLiked ? Icons.favorite : Icons.favorite_border),
+        icon:
+            Icon(presentation.isLiked ? Icons.favorite : Icons.favorite_border),
         iconSize: 30,
         color: Colors.grey[400],
         // 5
         onPressed: () {
           Provider.of<ProgramProvider>(context, listen: false)
-              .toggleLike(section);
+              .toggleLike(presentation.id);
           const snackBar = SnackBar(content: Text('Favorite Pressed'));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });

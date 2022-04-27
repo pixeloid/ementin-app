@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:eventapp/app_define/app_config.dart';
+import 'package:eventapp/data/api/auth_http_client.dart';
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,21 +11,18 @@ import '../models/http_exception.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
-  DateTime? _expiryDate;
   String? _userId;
   Timer? _authTimer;
 
   bool get isAuth {
-    return token != null;
+    if (token != null) {
+      return !JwtDecoder.isExpired(token!);
+    }
+    return false;
   }
 
   String? get token {
-    if (_expiryDate != null &&
-        _expiryDate!.isAfter(DateTime.now()) &&
-        _token != null) {
-      return _token;
-    }
-    return null;
+    return _token;
   }
 
   String? get userId {
@@ -35,8 +32,10 @@ class AuthProvider with ChangeNotifier {
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     final url = Uri.parse(AppConfig.shared.env!.restEndPoint + '/login_check');
+    final client = AuthenticatedHttpClient();
+
     try {
-      final response = await http.post(
+      final response = await client.post(
         url,
         headers: {"Content-Type": "application/json"},
         body: json.encode(
@@ -55,18 +54,10 @@ class AuthProvider with ChangeNotifier {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
 
       _userId = decodedToken['username'];
-      _expiryDate = DateTime.parse(decodedToken['exp'].toString());
       _autoLogout();
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
-      final userData = json.encode(
-        {
-          'token': _token,
-          'userId': _userId,
-          'expiryDate': _expiryDate!.toIso8601String(),
-        },
-      );
-      prefs.setString('userData', userData);
+      prefs.setString('token', _token!);
     } catch (error) {
       rethrow;
     }
@@ -82,21 +73,17 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('userData')) {
+    if (!prefs.containsKey('token')) {
       return false;
     }
 
-    String? userData = prefs.getString('userData');
-    Map<String, dynamic> extractedUserData = jsonDecode(userData!);
-    final expiryDate =
-        DateTime.parse(extractedUserData['expiryDate'].toString());
+    String? token = prefs.getString('token');
 
-    if (expiryDate.isBefore(DateTime.now())) {
+    if (JwtDecoder.isExpired(token!)) {
       return false;
     }
-    _token = extractedUserData['token'] as String;
-    _userId = extractedUserData['userId'] as String;
-    _expiryDate = expiryDate;
+    _token = token;
+
     notifyListeners();
     _autoLogout();
     return true;
@@ -105,7 +92,6 @@ class AuthProvider with ChangeNotifier {
   Future<void> logout() async {
     _token = null;
     _userId = null;
-    _expiryDate = null;
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -120,7 +106,9 @@ class AuthProvider with ChangeNotifier {
     if (_authTimer != null) {
       _authTimer!.cancel();
     }
-    final timeToExpiry = _expiryDate?.difference(DateTime.now()).inSeconds;
-    _authTimer = Timer(Duration(seconds: timeToExpiry as int), logout);
+
+    final remaining = JwtDecoder.getRemainingTime(_token!);
+    print(remaining);
+    _authTimer = Timer(remaining, logout);
   }
 }

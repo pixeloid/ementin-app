@@ -1,5 +1,5 @@
-import 'package:eventapp/data/api/request/program_request.dart';
-import 'package:eventapp/models/program_model.dart';
+import 'package:eventapp/data/api/request/message_request.dart';
+import 'package:eventapp/models/message_model.dart';
 import '../utils/other/notifier_safety.dart';
 
 class MessageProvider extends ChangeNotifierSafety {
@@ -7,16 +7,14 @@ class MessageProvider extends ChangeNotifierSafety {
 
   late final MessageRequest _messageRequest;
 
-  List<ProgramSectionModel> _program = [];
+  List<MessageModel> _messages = [];
 
-  List<ProgramSectionModel> get program => _program;
+  List<MessageModel> get messages => _messages;
 
-  get numItems => _program.length;
+  get numItems => _messages.length;
 
-  get numLikes => _program.where((program) => program.isLiked).length;
-
-  set program(List<ProgramSectionModel> value) {
-    _program = value;
+  set messages(List<MessageModel> value) {
+    _messages = value;
     notifyListeners();
   }
 
@@ -29,23 +27,14 @@ class MessageProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 
-  ProgramSectionModel get activeProgram => _program[2];
-
-  /// Get Tickets
-  Future<void> getProgram(String eventId) async {
-    final result = await _programRequest.getProgram(eventId);
-    program = result;
+  Future<void> getMessages(String eventId) async {
+    final result = await _messageRequest.getMessages();
+    messages = result;
     isLoading = false;
   }
 
   @override
   void resetState() {
-    _isLoading = false;
-    _program = [];
-  }
-
-  void toggleLike(ProgramSectionModel program) {
-    program.toggleLike();
-    notifyListeners();
+    // TODO: implement resetState
   }
 }

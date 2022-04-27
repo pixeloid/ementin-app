@@ -13,8 +13,8 @@ import '../pages/event_list_page.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
-      path: '/events',
       initial: true,
+      path: '/events',
       page: EventListPage,
     ),
 

@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:eventapp/app_define/app_config.dart';
-import 'package:eventapp/providers/auth_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GraphQLAPIClient {
   GraphQLClient get client => _client();
-
-  final provider = AuthProvider();
 
   GraphQLClient _client() {
     final HttpLink _httpLink = HttpLink(
@@ -18,17 +14,17 @@ class GraphQLAPIClient {
     /// Auth link
     final AuthLink _authLink = AuthLink(getToken: () async {
       final prefs = await SharedPreferences.getInstance();
-      if (!prefs.containsKey('userData')) {
+
+      if (!prefs.containsKey('token')) {
         return null;
       }
 
-      String? userData = prefs.getString('userData');
-      Map<String, dynamic> extractedUserData = jsonDecode(userData!);
-      final expiryDate =
-          DateTime.parse(extractedUserData['expiryDate'].toString());
+      String? token = prefs.getString('token');
 
-      if (expiryDate.isBefore(DateTime.now())) {}
-      var token = extractedUserData['token'];
+      if (JwtDecoder.isExpired(token!)) {
+        return null;
+      }
+
       return 'Bearer ' + token;
     });
 
