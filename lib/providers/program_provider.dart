@@ -7,15 +7,15 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   late final ProgramRequest _programRequest;
 
-  List<ProgramModel> _program = [];
+  List<SectionModel> _program = [];
 
-  List<ProgramModel> get program => _program;
+  List<SectionModel> get program => _program;
 
   get numItems => _program.length;
 
-  get numLikes => _program.where((program) => program.isLiked).length;
+  get numLikes => 0; //_program.where((program) => program.isLiked).length;
 
-  set program(List<ProgramModel> value) {
+  set program(List<SectionModel> value) {
     _program = value;
     notifyListeners();
   }

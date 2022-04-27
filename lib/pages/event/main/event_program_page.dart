@@ -1,3 +1,4 @@
+import 'package:eventapp/models/program_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
@@ -31,87 +32,157 @@ class EventProgramPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: programData.numItems,
                   itemBuilder: (_, i) {
-                    var program = programData.program[i];
-                    return Container(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    var section = programData.program[i];
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
+                            color: const Color.fromRGBO(255, 255, 255, 1),
+                            border: Border.all(
+                              color: const Color.fromRGBO(243, 244, 246, 1),
+                              width: 1,
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          child: Column(
                             children: [
-                              Text(
-                                program.start.toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    section.start.toString(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  Text(
+                                    "${section.duration.inMinutes} perc",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "${program.duration.inMinutes} perc",
-                                style: Theme.of(context).textTheme.bodyText1,
+                              const SizedBox(
+                                height: 10,
                               ),
-                              Text(
-                                program.name,
-                                style: Theme.of(context).textTheme.bodyText1,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    section.name,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
+                                  ),
+                                ],
                               ),
-                              RatingBar.builder(
-                                initialRating: 3,
-                                itemCount: 5,
-                                itemBuilder: (context, index) {
-                                  switch (index) {
-                                    case 0:
-                                      return const Icon(
-                                        Icons.sentiment_very_dissatisfied,
-                                        color: Colors.red,
+                              Column(
+                                children: [
+                                  ListView.builder(
+                                    itemCount: section.program.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (_, i) {
+                                      return Container(
+                                        width: 300,
+                                        child: Row(
+                                          children: [
+                                            Text(section.program[i].title)
+                                          ],
+                                        ),
                                       );
-                                    case 1:
-                                      return const Icon(
-                                        Icons.sentiment_dissatisfied,
-                                        color: Colors.redAccent,
-                                      );
-                                    case 2:
-                                      return const Icon(
-                                        Icons.sentiment_neutral,
-                                        color: Colors.amber,
-                                      );
-                                    case 3:
-                                      return const Icon(
-                                        Icons.sentiment_satisfied,
-                                        color: Colors.lightGreen,
-                                      );
-                                    default:
-                                      return const Icon(
-                                        Icons.sentiment_very_satisfied,
-                                        color: Colors.green,
-                                      );
-                                  }
-                                },
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
+                                    },
+                                  )
+                                ],
                               )
                             ],
                           ),
-                          IconButton(
-                              icon: Icon(program.isLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border),
-                              iconSize: 30,
-                              color: Colors.grey[400],
-                              // 5
-                              onPressed: () {
-                                Provider.of<ProgramProvider>(context,
-                                        listen: false)
-                                    .toggleLike(program);
-                                const snackBar =
-                                    SnackBar(content: Text('Favorite Pressed'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   },
                 ),
               ),
             ),
     );
+  }
+}
+
+class MyRatingBar extends StatelessWidget {
+  const MyRatingBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RatingBar.builder(
+      initialRating: 3,
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        switch (index) {
+          case 0:
+            return const Icon(
+              Icons.sentiment_very_dissatisfied,
+              color: Colors.red,
+            );
+          case 1:
+            return const Icon(
+              Icons.sentiment_dissatisfied,
+              color: Colors.redAccent,
+            );
+          case 2:
+            return const Icon(
+              Icons.sentiment_neutral,
+              color: Colors.amber,
+            );
+          case 3:
+            return const Icon(
+              Icons.sentiment_satisfied,
+              color: Colors.lightGreen,
+            );
+          default:
+            return const Icon(
+              Icons.sentiment_very_satisfied,
+              color: Colors.green,
+            );
+        }
+      },
+      onRatingUpdate: (rating) {
+        print(rating);
+      },
+    );
+  }
+}
+
+class LoveButton extends StatelessWidget {
+  const LoveButton({
+    Key? key,
+    required this.section,
+  }) : super(key: key);
+
+  final ProgramModel section;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(section.isLiked ? Icons.favorite : Icons.favorite_border),
+        iconSize: 30,
+        color: Colors.grey[400],
+        // 5
+        onPressed: () {
+          Provider.of<ProgramProvider>(context, listen: false)
+              .toggleLike(section);
+          const snackBar = SnackBar(content: Text('Favorite Pressed'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
   }
 }

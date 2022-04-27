@@ -221,7 +221,7 @@ class EventCard extends StatelessWidget {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        Text(
+                                        const Text(
                                           'ABSZTRAKTBEADÁSI HATÁRIDŐ:',
                                           maxLines: 2,
                                           textAlign: TextAlign.center,
@@ -234,7 +234,7 @@ class EventCard extends StatelessWidget {
                                               fontWeight: FontWeight.normal,
                                               height: 1.7777777777777777),
                                         ),
-                                        SizedBox(height: 4),
+                                        const SizedBox(height: 4),
                                         Text(
                                           '2022. MÁRCIUS 31.'.toUpperCase(),
                                           textAlign: TextAlign.center,
