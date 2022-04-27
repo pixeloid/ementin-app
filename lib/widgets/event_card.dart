@@ -152,7 +152,7 @@ class EventCard extends StatelessWidget {
                                   'XX. Jubileumi Fiatal Gyermekgyógyászok Konferenciája',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    color: const Color.fromRGBO(55, 65, 81, 1),
+                                    color: Color.fromRGBO(55, 65, 81, 1),
                                     fontSize: 12,
                                     height: 1.4,
                                     letterSpacing:
@@ -189,21 +189,21 @@ class EventCard extends StatelessWidget {
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: GoogleFonts.poppins(
-                                              color:
-                                                  Color.fromRGBO(55, 65, 81, 1),
+                                              color: const Color.fromRGBO(
+                                                  55, 65, 81, 1),
                                               fontSize: 9,
                                               letterSpacing:
                                                   0 /*percentages not used in flutter. defaulting to zero*/,
                                               fontWeight: FontWeight.normal,
                                               height: 1.7777777777777777),
                                         ),
-                                        SizedBox(height: 4),
+                                        const SizedBox(height: 4),
                                         Text(
                                           '2022. ÁPRILIS 15.',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
-                                              color:
-                                                  Color.fromRGBO(31, 41, 55, 1),
+                                              color: const Color.fromRGBO(
+                                                  31, 41, 55, 1),
                                               fontSize: 14,
                                               letterSpacing:
                                                   0 /*percentages not used in flutter. defaulting to zero*/,
@@ -221,7 +221,7 @@ class EventCard extends StatelessWidget {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        Text(
+                                        const Text(
                                           'ABSZTRAKTBEADÁSI HATÁRIDŐ:',
                                           maxLines: 2,
                                           textAlign: TextAlign.center,
@@ -234,14 +234,14 @@ class EventCard extends StatelessWidget {
                                               fontWeight: FontWeight.normal,
                                               height: 1.7777777777777777),
                                         ),
-                                        SizedBox(height: 4),
+                                        const SizedBox(height: 4),
                                         Text(
                                           '2022. MÁRCIUS 31.'.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: GoogleFonts.poppins(
-                                              color:
-                                                  Color.fromRGBO(31, 41, 55, 1),
+                                              color: const Color.fromRGBO(
+                                                  31, 41, 55, 1),
                                               fontSize: 14,
                                               letterSpacing:
                                                   0 /*percentages not used in flutter. defaulting to zero*/,
@@ -269,7 +269,7 @@ class EventCard extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                     width: 20,
                                     height: 20,
                                     child: Stack(children: const <Widget>[])),
@@ -278,7 +278,8 @@ class EventCard extends StatelessWidget {
                                   '2022. Május 13-15.'.toUpperCase(),
                                   textAlign: TextAlign.left,
                                   style: GoogleFonts.poppins(
-                                      color: Color.fromRGBO(31, 41, 55, 1),
+                                      color:
+                                          const Color.fromRGBO(31, 41, 55, 1),
                                       fontSize: 14,
                                       letterSpacing:
                                           0 /*percentages not used in flutter. defaulting to zero*/,
@@ -303,7 +304,7 @@ class EventCard extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                     width: 20,
                                     height: 20,
                                     child: Stack(children: const <Widget>[])),

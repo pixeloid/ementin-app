@@ -26,7 +26,6 @@ class GraphQLAPIClient {
       Map<String, dynamic> extractedUserData = jsonDecode(userData!);
       final expiryDate =
           DateTime.parse(extractedUserData['expiryDate'].toString());
-      return null;
 
       if (expiryDate.isBefore(DateTime.now())) {}
       var token = extractedUserData['token'];

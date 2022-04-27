@@ -36,7 +36,6 @@ class _CheckInPageState extends State<CheckInPage> {
   void readQr() async {
     if (result != null) {
       controller!.pauseCamera();
-      print(result!.code);
       controller!.dispose();
     }
   }

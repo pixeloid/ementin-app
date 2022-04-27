@@ -2,10 +2,10 @@ import 'package:eventapp/data/api/request/program_request.dart';
 import 'package:eventapp/models/program_model.dart';
 import '../utils/other/notifier_safety.dart';
 
-class ProgramProvider extends ChangeNotifierSafety {
-  ProgramProvider(this._programRequest);
+class MessageProvider extends ChangeNotifierSafety {
+  MessageProvider(this._messageRequest);
 
-  late final ProgramRequest _programRequest;
+  late final MessageRequest _messageRequest;
 
   List<ProgramSectionModel> _program = [];
 

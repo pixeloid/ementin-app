@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ProgramDayModel {
@@ -13,7 +14,8 @@ class ProgramDayModel {
       );
 }
 
-class ProgramModel {
+class ProgramSectionModel {
+  final GlobalKey key;
   final String id;
   final String name;
   bool isLiked;
@@ -21,16 +23,19 @@ class ProgramModel {
   Duration duration;
   String start;
 
-  ProgramModel({
+  ProgramSectionModel({
     required this.name,
     required this.id,
     required this.isLiked,
     required this.rating,
     required this.start,
     required this.duration,
+    required this.key,
   });
 
-  factory ProgramModel.fromJson(Map<String, dynamic> json) => ProgramModel(
+  factory ProgramSectionModel.fromJson(Map<String, dynamic> json) =>
+      ProgramSectionModel(
+        key: GlobalKey(),
         id: json['id'] as String,
         name: json['name'] as String,
         isLiked: false,

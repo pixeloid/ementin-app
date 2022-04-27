@@ -25,8 +25,6 @@ class MainPage extends StatelessWidget {
         duration: const Duration(milliseconds: 400),
         builder: (context, child, animation) {
           // obtain the scoped TabsRouter controller using context
-          final tabsRouter = AutoTabsRouter.of(context);
-          final currentIndex = tabsRouter.activeIndex;
           Size size = MediaQuery.of(context).size;
 
           // Here we're building our Scaffold inside of AutoTabsRouter
@@ -48,57 +46,9 @@ class MainPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 4,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => InkWell(
-                  onTap: () {
-                    tabsRouter.setActiveIndex(index);
-                  },
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                        height: index == currentIndex ? 56 : 56,
-                        transform: Matrix4.translationValues(
-                            0.0, index == currentIndex ? -15 : 0, 0.0),
-                        width: size.width / 4,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: index == currentIndex
-                              ? const Color(0xFFf172ac)
-                              : const Color(0x00f172ac),
-                          border: Border.all(
-                              width: 4,
-                              color: index == currentIndex
-                                  ? const Color(0xFFF5F3FA)
-                                  : const Color(0x00F5F3FA)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              listOfIcons[index],
-                              size: 22,
-                              color: const Color(0xFF2C2B7A),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(0.0, -10, 0.0),
-                        child: const Text(
-                          'MENU',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 8,
-                              color: Color(0xFF2C2B7A)),
-                        ),
-                      )
-                    ],
-                  ),
+                itemBuilder: (context, index) => BottomNavItem(
+                  size: size,
+                  index: index,
                 ),
               ),
             ),
@@ -165,9 +115,79 @@ class MainPage extends StatelessWidget {
   }
 }
 
+class BottomNavItem extends StatelessWidget {
+  const BottomNavItem({
+    Key? key,
+    required this.size,
+    required this.index,
+  }) : super(key: key);
+
+  final Size size;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final tabsRouter = AutoTabsRouter.of(context);
+    final currentIndex = tabsRouter.activeIndex;
+
+    return InkWell(
+      onTap: () {
+        tabsRouter.setActiveIndex(index);
+      },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.fastLinearToSlowEaseIn,
+            height: index == currentIndex ? 56 : 56,
+            transform: Matrix4.translationValues(
+                0.0, index == currentIndex ? -15 : 0, 0.0),
+            width: size.width / 4,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: index == currentIndex
+                  ? const Color(0xFFf172ac)
+                  : const Color(0x00f172ac),
+              border: Border.all(
+                  width: 4,
+                  color: index == currentIndex
+                      ? const Color(0xFFF5F3FA)
+                      : const Color(0x00F5F3FA)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  listOfIcons[index],
+                  size: 22,
+                  color: const Color(0xFF2C2B7A),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            transform: Matrix4.translationValues(0.0, -10, 0.0),
+            child: const Text(
+              'MENU',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 8,
+                  color: Color(0xFF2C2B7A)),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 List<IconData> listOfIcons = [
   Icons.home_rounded,
-  Icons.favorite_rounded,
+  Icons.qr_code_2,
   Icons.settings_rounded,
   Icons.person_rounded,
 ];

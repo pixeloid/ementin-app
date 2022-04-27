@@ -36,7 +36,7 @@ class AppTheme {
       fontFamily: assets.fontRoboto,
       pageTransitionsTheme: _buildPageTransitionsTheme(),
       buttonTheme: _buildButtonTheme(),
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      textTheme: _buildTextTheme(),
     );
   }
 
@@ -63,7 +63,7 @@ class AppTheme {
 
   /// Custom text theme
   TextTheme _buildTextTheme() {
-    return const TextTheme();
+    return GoogleFonts.poppinsTextTheme();
   }
 }
 

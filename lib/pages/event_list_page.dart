@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../models/event_model.dart';
-
 class EventListPage extends StatefulWidget {
   const EventListPage({Key? key}) : super(key: key);
 
@@ -53,7 +51,7 @@ class _EventListPageState extends State<EventListPage> with HeaderDelegate {
                 isShowBackButton: false,
                 delegate: this,
               ),
-              if (eventList == null)
+              if (eventList.isEmpty)
                 CupertinoActivityIndicator(
                   radius: 16.SP,
                 )
