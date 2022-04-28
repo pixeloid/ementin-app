@@ -34,7 +34,5 @@ class MessageProvider extends ChangeNotifierSafety {
   }
 
   @override
-  void resetState() {
-    // TODO: implement resetState
-  }
+  void resetState() {}
 }

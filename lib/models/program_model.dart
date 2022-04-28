@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 class ProgramSectionModel {
   final String id;
@@ -32,7 +33,7 @@ class ProgramSectionModel {
 class ProgramPresentationModel {
   final String id;
   final String title;
-  bool isLiked;
+  int? isLiked;
   int? rating;
   Duration duration;
   String start;
@@ -53,7 +54,9 @@ class ProgramPresentationModel {
         key: GlobalKey(),
         id: json['id'] as String,
         title: json['title'] as String,
-        isLiked: false,
+        isLiked: (json['presentationFavorites']['edges'] as List)
+            .map((e) => e['node']['_id'])
+            .firstOrNull,
         rating: null,
         start: DateFormat('Hm').format(DateTime.parse(json['start'])),
         duration: DateTime.parse(json['end'])
@@ -67,6 +70,6 @@ class ProgramPresentationModel {
       };
 
   void toggleLike() {
-    isLiked = !isLiked;
+    isLiked = isLiked != null ? null : -1;
   }
 }

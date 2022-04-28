@@ -21,11 +21,11 @@ class EventCard extends StatelessWidget {
       builder: (context, eventProvider, child) {
         return GestureDetector(
           onTap: () {
-            eventProvider.selectedEvent = event.id;
+            eventProvider.selectedEvent = event;
             AutoRouter.of(context).push(const MainRoute(children: [
               EventMainRoute(
                 children: [
-                  EventInfoRoute(),
+                  EventProgramRoute(),
                 ],
               ),
             ]));

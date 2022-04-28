@@ -108,7 +108,6 @@ class AuthProvider with ChangeNotifier {
     }
 
     final remaining = JwtDecoder.getRemainingTime(_token!);
-    print(remaining);
     _authTimer = Timer(remaining, logout);
   }
 }

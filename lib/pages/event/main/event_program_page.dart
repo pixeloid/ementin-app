@@ -1,4 +1,5 @@
 import 'package:eventapp/models/program_model.dart';
+import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,10 @@ class EventProgramPage extends StatelessWidget {
   }) : super(key: key);
 
   Future<void> _refreshProgram(BuildContext context) async {
-    final eventId =
+    final selectedEvent =
         Provider.of<EventProvider>(context, listen: false).selectedEvent;
     await Provider.of<ProgramProvider>(context, listen: false)
-        .getProgram(eventId);
+        .getProgram(selectedEvent!.id);
   }
 
   @override
@@ -126,6 +127,7 @@ class ProgramItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loggedIn = Provider.of<AuthProvider>(context, listen: false).isAuth;
     return Column(
       children: [
         const SizedBox(
@@ -148,7 +150,7 @@ class ProgramItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               Flexible(
                 child: Text(
                   presentation.title + presentation.id,
@@ -156,7 +158,7 @@ class ProgramItem extends StatelessWidget {
                   maxLines: 4,
                 ),
               ),
-              LoveButton(presentation: presentation),
+              loggedIn ? LoveButton(presentation: presentation) : Container(),
             ],
           ),
         ),
@@ -204,9 +206,7 @@ class MyRatingBar extends StatelessWidget {
             );
         }
       },
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
+      onRatingUpdate: (rating) {},
     );
   }
 }
@@ -222,16 +222,17 @@ class LoveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon:
-            Icon(presentation.isLiked ? Icons.favorite : Icons.favorite_border),
+        icon: Icon(presentation.isLiked != null
+            ? Icons.favorite
+            : Icons.favorite_border),
         iconSize: 30,
         color: Colors.grey[400],
         // 5
         onPressed: () {
           Provider.of<ProgramProvider>(context, listen: false)
               .toggleLike(presentation.id);
-          const snackBar = SnackBar(content: Text('Favorite Pressed'));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //   const snackBar = SnackBar(content: Text('Favorite Pressed'));
+          //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });
   }
 }

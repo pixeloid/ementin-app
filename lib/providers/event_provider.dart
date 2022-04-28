@@ -9,6 +9,7 @@ class EventProvider extends ChangeNotifierSafety {
   late final EventRequest _eventRequest;
 
   List<EventModel> _events = [];
+  EventModel? _selectedEvent;
 
   List<EventModel> get events => _events;
 
@@ -17,14 +18,12 @@ class EventProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 
-  String _selectedEvent = '';
-
-  set selectedEvent(String id) {
-    _selectedEvent = id;
+  set selectedEvent(EventModel? event) {
+    _selectedEvent = event;
     notifyListeners();
   }
 
-  String get selectedEvent => _selectedEvent;
+  EventModel? get selectedEvent => _selectedEvent;
 
   /// Loading state
   bool _isLoading = false;

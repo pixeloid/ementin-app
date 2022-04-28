@@ -18,7 +18,7 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
       return Scaffold(
         body: Column(children: <Widget>[
           WHeader(
-              title: eventProvider.selectedEvent,
+              title: eventProvider.selectedEvent!.name,
               isShowBackButton: true,
               delegate: this),
           DefaultTabController(
@@ -28,9 +28,11 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
               children: <Widget>[
                 const TabBar(
                   tabs: [
-                    Tab(text: 'hello'),
-                    Tab(icon: Icon(Icons.list_rounded)),
+                    Tab(text: 'Program'),
+                    Tab(text: 'Info'),
                   ],
+                  indicatorColor: Color(0xFFf172ac),
+                  indicatorWeight: 3,
                 ),
                 Container(
                   height: 400, //height of TabBarView

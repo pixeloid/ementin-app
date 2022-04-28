@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:eventapp/data/api/request/program_request.dart';
 import 'package:eventapp/models/program_model.dart';
+import '../app_define/app_config.dart';
+import '../data/api/auth_http_client.dart';
 import '../utils/other/notifier_safety.dart';
 
 class ProgramProvider extends ChangeNotifierSafety {
@@ -13,7 +17,18 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   get numItems => _programSections.length;
 
-  get numLikes => 0; //_program.where((program) => program.isLiked).length;
+  get favourites {
+    var result = [];
+    for (var section in _programSections) {
+      var prezik = section.presentations
+          .where((presentation) => presentation.isLiked != null)
+          .toList();
+      for (var prezi in prezik) {
+        result.add(prezi);
+      }
+    }
+    return result;
+  }
 
   set programSections(List<ProgramSectionModel> value) {
     _programSections = value;
@@ -44,11 +59,40 @@ class ProgramProvider extends ChangeNotifierSafety {
     _programSections = [];
   }
 
-  void toggleLike(id) {
+  Future<void> toggleLike(id) async {
     final programPresentation = findPresentationById(id);
-
+    final oldLike = programPresentation.isLiked;
     programPresentation.toggleLike();
     notifyListeners();
+
+    final client = AuthenticatedHttpClient();
+    final response;
+    try {
+      if (oldLike != null) {
+        response = await client.delete(
+          Uri.parse(AppConfig.shared.env!.restEndPoint +
+              '/presentation_favorites/$oldLike'),
+          headers: {"Content-Type": "application/json"},
+        );
+      } else {
+        response = await client.post(
+          Uri.parse(
+              AppConfig.shared.env!.restEndPoint + '/presentation_favorites'),
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(
+            {
+              'presentation': programPresentation.id,
+            },
+          ),
+        );
+
+        final responseData = json.decode(response.body);
+
+        programPresentation.isLiked = responseData['id'];
+      }
+    } catch (error) {
+      error;
+    }
   }
 
   ProgramPresentationModel findPresentationById(id) {
