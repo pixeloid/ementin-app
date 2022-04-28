@@ -15,12 +15,13 @@ mixin DynamicSize {
   ///    iPhone 12 Pro Max                 => 6.7": 428 x 926 (points)
   void initDynamicSize(BuildContext context) {
     ScreenUtil.init(
-      BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width,
-        maxHeight: MediaQuery.of(context).size.height,
-      ),
-      context: context,
+      context,
       designSize: const Size(375, 812),
+      deviceSize: Size(
+        MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height,
+      ),
+      orientation: Orientation.portrait,
     );
   }
 }

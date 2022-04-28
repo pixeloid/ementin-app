@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
-      builder: () => MaterialApp.router(
+      builder: (_) => MaterialApp.router(
         routerDelegate: _appRouter.delegate(),
         routeInformationParser: _appRouter.defaultRouteParser(),
         locale: localeProvider.locale,

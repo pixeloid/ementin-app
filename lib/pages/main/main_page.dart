@@ -17,29 +17,65 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<EventProvider>(builder: (context, eventProvider, _) {
       final isLoggedIn = Provider.of<AuthProvider>(context).isAuth;
-      return AutoTabsRouter(
+      final Size size = MediaQuery.of(context).size;
+      return AutoTabsScaffold(
         routes: [
           const EventMainRoute(),
           const CheckInRoute(),
           const FavouritesRoute(),
           isLoggedIn ? const ProfileRoute() : const AuthRoute(),
         ],
-        duration: const Duration(milliseconds: 400),
-        builder: (context, child, animation) {
-          // obtain the scoped TabsRouter controller using context
+        bottomNavigationBuilder: (_, tabsRouter) {
+          final numFavourites = Provider.of<ProgramProvider>(context)
+              .favourites
+              .length
+              .toString();
 
-          // Here we're building our Scaffold inside of AutoTabsRouter
-          // to access the tabsRouter controller provided in this context
-          //
-          //alterntivly you could use a global key
-
-          return Scaffold(
-              body: FadeTransition(
-                opacity: animation,
-                // the passed child is techinaclly our animated selected-tab page
-                child: child,
-              ),
-              bottomNavigationBar: const MainBottomNav());
+          return Container(
+            height: 80,
+            padding: const EdgeInsets.only(bottom: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFFF5F3FA),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                BottomNavItem(
+                  size: size,
+                  index: 0,
+                  icon: Icons.home_rounded,
+                  onNavTap: () {
+                    tabsRouter.setActiveIndex(0);
+                  },
+                ),
+                BottomNavItem(
+                  size: size,
+                  index: 1,
+                  icon: Icons.qr_code_2,
+                  onNavTap: () {
+                    tabsRouter.setActiveIndex(1);
+                  },
+                ),
+                BottomNavItem(
+                  size: size,
+                  index: 2,
+                  icon: Icons.favorite_outline_sharp,
+                  badgeText: numFavourites,
+                  onNavTap: () {
+                    tabsRouter.setActiveIndex(2);
+                  },
+                ),
+                BottomNavItem(
+                  size: size,
+                  index: 3,
+                  icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
+                  onNavTap: () {
+                    tabsRouter.setActiveIndex(3);
+                  },
+                ),
+              ],
+            ),
+          );
         },
       );
     });
@@ -123,77 +159,6 @@ class BottomNavItem extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-List<IconData> icons = [
-  Icons.home_rounded,
-  Icons.qr_code_2,
-  Icons.favorite_rounded,
-  Icons.login,
-];
-
-class MainBottomNav extends StatelessWidget {
-  const MainBottomNav({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    final tabsRouter = AutoTabsRouter.of(context);
-    final isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isAuth;
-
-    return Consumer<ProgramProvider>(
-      builder: (
-        context,
-        programProvider,
-        child,
-      ) =>
-          Container(
-        height: 80,
-        padding: const EdgeInsets.only(bottom: 10),
-        decoration: const BoxDecoration(
-          color: Color(0xFFF5F3FA),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            BottomNavItem(
-              size: size,
-              index: 0,
-              icon: Icons.home_rounded,
-              onNavTap: () {
-                tabsRouter.setActiveIndex(0);
-              },
-            ),
-            BottomNavItem(
-              size: size,
-              index: 1,
-              icon: Icons.qr_code_2,
-              onNavTap: () {
-                tabsRouter.setActiveIndex(1);
-              },
-            ),
-            BottomNavItem(
-              size: size,
-              index: 2,
-              icon: Icons.favorite_outline_sharp,
-              badgeText: programProvider.favourites.length.toString(),
-              onNavTap: () {
-                tabsRouter.setActiveIndex(2);
-              },
-            ),
-            BottomNavItem(
-              size: size,
-              index: 3,
-              icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
-              onNavTap: () {
-                tabsRouter.setActiveIndex(3);
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
