@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../providers/event_provider.dart';
+import 'package:badges/badges.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
@@ -14,101 +16,30 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<EventProvider>(builder: (context, eventProvider, _) {
-      final authProvider = Provider.of<AuthProvider>(context);
-
+      final isLoggedIn = Provider.of<AuthProvider>(context).isAuth;
       return AutoTabsRouter(
         routes: [
           const EventMainRoute(),
           const CheckInRoute(),
-          authProvider.isAuth ? const ProfileRoute() : const AuthRoute(),
+          const FavouritesRoute(),
+          isLoggedIn ? const ProfileRoute() : const AuthRoute(),
         ],
         duration: const Duration(milliseconds: 400),
         builder: (context, child, animation) {
           // obtain the scoped TabsRouter controller using context
-          Size size = MediaQuery.of(context).size;
 
           // Here we're building our Scaffold inside of AutoTabsRouter
           // to access the tabsRouter controller provided in this context
           //
           //alterntivly you could use a global key
+
           return Scaffold(
-            body: FadeTransition(
-              opacity: animation,
-              // the passed child is techinaclly our animated selected-tab page
-              child: child,
-            ),
-            bottomNavigationBar: Container(
-              height: 80,
-              padding: const EdgeInsets.only(bottom: 10),
-              decoration: const BoxDecoration(
-                color: Color(0xFFF5F3FA),
+              body: FadeTransition(
+                opacity: animation,
+                // the passed child is techinaclly our animated selected-tab page
+                child: child,
               ),
-              child: ListView.builder(
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => BottomNavItem(
-                  size: size,
-                  index: index,
-                ),
-              ),
-            ),
-            // bottomNavigationBar: BottomNavigationBar(
-            //   currentIndex: tabsRouter.activeIndex,
-            //   onTap: (index) {
-            //     // here we switch between tabs
-            //     tabsRouter.setActiveIndex(index);
-            //   },
-            //   items: [
-            //     const BottomNavigationBarItem(
-            //       label: 'Event',
-            //       icon: Icon(
-            //         Icons.event,
-            //       ),
-            //     ),
-            //     BottomNavigationBarItem(
-            //       label: 'Check-In',
-            //       icon: Stack(
-            //         children: <Widget>[
-            //           const Icon(Icons.qr_code_2_outlined),
-            //           Positioned(
-            //             right: 0,
-            //             child: Container(
-            //               padding: const EdgeInsets.all(1),
-            //               decoration: BoxDecoration(
-            //                 color: Colors.red,
-            //                 borderRadius: BorderRadius.circular(6),
-            //               ),
-            //               constraints: const BoxConstraints(
-            //                 minWidth: 12,
-            //                 minHeight: 12,
-            //               ),
-            //               child: Text(
-            //                 Provider.of<ProgramProvider>(context)
-            //                     .numLikes
-            //                     .toString(),
-            //                 style: const TextStyle(
-            //                   color: Colors.white,
-            //                   fontSize: 8,
-            //                 ),
-            //                 textAlign: TextAlign.center,
-            //               ),
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     authProvider.isAuth
-            //         ? const BottomNavigationBarItem(
-            //             label: 'Profile',
-            //             icon: Icon(Icons.person),
-            //           )
-            //         : const BottomNavigationBarItem(
-            //             label: 'Auth',
-            //             icon: Icon(Icons.login),
-            //           ),
-            //   ],
-            // ),
-          );
+              bottomNavigationBar: const MainBottomNav());
         },
       );
     });
@@ -120,20 +51,23 @@ class BottomNavItem extends StatelessWidget {
     Key? key,
     required this.size,
     required this.index,
+    required this.icon,
+    required this.onNavTap,
+    this.badgeText,
   }) : super(key: key);
 
+  final String? badgeText;
   final Size size;
   final int index;
+  final IconData icon;
+  final Function()? onNavTap;
 
   @override
   Widget build(BuildContext context) {
     final tabsRouter = AutoTabsRouter.of(context);
     final currentIndex = tabsRouter.activeIndex;
-
     return InkWell(
-      onTap: () {
-        tabsRouter.setActiveIndex(index);
-      },
+      onTap: onNavTap,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: Column(
@@ -161,11 +95,20 @@ class BottomNavItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
-                  listOfIcons[index],
-                  size: 22,
-                  color: const Color(0xFF2C2B7A),
-                ),
+                badgeText != null && badgeText != '0'
+                    ? Badge(
+                        badgeContent: Text(badgeText!),
+                        child: Icon(
+                          icon,
+                          size: 22,
+                          color: const Color(0xFF2C2B7A),
+                        ),
+                      )
+                    : Icon(
+                        icon,
+                        size: 22,
+                        color: const Color(0xFF2C2B7A),
+                      ),
               ],
             ),
           ),
@@ -185,9 +128,73 @@ class BottomNavItem extends StatelessWidget {
   }
 }
 
-List<IconData> listOfIcons = [
+List<IconData> icons = [
   Icons.home_rounded,
   Icons.qr_code_2,
-  Icons.settings_rounded,
-  Icons.person_rounded,
+  Icons.favorite_rounded,
+  Icons.login,
 ];
+
+class MainBottomNav extends StatelessWidget {
+  const MainBottomNav({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    final tabsRouter = AutoTabsRouter.of(context);
+    final isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isAuth;
+
+    return Consumer<ProgramProvider>(
+      builder: (
+        context,
+        programProvider,
+        child,
+      ) =>
+          Container(
+        height: 80,
+        padding: const EdgeInsets.only(bottom: 10),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF5F3FA),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            BottomNavItem(
+              size: size,
+              index: 0,
+              icon: Icons.home_rounded,
+              onNavTap: () {
+                tabsRouter.setActiveIndex(0);
+              },
+            ),
+            BottomNavItem(
+              size: size,
+              index: 1,
+              icon: Icons.qr_code_2,
+              onNavTap: () {
+                tabsRouter.setActiveIndex(1);
+              },
+            ),
+            BottomNavItem(
+              size: size,
+              index: 2,
+              icon: Icons.favorite_outline_sharp,
+              badgeText: programProvider.favourites.length.toString(),
+              onNavTap: () {
+                tabsRouter.setActiveIndex(2);
+              },
+            ),
+            BottomNavItem(
+              size: size,
+              index: 3,
+              icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
+              onNavTap: () {
+                tabsRouter.setActiveIndex(3);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
