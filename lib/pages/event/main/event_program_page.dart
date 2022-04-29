@@ -226,7 +226,9 @@ class LoveButton extends StatelessWidget {
             ? Icons.favorite
             : Icons.favorite_border),
         iconSize: 30,
-        color: Colors.grey[400],
+        color: presentation.isLiked != null
+            ? const Color(0xFFf172ac)
+            : Colors.grey[400],
         // 5
         onPressed: () {
           Provider.of<ProgramProvider>(context, listen: false)

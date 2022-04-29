@@ -17,7 +17,6 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<EventProvider>(builder: (context, eventProvider, _) {
       final isLoggedIn = Provider.of<AuthProvider>(context).isAuth;
-      final Size size = MediaQuery.of(context).size;
       return AutoTabsScaffold(
         routes: [
           const EventMainRoute(),
@@ -32,8 +31,8 @@ class MainPage extends StatelessWidget {
               .toString();
 
           return Container(
-            height: 80,
-            padding: const EdgeInsets.only(bottom: 10),
+            height: 90,
+            padding: const EdgeInsets.only(bottom: 20),
             decoration: const BoxDecoration(
               color: Color(0xFFF5F3FA),
             ),
@@ -41,7 +40,6 @@ class MainPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 BottomNavItem(
-                  size: size,
                   index: 0,
                   icon: Icons.home_rounded,
                   onNavTap: () {
@@ -49,7 +47,6 @@ class MainPage extends StatelessWidget {
                   },
                 ),
                 BottomNavItem(
-                  size: size,
                   index: 1,
                   icon: Icons.qr_code_2,
                   onNavTap: () {
@@ -57,7 +54,6 @@ class MainPage extends StatelessWidget {
                   },
                 ),
                 BottomNavItem(
-                  size: size,
                   index: 2,
                   icon: Icons.favorite_outline_sharp,
                   badgeText: numFavourites,
@@ -66,7 +62,6 @@ class MainPage extends StatelessWidget {
                   },
                 ),
                 BottomNavItem(
-                  size: size,
                   index: 3,
                   icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
                   onNavTap: () {
@@ -85,7 +80,6 @@ class MainPage extends StatelessWidget {
 class BottomNavItem extends StatelessWidget {
   const BottomNavItem({
     Key? key,
-    required this.size,
     required this.index,
     required this.icon,
     required this.onNavTap,
@@ -93,7 +87,6 @@ class BottomNavItem extends StatelessWidget {
   }) : super(key: key);
 
   final String? badgeText;
-  final Size size;
   final int index;
   final IconData icon;
   final Function()? onNavTap;
@@ -102,6 +95,8 @@ class BottomNavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabsRouter = AutoTabsRouter.of(context);
     final currentIndex = tabsRouter.activeIndex;
+    final Size size = MediaQuery.of(context).size;
+
     return InkWell(
       onTap: onNavTap,
       splashColor: Colors.transparent,
@@ -112,9 +107,9 @@ class BottomNavItem extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastLinearToSlowEaseIn,
-            height: index == currentIndex ? 56 : 56,
+            height: 60,
             transform: Matrix4.translationValues(
-                0.0, index == currentIndex ? -15 : 0, 0.0),
+                0.0, index == currentIndex ? -20 : -5, 0.0),
             width: size.width / 4,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -136,25 +131,26 @@ class BottomNavItem extends StatelessWidget {
                         badgeContent: Text(badgeText!),
                         child: Icon(
                           icon,
-                          size: 22,
+                          size: 30,
                           color: const Color(0xFF2C2B7A),
                         ),
                       )
                     : Icon(
                         icon,
-                        size: 22,
+                        size: 30,
                         color: const Color(0xFF2C2B7A),
                       ),
               ],
             ),
           ),
           Container(
-            transform: Matrix4.translationValues(0.0, -10, 0.0),
+            transform: Matrix4.translationValues(
+                0.0, index == currentIndex ? -20 : -15, 0.0),
             child: const Text(
               'MENU',
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 8,
+                  fontSize: 10,
                   color: Color(0xFF2C2B7A)),
             ),
           )
