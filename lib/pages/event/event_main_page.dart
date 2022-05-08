@@ -16,40 +16,49 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
   Widget build(BuildContext context) {
     return Consumer<EventProvider>(builder: (context, eventProvider, _) {
       return Scaffold(
-        body: Column(children: <Widget>[
-          WHeader(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            WHeader(
               title: eventProvider.selectedEvent!.name,
               isShowBackButton: true,
-              delegate: this),
-          DefaultTabController(
-            length: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const TabBar(
-                  tabs: [
-                    Tab(text: 'Program'),
-                    Tab(text: 'Info'),
-                  ],
-                  indicatorColor: Color(0xFFf172ac),
-                  indicatorWeight: 3,
-                ),
-                Container(
-                  height: 400, //height of TabBarView
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          top: BorderSide(color: Colors.grey, width: 0.5))),
-                  child: const TabBarView(
-                    children: [
-                      EventProgramPage(),
-                      EventInfoPage(),
-                    ],
-                  ),
-                ),
-              ],
+              delegate: this,
             ),
-          ),
-        ]),
+            Expanded(
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const TabBar(
+                      tabs: [
+                        Tab(text: 'Program'),
+                        Tab(text: 'Info'),
+                      ],
+                      indicatorColor: Color(0xFFf172ac),
+                      indicatorWeight: 3,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.grey, width: 0.5))),
+                        child: const TabBarView(
+                          children: [
+                            EventProgramPage(),
+                            EventInfoPage(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     });
   }

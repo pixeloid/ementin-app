@@ -1,15 +1,14 @@
 import 'dart:convert';
 
-import 'package:eventapp/data/api/request/program_request.dart';
-import 'package:eventapp/models/program_model.dart';
-import '../app_define/app_config.dart';
-import '../data/api/auth_http_client.dart';
+import 'package:eventapp/data/api/repository/program_repository.dart';
+import 'package:eventapp/models/program_presentation_model.dart';
+import 'package:eventapp/models/program_section_model.dart';
 import '../utils/other/notifier_safety.dart';
 
 class ProgramProvider extends ChangeNotifierSafety {
-  ProgramProvider(this._programRequest);
+  ProgramProvider(this._programRepository);
 
-  late final ProgramRequest _programRequest;
+  late final ProgramRepository _programRepository;
 
   List<ProgramSectionModel> _programSections = [];
 
@@ -47,8 +46,8 @@ class ProgramProvider extends ChangeNotifierSafety {
   ProgramSectionModel get activeProgram => _programSections[2];
 
   /// Get Tickets
-  Future<void> getProgram(String eventId) async {
-    final result = await _programRequest.getProgram(eventId);
+  Future<void> getProgram(int eventId) async {
+    final result = await _programRepository.getProgram(eventId);
     programSections = result;
     isLoading = false;
   }
@@ -60,35 +59,20 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   Future<void> toggleLike(id) async {
-    final programPresentation = findPresentationById(id);
-    final oldLike = programPresentation.isLiked;
+    var programPresentation = findPresentationById(id);
+    var oldLike = programPresentation.isLiked;
     programPresentation.toggleLike();
     notifyListeners();
 
-    final client = AuthenticatedHttpClient();
-    final response;
     try {
       if (oldLike != null) {
-        response = await client.delete(
-          Uri.parse(AppConfig.shared.env!.restEndPoint +
-              '/presentation_favorites/$oldLike'),
-          headers: {"Content-Type": "application/json"},
-        );
+        await _programRepository.removeLike(oldLike);
       } else {
-        response = await client.post(
-          Uri.parse(
-              AppConfig.shared.env!.restEndPoint + '/presentation_favorites'),
-          headers: {"Content-Type": "application/json"},
-          body: json.encode(
-            {
-              'presentation': programPresentation.id,
-            },
-          ),
-        );
+        final response = await _programRepository.like(programPresentation.iri);
 
-        final responseData = json.decode(response.body);
+        final responseData = json.decode(response);
 
-        programPresentation.isLiked = responseData['id'];
+        programPresentation.isLiked = responseData['@id'];
       }
     } catch (error) {
       error;

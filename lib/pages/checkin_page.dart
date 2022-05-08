@@ -1,5 +1,10 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/providers/auth_provider.dart';
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CheckInPage extends StatefulWidget {
@@ -43,7 +48,28 @@ class _CheckInPageState extends State<CheckInPage> {
   @override
   Widget build(BuildContext context) {
     readQr();
+
+    final eventProvider = Provider.of<EventProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+    final router = AutoTabsRouter.of(context);
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          const code = '36b2e5a48a40ff6f891b61f5f40c93a5';
+
+          try {
+            await eventProvider.checkIn(code);
+            await authProvider.loginWithCode(code);
+            router.navigate(
+                const EventMainRoute(children: [EventProgramRoute()]));
+          } catch (e) {
+            e;
+          }
+        },
+        child: const Icon(Icons.qr_code),
+        backgroundColor: Colors.green,
+      ),
       body: QRView(
         key: qrKey,
         onQRViewCreated: _onQRViewCreated,

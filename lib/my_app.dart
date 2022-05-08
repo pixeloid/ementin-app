@@ -1,6 +1,8 @@
-import 'package:eventapp/data/api/request/program_request.dart';
+import 'package:eventapp/data/api/repository/auth_repository.dart';
+import 'package:eventapp/data/api/repository/program_repository.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/locale_provider.dart';
+import 'package:eventapp/services/locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'app_define/app_route.gr.dart';
-import 'data/api/request/event_request.dart';
+import 'data/api/repository/event_repository.dart';
 import 'providers/program_provider.dart';
 
 class MyApp extends StatefulWidget {
@@ -72,32 +74,38 @@ Future<void> myMain() async {
   /// so we need to initialize Hive.
   await initHiveForFlutter();
 
-//  String? userToken = await Credential.singleton.getToken();
+  WidgetsFlutterBinding.ensureInitialized();
+  await setup();
 
   runApp(MultiProvider(providers: <SingleChildWidget>[
-    Provider<EventRequest>(
-      create: (_) => EventRequest(),
+    Provider<EventRepository>(
+      create: (_) => EventRepository(),
+    ),
+    Provider<AuthRepository>(
+      create: (_) => AuthRepository(),
+    ),
+    Provider<ProgramRepository>(
+      create: (_) => ProgramRepository(),
     ),
     ChangeNotifierProvider<EventProvider>(
       create: (BuildContext context) => EventProvider(
-        context.read<EventRequest>(),
+        context.read<EventRepository>(),
       ),
     ),
     ChangeNotifierProvider<AppThemeProvider>(
       create: (_) => AppThemeProvider(),
     ),
     ChangeNotifierProvider<AuthProvider>(
-      create: (_) => AuthProvider(),
+      create: (BuildContext context) => AuthProvider(
+        context.read<AuthRepository>(),
+      ),
     ),
     ChangeNotifierProvider<LocaleProvider>(
       create: (_) => LocaleProvider(),
     ),
-    Provider<ProgramRequest>(
-      create: (_) => ProgramRequest(),
-    ),
     ChangeNotifierProvider<ProgramProvider>(
       create: (BuildContext context) => ProgramProvider(
-        context.read<ProgramRequest>(),
+        context.read<ProgramRepository>(),
       ),
     ),
   ], child: const MyApp()));

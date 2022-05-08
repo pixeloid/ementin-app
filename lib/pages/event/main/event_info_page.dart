@@ -1,5 +1,7 @@
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/pages/base/base_page.dart';
+import 'package:provider/provider.dart';
 
 class EventInfoPage extends StatelessWidget {
   const EventInfoPage({
@@ -8,9 +10,11 @@ class EventInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BasePage(
+    final eventProvider = Provider.of<EventProvider>(context, listen: false);
+    final er = eventProvider.selectedEvent!.eventRegistration;
+    return BasePage(
       child: Center(
-        child: Text('MAIN'),
+        child: Text(er.toString()),
       ),
     );
   }

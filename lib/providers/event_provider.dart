@@ -1,15 +1,18 @@
-import 'package:eventapp/data/api/request/event_request.dart';
+import 'dart:async';
+
+import 'package:eventapp/data/api/repository/event_repository.dart';
 
 import '../models/event_model.dart';
 import '../utils/other/notifier_safety.dart';
 
 class EventProvider extends ChangeNotifierSafety {
-  EventProvider(this._eventRequest);
+  EventProvider(this._eventRepository);
 
-  late final EventRequest _eventRequest;
+  late final EventRepository _eventRepository;
 
   List<EventModel> _events = [];
-  EventModel? _selectedEvent;
+
+  int? _selectedEventId;
 
   List<EventModel> get events => _events;
 
@@ -18,12 +21,14 @@ class EventProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 
-  set selectedEvent(EventModel? event) {
-    _selectedEvent = event;
-    notifyListeners();
+  EventModel? get selectedEvent {
+    return _events.firstWhere((event) => event.id == _selectedEventId);
   }
 
-  EventModel? get selectedEvent => _selectedEvent;
+  set selectedEventId(int? id) {
+    _selectedEventId = id;
+    notifyListeners();
+  }
 
   /// Loading state
   bool _isLoading = false;
@@ -35,9 +40,8 @@ class EventProvider extends ChangeNotifierSafety {
   }
 
   /// Get Tickets
-  Future<void> getEvents() async {
-    final result = await _eventRequest.getEvents();
-    events = result;
+  Future getEvents() async {
+    events = await _eventRepository.getEvents();
     isLoading = false;
   }
 
@@ -45,9 +49,18 @@ class EventProvider extends ChangeNotifierSafety {
   void resetState() {
     _isLoading = false;
     _events = [];
+    _selectedEventId = null;
   }
 
   getById(String id) {
-    return events.firstWhere((element) => element.id == id);
+    return events.firstWhere((element) => element.iri == id);
+  }
+
+  checkIn(String code) async {
+    await _eventRepository.checkIn(code);
+    if (_selectedEventId != null) {
+      selectedEvent?.checkedIn = true;
+      notifyListeners();
+    }
   }
 }

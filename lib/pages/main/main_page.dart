@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
-import '../../providers/event_provider.dart';
 import 'package:badges/badges.dart';
 
 class MainPage extends StatelessWidget {
@@ -15,37 +15,38 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventProvider>(builder: (context, eventProvider, _) {
-      final isLoggedIn = Provider.of<AuthProvider>(context).isAuth;
-      return AutoTabsScaffold(
-        routes: [
-          const EventMainRoute(),
-          const CheckInRoute(),
-          const FavouritesRoute(),
-          isLoggedIn ? const ProfileRoute() : const AuthRoute(),
-        ],
-        bottomNavigationBuilder: (_, tabsRouter) {
-          final numFavourites = Provider.of<ProgramProvider>(context)
-              .favourites
-              .length
-              .toString();
+    var authProvider = Provider.of<AuthProvider>(context);
+    var eventProvider = Provider.of<EventProvider>(context);
+    final isLoggedIn = authProvider.isAuth;
+    final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
+    return AutoTabsScaffold(
+      routes: [
+        const EventMainRoute(),
+        const CheckInRoute(),
+        const FavouritesRoute(),
+        isLoggedIn ? const ProfileRoute() : const AuthRoute(),
+      ],
+      bottomNavigationBuilder: (_, tabsRouter) {
+        final numFavourites =
+            Provider.of<ProgramProvider>(context).favourites.length.toString();
 
-          return Container(
-            height: 90,
-            padding: const EdgeInsets.only(bottom: 20),
-            decoration: const BoxDecoration(
-              color: Color(0xFFF5F3FA),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                BottomNavItem(
-                  index: 0,
-                  icon: Icons.home_rounded,
-                  onNavTap: () {
-                    tabsRouter.setActiveIndex(0);
-                  },
-                ),
+        return Container(
+          height: 90,
+          padding: const EdgeInsets.only(bottom: 10),
+          decoration: const BoxDecoration(
+            color: Color(0xFFF5F3FA),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              BottomNavItem(
+                index: 0,
+                icon: Icons.home_rounded,
+                onNavTap: () {
+                  tabsRouter.setActiveIndex(0);
+                },
+              ),
+              if (isCheckedIn != null && !isCheckedIn)
                 BottomNavItem(
                   index: 1,
                   icon: Icons.qr_code_2,
@@ -53,6 +54,7 @@ class MainPage extends StatelessWidget {
                     tabsRouter.setActiveIndex(1);
                   },
                 ),
+              if (isLoggedIn)
                 BottomNavItem(
                   index: 2,
                   icon: Icons.favorite_outline_sharp,
@@ -61,19 +63,18 @@ class MainPage extends StatelessWidget {
                     tabsRouter.setActiveIndex(2);
                   },
                 ),
-                BottomNavItem(
-                  index: 3,
-                  icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
-                  onNavTap: () {
-                    tabsRouter.setActiveIndex(3);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    });
+              BottomNavItem(
+                index: 3,
+                icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
+                onNavTap: () {
+                  tabsRouter.setActiveIndex(3);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
