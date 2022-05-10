@@ -4,10 +4,9 @@ extension ProductionEnvironment on Environment {
   /// Product environment
   static Environment production() {
     return Environment(
-        graphQLEndPoint:
-            'https://api-ap-northeast-1.graphcms.com/v2/ckpphjwhcz1bo01xsbdkx7rjx/production',
+        graphQLEndPoint: 'https://home.ementin.hu/api/graphql',
+        restEndPoint: 'https://home.ementin.hu/api',
         googleApiKey: '',
-        websocketEndpoint: 'ws://',
-        restEndPoint: '');
+        websocketEndpoint: 'http://192.168.0.59:3000/.well-known/mercure');
   }
 }
