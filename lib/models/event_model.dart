@@ -1,3 +1,4 @@
+import 'package:eventapp/models/event_registration_model.dart';
 import 'package:intl/intl.dart';
 
 class EventModel {
@@ -5,14 +6,18 @@ class EventModel {
   final String iri;
   final String name;
   bool checkedIn;
-  final String start;
+  final int start;
   final String end;
   final String venue;
   final String address;
   final String? image;
   final String? deadline;
   final String? abstractDeadline;
-  final String? eventRegistration;
+  final EventRegistrationModel? eventRegistration;
+
+  final String daterange;
+
+  final bool isInProgress;
 
   EventModel({
     required this.id,
@@ -27,29 +32,36 @@ class EventModel {
     this.deadline,
     this.abstractDeadline,
     this.eventRegistration,
+    required this.daterange,
+    required this.isInProgress,
   });
 
   factory EventModel.fromJson(json) {
     return EventModel(
-      id: json['id'],
-      iri: json['@id'],
-      name: json['name'] as String,
-      checkedIn: json['checkedIn'],
-      end: DateFormat('Hm').format(DateTime.parse(json['end'])),
-      start: DateFormat('Hm').format(DateTime.parse(json['start'])),
-      venue: json['venue'],
-      image: json['image'] ?? '',
-      address: json['venueAddress'] ?? '',
-      eventRegistration: json['eventRegistration'] != null
-          ? json['eventRegistration']['id'].toString()
-          : '',
-      deadline: json['deadline'] != null
-          ? DateFormat('Md').format(DateTime.parse(json['deadline']))
-          : '',
-      abstractDeadline: json['abstractDeadline'] != null
-          ? DateFormat('Hm').format(DateTime.parse(json['abstractDeadline']))
-          : '',
-    );
+        id: json['id'],
+        iri: json['@id'],
+        name: json['name'] as String,
+        checkedIn: json['checkedIn'],
+        end: DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['end'])),
+        start: DateTime.parse(json['start']).millisecondsSinceEpoch,
+        venue: json['venue'],
+        image: json['image'] ?? '',
+        address: json['venueAddress'] ?? '',
+        eventRegistration: json['eventRegistration'] != null
+            ? EventRegistrationModel?.fromJson(json['eventRegistration'])
+            : null,
+        deadline: json['deadline'] != null
+            ? DateFormat('yyyy. MMMM d.')
+                .format(DateTime.parse(json['deadline']))
+            : null,
+        abstractDeadline: json['abstractDeadline'] != null
+            ? DateFormat('yyyy. MMMM d.')
+                .format(DateTime.parse(json['abstractDeadline']))
+            : null,
+        daterange:
+            DateFormat('yyyy. MMMM d').format(DateTime.parse(json['start'])) +
+                DateFormat('-d.').format(DateTime.parse(json['end'])),
+        isInProgress: json['isInProgress']);
   }
 
   Map<String, dynamic> toJson() => {

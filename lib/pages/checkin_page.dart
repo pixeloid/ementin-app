@@ -61,6 +61,15 @@ class _CheckInPageState extends State<CheckInPage> {
           try {
             await eventProvider.checkIn(code);
             await authProvider.loginWithCode(code);
+
+            const snackBar = SnackBar(
+              content: Text('Hello BABY!'),
+            );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
             router.navigate(
                 const EventMainRoute(children: [EventProgramRoute()]));
           } catch (e) {

@@ -34,10 +34,8 @@ class ProgramPresentationModel {
             .firstOrNull,
         rating: null,
         start: DateFormat('Hm').format(DateTime.parse(json['start'])),
-        duration: json['end'] != null
-            ? DateTime.parse(json['end'])
-                .difference(DateTime.parse(json['start']))
-            : null,
+        duration: DateTime.parse(json['end'])
+            .difference(DateTime.parse(json['start'])),
       );
 
   Map<String, dynamic> toJson() => {
