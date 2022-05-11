@@ -32,7 +32,8 @@ class MainPage extends StatelessWidget {
             Provider.of<ProgramProvider>(context).favourites.length.toString();
 
         return Container(
-          height: 70,
+          height: 90,
+          padding: const EdgeInsets.only(bottom: 20),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
