@@ -50,3 +50,5 @@ post_install do |installer|
   end
 end
 
+require 'typhoeus'
+Typhoeus::Config.user_agent = 'CocoaPods'
