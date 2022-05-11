@@ -3,6 +3,7 @@ import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
@@ -31,10 +32,12 @@ class MainPage extends StatelessWidget {
             Provider.of<ProgramProvider>(context).favourites.length.toString();
 
         return Container(
-          height: 90,
-          padding: const EdgeInsets.only(bottom: 10),
+          height: 70,
           decoration: const BoxDecoration(
-            color: Color(0xFFF5F3FA),
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xFFF4F2FA), Color(0xFFF6EFF8)]),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -42,6 +45,7 @@ class MainPage extends StatelessWidget {
               BottomNavItem(
                 index: 0,
                 icon: Icons.home_rounded,
+                label: 'Részletek',
                 onNavTap: () {
                   tabsRouter.setActiveIndex(0);
                 },
@@ -49,6 +53,7 @@ class MainPage extends StatelessWidget {
               if (isCheckedIn != null && !isCheckedIn)
                 BottomNavItem(
                   index: 1,
+                  label: 'Check-in',
                   icon: Icons.qr_code_2,
                   onNavTap: () {
                     tabsRouter.setActiveIndex(1);
@@ -58,6 +63,7 @@ class MainPage extends StatelessWidget {
                 BottomNavItem(
                   index: 2,
                   icon: Icons.favorite_outline_sharp,
+                  label: 'Kedvencek',
                   badgeText: numFavourites,
                   onNavTap: () {
                     tabsRouter.setActiveIndex(2);
@@ -65,7 +71,8 @@ class MainPage extends StatelessWidget {
                 ),
               BottomNavItem(
                 index: 3,
-                icon: isLoggedIn ? Icons.logout : Icons.login_sharp,
+                label: isLoggedIn ? 'Profilom' : 'Belépés',
+                icon: isLoggedIn ? Icons.person_sharp : Icons.login_sharp,
                 onNavTap: () {
                   tabsRouter.setActiveIndex(3);
                 },
@@ -79,18 +86,20 @@ class MainPage extends StatelessWidget {
 }
 
 class BottomNavItem extends StatelessWidget {
+  final String label;
+  final String? badgeText;
+  final int index;
+  final IconData icon;
+  final Function()? onNavTap;
+
   const BottomNavItem({
     Key? key,
     required this.index,
     required this.icon,
     required this.onNavTap,
+    required this.label,
     this.badgeText,
   }) : super(key: key);
-
-  final String? badgeText;
-  final int index;
-  final IconData icon;
-  final Function()? onNavTap;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +117,7 @@ class BottomNavItem extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastLinearToSlowEaseIn,
-            height: 60,
+            height: index == currentIndex ? 55 : 50,
             transform: Matrix4.translationValues(
                 0.0, index == currentIndex ? -20 : -5, 0.0),
             width: size.width / 4,
@@ -146,10 +155,10 @@ class BottomNavItem extends StatelessWidget {
           ),
           Container(
             transform: Matrix4.translationValues(
-                0.0, index == currentIndex ? -20 : -15, 0.0),
-            child: const Text(
-              'MENU',
-              style: TextStyle(
+                0.0, index == currentIndex ? -15 : -10, 0.0),
+            child: Text(
+              label.toUpperCase(),
+              style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 10,
                   color: Color(0xFF2C2B7A)),
