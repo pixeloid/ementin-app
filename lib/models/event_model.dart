@@ -38,30 +38,30 @@ class EventModel {
 
   factory EventModel.fromJson(json) {
     return EventModel(
-        id: json['id'],
-        iri: json['@id'],
-        name: json['name'] as String,
-        checkedIn: json['checkedIn'],
-        end: DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['end'])),
-        start: DateTime.parse(json['start']).millisecondsSinceEpoch,
-        venue: json['venue'],
-        image: json['image'] ?? '',
-        address: json['venueAddress'] ?? '',
-        eventRegistration: json['eventRegistration'] != null
-            ? EventRegistrationModel?.fromJson(json['eventRegistration'])
-            : null,
-        deadline: json['deadline'] != null
-            ? DateFormat('yyyy. MMMM d.')
-                .format(DateTime.parse(json['deadline']))
-            : null,
-        abstractDeadline: json['abstractDeadline'] != null
-            ? DateFormat('yyyy. MMMM d.')
-                .format(DateTime.parse(json['abstractDeadline']))
-            : null,
-        daterange:
-            DateFormat('yyyy. MMMM d').format(DateTime.parse(json['start'])) +
-                DateFormat('-d.').format(DateTime.parse(json['end'])),
-        isInProgress: json['isInProgress']);
+      id: json['id'],
+      iri: json['@id'],
+      name: json['name'] as String,
+      checkedIn: json['checkedIn'],
+      end: DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['end'])),
+      start: DateTime.parse(json['start']).millisecondsSinceEpoch,
+      venue: json['venue'],
+      image: json['image'],
+      address: json['venueAddress'] ?? '',
+      eventRegistration: json['eventRegistration'] != null
+          ? EventRegistrationModel?.fromJson(json['eventRegistration'])
+          : null,
+      deadline: json['deadline'] != null
+          ? DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['deadline']))
+          : null,
+      abstractDeadline: json['abstractDeadline'] != null
+          ? DateFormat('yyyy. MMMM d.')
+              .format(DateTime.parse(json['abstractDeadline']))
+          : null,
+      daterange:
+          DateFormat('yyyy. MMMM d').format(DateTime.parse(json['start'])) +
+              DateFormat('-d.').format(DateTime.parse(json['end'])),
+      isInProgress: json['isInProgress'] ?? false,
+    );
   }
 
   Map<String, dynamic> toJson() => {

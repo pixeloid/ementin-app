@@ -30,13 +30,12 @@ class AppTheme {
   Color headerBgColor = Colors.blueGrey;
 
   /// Build theme data
-  ThemeData buildThemeData() {
+  ThemeData buildThemeData(ctx) {
     return ThemeData(
       primaryColor: primaryColor,
-      fontFamily: assets.fontRoboto,
       pageTransitionsTheme: _buildPageTransitionsTheme(),
       buttonTheme: _buildButtonTheme(),
-      textTheme: _buildTextTheme(),
+      textTheme: _buildTextTheme(ctx),
     );
   }
 
@@ -62,7 +61,7 @@ class AppTheme {
   }
 
   /// Custom text theme
-  TextTheme _buildTextTheme() {
+  TextTheme _buildTextTheme(ctx) {
     return GoogleFonts.poppinsTextTheme();
   }
 }

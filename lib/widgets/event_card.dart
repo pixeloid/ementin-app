@@ -18,6 +18,8 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var text = Theme.of(context).textTheme;
+
     return Consumer<EventProvider>(
       builder: (context, eventProvider, child) {
         return Card(
@@ -70,7 +72,7 @@ class EventCard extends StatelessWidget {
                             'Jelenleg zajlik'.toUpperCase(),
                             textAlign: TextAlign.center,
                             maxLines: 2,
-                            style: GoogleFonts.poppins(
+                            style: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 11,
                               letterSpacing:
@@ -122,15 +124,8 @@ class EventCard extends StatelessWidget {
                                     event.name.toUpperCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 2,
-                                    style: GoogleFonts.poppins(
-                                      color:
-                                          const Color.fromRGBO(55, 65, 81, 1),
-                                      fontSize: 16,
-                                      letterSpacing:
-                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.w700,
-                                      height: 1.4,
-                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1!,
                                   ),
                                   const SizedBox(height: 10),
                                   const Text(
@@ -180,7 +175,7 @@ class EventCard extends StatelessWidget {
                                                         .toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     maxLines: 2,
-                                                    style: GoogleFonts.poppins(
+                                                    style: const TextStyle(
                                                         color: const Color
                                                                 .fromRGBO(
                                                             55, 65, 81, 1),
@@ -198,7 +193,7 @@ class EventCard extends StatelessWidget {
                                                         .toString()
                                                         .toUpperCase(),
                                                     textAlign: TextAlign.center,
-                                                    style: GoogleFonts.poppins(
+                                                    style: const TextStyle(
                                                         color: const Color
                                                                 .fromRGBO(
                                                             31, 41, 55, 1),
@@ -246,7 +241,7 @@ class EventCard extends StatelessWidget {
                                                         .toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     maxLines: 2,
-                                                    style: GoogleFonts.poppins(
+                                                    style: const TextStyle(
                                                         color: const Color
                                                                 .fromRGBO(
                                                             31, 41, 55, 1),
@@ -278,17 +273,12 @@ class EventCard extends StatelessWidget {
                               decoration: const BoxDecoration(),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 0, vertical: 0),
-                              child: Text(
-                                event.daterange.toUpperCase(),
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.poppins(
-                                  color: const Color.fromRGBO(31, 41, 55, 1),
-                                  fontSize: 14,
-                                  letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                              child: Text(event.daterange.toUpperCase(),
+                                  textAlign: TextAlign.left,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .copyWith(fontWeight: FontWeight.w900)),
                             ),
                             const SizedBox(height: 13),
                             Container(
@@ -311,7 +301,7 @@ class EventCard extends StatelessWidget {
                                     Text(
                                       event.venue,
                                       textAlign: TextAlign.left,
-                                      style: GoogleFonts.poppins(
+                                      style: const TextStyle(
                                           color: Color.fromRGBO(31, 41, 55, 1),
                                           fontSize: 14,
                                           letterSpacing:
@@ -323,7 +313,7 @@ class EventCard extends StatelessWidget {
                                     Text(
                                       event.address,
                                       textAlign: TextAlign.left,
-                                      style: GoogleFonts.poppins(
+                                      style: const TextStyle(
                                           color: Color.fromRGBO(31, 41, 55, 1),
                                           fontSize: 12,
                                           letterSpacing:
@@ -344,13 +334,13 @@ class EventCard extends StatelessWidget {
                               //    return Text(
                               //        'days: [ ${time!.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]');
                               //  },
-                              textStyle: GoogleFonts.poppins(
-                                color: Color.fromARGB(255, 255, 0, 153),
-                                fontSize: 13,
-                                letterSpacing:
-                                    0 /*percentages not used in flutter. defaulting to zero*/,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    color:
+                                        const Color.fromARGB(255, 255, 0, 153),
+                                  ),
                               endWidget: Container(),
                             ),
                           ],
