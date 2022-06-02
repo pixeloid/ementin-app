@@ -3,7 +3,6 @@ import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';

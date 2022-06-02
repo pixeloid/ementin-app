@@ -3,7 +3,6 @@ import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../app_define/app_route.gr.dart';
@@ -36,7 +35,6 @@ class EventCard extends StatelessWidget {
             },
             child: Column(
               children: [
-                // Figma Flutter Generator Frame6Widget - FRAME - HORIZONTAL
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(

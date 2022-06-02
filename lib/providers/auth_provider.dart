@@ -51,8 +51,31 @@ class AuthProvider with ChangeNotifier {
         password: password,
       );
       final token = response["token"];
+      final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
         _autoLogout();
+        notifyListeners();
+      });
+      await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
+        notifyListeners();
+      });
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> refreshToken(String? rfToken) async {
+    try {
+      final response = await _authRepository.refreshToken(
+        refreshToken: rfToken,
+      );
+      final token = response["token"];
+      final refreshToken = response["refresh_token"];
+      await locator.setUserToken(userToken: token).then((value) {
+        _autoLogout();
+        notifyListeners();
+      });
+      await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
         notifyListeners();
       });
     } catch (error) {
@@ -102,7 +125,9 @@ class AuthProvider with ChangeNotifier {
     }
     var token = locator.getUserToken();
 
-    final remaining = JwtDecoder.getRemainingTime(token!);
+    final remaining = token == null
+        ? const Duration(seconds: 0)
+        : JwtDecoder.getRemainingTime(token);
     _authTimer = Timer(remaining, logout);
   }
 }

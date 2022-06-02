@@ -6,6 +6,9 @@ import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 
+import '../api_result.dart';
+import '../network_exceptions.dart';
+
 class EventRepository {
   final netWorkLocator = getIt.get<DioClient>();
 
@@ -18,14 +21,18 @@ class EventRepository {
         .toList();
   }
 
-  Future<dynamic> checkIn(String code) async {
+  Future<dynamic> checkIn(int id, String code) async {
     try {
-      final response = await netWorkLocator.dio.post(
-          '${EndPoints.baseUrl}${EndPoints.checkIn}',
-          data: json.encode({'code': code}));
+      final response = await netWorkLocator.dio
+          .post('${EndPoints.baseUrl}${EndPoints.checkIn}',
+              data: json.encode({
+                'eventId': id,
+                'code': code,
+              }));
       return response.data;
-    } on DioError catch (e) {
-      e;
+    } catch (e) {
+      throw Exception(NetworkExceptions.getErrorMessage(
+          NetworkExceptions.getDioException(e)));
     }
   }
 }

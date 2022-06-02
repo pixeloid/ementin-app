@@ -38,13 +38,16 @@ class EventListPage extends StatelessWidget {
                           builder: (context, eventProvider, index) {
                           var eventList = eventProvider.events;
                           return Expanded(
-                            child: ListView.builder(
-                              padding: EdgeInsets.only(left: 16, right: 16),
-                              shrinkWrap: true,
-                              itemCount: eventList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return EventCard(event: eventList[index]);
-                              },
+                            child: RefreshIndicator(
+                              onRefresh: () => _getEvents(context),
+                              child: ListView.builder(
+                                padding: EdgeInsets.only(left: 16, right: 16),
+                                shrinkWrap: true,
+                                itemCount: eventList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return EventCard(event: eventList[index]);
+                                },
+                              ),
                             ),
                           );
                         }),

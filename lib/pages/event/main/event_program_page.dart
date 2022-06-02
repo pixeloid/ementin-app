@@ -242,9 +242,13 @@ class ProgramSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                section.name,
-                style: Theme.of(context).textTheme.bodyText2,
+              Flexible(
+                child: Text(
+                  section.name,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                ),
               ),
             ],
           ),

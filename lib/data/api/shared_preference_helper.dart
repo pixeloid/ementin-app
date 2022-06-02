@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   static const String token = "token";
+  static const String rfToken = "refresh_token";
   final SharedPreferences prefs;
 
   SharedPreferenceHelper({required this.prefs});
@@ -10,8 +11,15 @@ class SharedPreferenceHelper {
     await prefs.setString(token, userToken);
   }
 
+  Future<void> setRefreshToken({required String refreshToken}) async {
+    await prefs.setString(rfToken, refreshToken);
+  }
+
   String? getUserToken() {
-    final userToken = prefs.getString(token);
-    return userToken;
+    return prefs.getString(token);
+  }
+
+  String? getRefreshToken() {
+    return prefs.getString(rfToken);
   }
 }

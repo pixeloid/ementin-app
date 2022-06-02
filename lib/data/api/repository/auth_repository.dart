@@ -78,4 +78,28 @@ class AuthRepository {
     }
     return completer.future;
   }
+
+  Future<Map<String, dynamic>> refreshToken({
+    required String? refreshToken,
+  }) async {
+    Completer<Map<String, dynamic>> completer =
+        Completer<Map<String, dynamic>>();
+    try {
+      netWorkLocator.dio.options.extra = {'noAuth': true};
+      final response = await netWorkLocator.dio.post(
+        '${EndPoints.baseUrl}${EndPoints.refreshToken}',
+        data: {
+          'refresh_token': refreshToken,
+        },
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to refresh token');
+      }
+
+      completer.complete(response.data);
+    } catch (e) {
+      e;
+    }
+    return completer.future;
+  }
 }

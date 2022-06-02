@@ -17,7 +17,6 @@ import 'package:provider/single_child_widget.dart';
 import 'app_define/app_route.gr.dart';
 import 'data/api/repository/event_repository.dart';
 import 'providers/program_provider.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

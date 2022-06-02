@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
@@ -56,24 +57,19 @@ class _CheckInPageState extends State<CheckInPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          const code = '36b2e5a48a40ff6f891b61f5f40c93a5';
+          const code = 'dbdc6c23abee1a55a41f8ecfc094e024';
 
           try {
             await eventProvider.checkIn(code);
             await authProvider.loginWithCode(code);
 
-            const snackBar = SnackBar(
-              content: Text('Hello BABY!'),
-            );
-
-// Find the ScaffoldMessenger in the widget tree
-// and use it to show a SnackBar.
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
             router.navigate(
                 const EventMainRoute(children: [EventProgramRoute()]));
           } catch (e) {
-            e;
+            final snackBar = SnackBar(
+              content: Text(e.toString()),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         child: const Icon(Icons.qr_code),

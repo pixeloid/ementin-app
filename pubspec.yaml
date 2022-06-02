@@ -54,6 +54,9 @@ dependencies:
   get_it: ^7.2.0
   flutter_countdown_timer: ^4.1.0
   onesignal_flutter: ^3.0.0
+  stacked_services: ^0.8.22+1
+  injectable: ^1.5.3
+  freezed: 1.1.1
 
 
 flutter_intl:
