@@ -1,10 +1,10 @@
 import 'package:eventapp/models/program_presentation_model.dart';
 import 'package:eventapp/models/program_section_model.dart';
-import 'package:eventapp/models/rect_tween.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -53,21 +53,67 @@ class ProgramItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loggedIn = Provider.of<AuthProvider>(context, listen: false).isAuth;
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        PageRouteBuilder(
-          transitionDuration: const Duration(seconds: 2),
-          pageBuilder: (_, __, ___) => Screen_2(),
+    return Column(
+      children: [
+        const SizedBox(
+          height: 8,
         ),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          Container(
+        ProgramHero(
+          presentation: presentation,
+          showBody: false,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                fullscreenDialog: true,
+                builder: (BuildContext context) {
+                  return Scaffold(
+                    body: Container(
+                      // The blue background emphasizes that it's a new route.
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 32, horizontal: 16),
+                      alignment: Alignment.topLeft,
+                      child: ProgramHero(
+                        presentation: presentation,
+                        showBody: true,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ProgramHero extends StatelessWidget {
+  final ProgramPresentationModel presentation;
+  final VoidCallback onTap;
+  final bool showBody;
+
+  const ProgramHero(
+      {Key? key,
+      required this.presentation,
+      required this.onTap,
+      required this.showBody})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final loggedIn = Provider.of<AuthProvider>(context, listen: false).isAuth;
+
+    return Hero(
+      tag: presentation.iri,
+      child: Material(
+        type: MaterialType.transparency,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
@@ -115,10 +161,17 @@ class ProgramItem extends StatelessWidget {
                         : Container(),
                   ],
                 ),
+                if (showBody && presentation.body != null)
+                  Expanded(
+                      child: SingleChildScrollView(
+                    child: Html(
+                      data: presentation.body,
+                    ),
+                  )),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -226,14 +279,8 @@ class ProgramSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                section.start.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              Text(
-                "${section.duration.inMinutes} perc",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+              Text('${section.start.toString()}-${section.end.toString()}',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
             ],
           ),
           const SizedBox(
@@ -245,7 +292,7 @@ class ProgramSection extends StatelessWidget {
               Flexible(
                 child: Text(
                   section.name,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: TextStyle(fontWeight: FontWeight.w600),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 4,
                 ),
@@ -269,95 +316,5 @@ class ProgramSection extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class Screen_2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Custom Animation'),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.navigate_before,
-            ),
-          ),
-        ),
-      ),
-      body: Container(
-        color: Colors.white,
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: CustomAnimation(
-            size: 25,
-            icons: 5,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomAnimation extends StatelessWidget {
-  final icons;
-  final double size;
-
-  const CustomAnimation({
-    this.icons,
-    required this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(5, (index) {
-          return Hero(
-            tag: 'ratingStar$index',
-            createRectTween: (begin, end) {
-              return _createRectTween(begin!, end!, index);
-            },
-            child: Icon(
-              index < icons ? Icons.adjust : Icons.adjust,
-              color: Colors.blue,
-              size: size,
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  static RectTween _createRectTween(Rect begin, Rect end, int index) {
-    switch (index) {
-      case 0:
-//        easeOutExpo
-        return CustomRectTween(
-            begin: begin, end: end, cubic: Cubic(0.19, 1.0, 0.22, 1.0));
-      case 1:
-//        easeOutQuint
-        return CustomRectTween(
-            begin: begin, end: end, cubic: Cubic(0.23, 1.0, 0.32, 1.0));
-      case 2:
-//        easeOutQuart
-        return CustomRectTween(
-            begin: begin, end: end, cubic: Cubic(0.165, 0.84, 0.44, 1.0));
-      case 3:
-//        easeOutCubic
-        return CustomRectTween(
-            begin: begin, end: end, cubic: Cubic(0.215, 0.61, 0.355, 1.0));
-      default:
-//        easeOutQuad
-        return CustomRectTween(
-            begin: begin, end: end, cubic: Cubic(0.25, 0.46, 0.45, 0.94));
-    }
   }
 }

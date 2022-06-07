@@ -36,7 +36,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final LocaleProvider localeProvider = context.watch<LocaleProvider>();
-    final AppTheme appTheme = context.theme();
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
@@ -52,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           GlobalWidgetsLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        theme: appTheme.buildThemeData(context),
+        theme: AppTheme.fromType(ThemeType.ementin).themeData,
       ),
     );
   }

@@ -17,8 +17,6 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var text = Theme.of(context).textTheme;
-
     return Consumer<EventProvider>(
       builder: (context, eventProvider, child) {
         return Card(
@@ -46,7 +44,7 @@ class EventCard extends StatelessWidget {
                     color: const Color.fromRGBO(255, 255, 255, 1),
                     border: event.checkedIn
                         ? Border.all(
-                            color: Color.fromARGB(255, 2, 171, 30),
+                            color: const Color.fromARGB(255, 2, 171, 30),
                             width: 4,
                           )
                         : Border.all(
@@ -84,7 +82,6 @@ class EventCard extends StatelessWidget {
                             horizontal: 16, vertical: 16),
                         decoration: const BoxDecoration(),
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             if (event.image != null)
                               Container(
@@ -111,35 +108,38 @@ class EventCard extends StatelessWidget {
                                 ),
                               ),
                             const SizedBox(height: 13),
-                            Container(
-                              decoration: const BoxDecoration(),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 0, vertical: 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    event.name.toUpperCase(),
-                                    textAlign: TextAlign.left,
-                                    maxLines: 2,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1!,
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        event.name.toUpperCase(),
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16,
+                                          letterSpacing: -.5,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        event.name,
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(55, 65, 81, 1),
+                                          fontSize: 12,
+                                          height: 1.4,
+                                          letterSpacing:
+                                              0 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 10),
-                                  const Text(
-                                    'XX. Jubileumi Fiatal Gyermekgyógyászok Konferenciája',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(55, 65, 81, 1),
-                                      fontSize: 12,
-                                      height: 1.4,
-                                      letterSpacing:
-                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                )
+                              ],
                             ),
                             if (event.deadline != null ||
                                 event.abstractDeadline != null)
@@ -169,22 +169,18 @@ class EventCard extends StatelessWidget {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   Text(
-                                                    'KEDVezményes REGISZTRÁCIÓ HATÁRIDEJE:'
-                                                        .toUpperCase(),
-                                                    textAlign: TextAlign.center,
-                                                    maxLines: 2,
-                                                    style: const TextStyle(
-                                                        color: const Color
-                                                                .fromRGBO(
+                                                      'KEDVezményes REGISZTRÁCIÓ HATÁRIDEJE:'
+                                                          .toUpperCase(),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      maxLines: 2,
+                                                      style: const TextStyle(
+                                                        color: Color.fromRGBO(
                                                             55, 65, 81, 1),
                                                         fontSize: 9,
                                                         letterSpacing:
                                                             0 /*percentages not used in flutter. defaulting to zero*/,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        height:
-                                                            1.7777777777777777),
-                                                  ),
+                                                      )),
                                                   const SizedBox(height: 4),
                                                   Text(
                                                     event.deadline
@@ -192,16 +188,13 @@ class EventCard extends StatelessWidget {
                                                         .toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            31, 41, 55, 1),
-                                                        fontSize: 14,
-                                                        letterSpacing:
-                                                            0 /*percentages not used in flutter. defaulting to zero*/,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height:
-                                                            1.4285714285714286),
+                                                      color: Color.fromRGBO(
+                                                          31, 41, 55, 1),
+                                                      fontSize: 14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -240,8 +233,7 @@ class EventCard extends StatelessWidget {
                                                     textAlign: TextAlign.center,
                                                     maxLines: 2,
                                                     style: const TextStyle(
-                                                        color: const Color
-                                                                .fromRGBO(
+                                                        color: Color.fromRGBO(
                                                             31, 41, 55, 1),
                                                         fontSize: 14,
                                                         letterSpacing:

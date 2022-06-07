@@ -5,6 +5,7 @@ import 'package:eventapp/pages/event/main/event_info_page.dart';
 import 'package:eventapp/pages/favourites_page.dart';
 import 'package:eventapp/pages/main/main_page.dart';
 import 'package:eventapp/pages/profile_page.dart';
+import 'package:eventapp/pages/registration_details_page.dart';
 
 import '../pages/event/main/event_program_page.dart';
 import '../pages/event/event_main_page.dart';
@@ -40,6 +41,10 @@ import '../pages/event_list_page.dart';
         AutoRoute(
           path: 'favourtes',
           page: FavouritesPage,
+        ),
+        AutoRoute(
+          path: 'registration-details',
+          page: RegistrationDetailsPage,
         ),
         AutoRoute(
           path: 'profile',

@@ -23,9 +23,9 @@ class DioInterceptor extends Interceptor {
   // }
 
   @override
-  void onError(DioError e, ErrorInterceptorHandler handler) async {
-    if (e.response != null) {
-      if (e.response!.statusCode == 401) {
+  void onError(DioError err, ErrorInterceptorHandler handler) async {
+    if (err.response != null) {
+      if (err.response!.statusCode == 401) {
         try {
           await refreshToken();
         } catch (err) {
@@ -34,13 +34,11 @@ class DioInterceptor extends Interceptor {
         }
       }
     }
-    super.onError(e, handler);
+    super.onError(err, handler);
   }
 
   refreshToken() async {
-    Response response;
     AuthProvider repository = getIt.get<AuthProvider>();
-    var dio = Dio();
     var refreshToken = _prefsLocator.getRefreshToken();
 
     if (refreshToken == null) {
@@ -48,6 +46,6 @@ class DioInterceptor extends Interceptor {
       //
     }
 
-    final token = await repository.refreshToken(refreshToken);
+    await repository.refreshToken(refreshToken);
   }
 }

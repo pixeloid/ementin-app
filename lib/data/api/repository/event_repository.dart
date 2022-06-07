@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 
-import '../api_result.dart';
 import '../network_exceptions.dart';
 
 class EventRepository {

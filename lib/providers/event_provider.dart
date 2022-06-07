@@ -58,7 +58,7 @@ class EventProvider extends ChangeNotifierSafety {
 
   checkIn(String code) async {
     try {
-      final result = await _eventRepository.checkIn(selectedEvent!.id, code);
+      await _eventRepository.checkIn(selectedEvent!.id, code);
 
       selectedEvent?.checkedIn = true;
       notifyListeners();

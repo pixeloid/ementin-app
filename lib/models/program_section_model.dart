@@ -5,9 +5,10 @@ class ProgramSectionModel {
   final String iri;
   final int id;
   final String name;
-  final List<ProgramPresentationModel> presentations;
+  List<ProgramPresentationModel> presentations = [];
   Duration duration;
   String start;
+  String end;
 
   ProgramSectionModel({
     required this.id,
@@ -15,6 +16,7 @@ class ProgramSectionModel {
     required this.duration,
     required this.name,
     required this.start,
+    required this.end,
     required this.presentations,
   });
 
@@ -22,12 +24,15 @@ class ProgramSectionModel {
       ProgramSectionModel(
         id: json['id'],
         iri: json['@id'],
-        name: json['name'] as String,
-        start: DateFormat('Hm').format(DateTime.parse(json['start'])),
-        duration: DateTime.parse(json['end'])
-            .difference(DateTime.parse(json['start'])),
-        presentations: (json['presentations'] as List)
-            .map((p) => ProgramPresentationModel.fromJson(p))
-            .toList(),
+        name: json['title'] as String,
+        start: DateFormat('Hm').format(DateTime.parse(json['from'])),
+        end: DateFormat('Hm').format(DateTime.parse(json['to'])),
+        duration:
+            DateTime.parse(json['to']).difference(DateTime.parse(json['from'])),
+        presentations: json['children'] != null
+            ? (json['children'] as List)
+                .map((p) => ProgramPresentationModel.fromJson(p))
+                .toList()
+            : [],
       );
 }

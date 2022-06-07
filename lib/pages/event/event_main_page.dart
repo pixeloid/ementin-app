@@ -31,13 +31,41 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const TabBar(
-                      tabs: [
-                        Tab(text: 'Program'),
-                        Tab(text: 'Info'),
-                      ],
-                      indicatorColor: Color(0xFFf172ac),
-                      indicatorWeight: 3,
+                    Container(
+                      decoration: const BoxDecoration(color: Color(0xFFE5EAF0)),
+                      child: TabBar(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        unselectedLabelColor: Colors.black54,
+                        isScrollable: true,
+                        indicatorWeight: 1,
+                        labelPadding: EdgeInsets.symmetric(horizontal: 16),
+                        labelColor: Theme.of(context).colorScheme.primary,
+                        indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            shape: BoxShape.rectangle),
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          height: 1,
+                          fontSize: 14,
+                        ),
+                        tabs: const [
+                          Tab(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Program"),
+                            ),
+                          ),
+                          Tab(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Info"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Container(

@@ -41,36 +41,6 @@ class AuthPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 20.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
-                      // ..translate(-10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
-                      child: Text(
-                        'MyShop',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.headline1?.color,
-                          fontSize: 50,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
                     child: const AuthCard(),
                   ),
@@ -250,8 +220,8 @@ class _AuthCardState extends State<AuthCard> {
                   const CircularProgressIndicator()
                 else
                   ElevatedButton(
-                    child:
-                        Text(_authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'),
+                    child: Text(
+                        _authMode == AuthMode.login ? 'BELÉPÉS' : 'SIGN UP'),
                     onPressed: _submit,
                   ),
                 TextButton(

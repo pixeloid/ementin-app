@@ -49,5 +49,12 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Your location is required for Ementin benefits for you</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Your location is required for Ementin benefits for you</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+
 </dict>
 </plist>

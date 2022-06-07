@@ -22,9 +22,9 @@ class MainPage extends StatelessWidget {
     return AutoTabsScaffold(
       routes: [
         const EventMainRoute(),
-        const CheckInRoute(),
+        !isCheckedIn! ? const CheckInRoute() : const RegistrationDetailsRoute(),
         const FavouritesRoute(),
-        isLoggedIn ? const ProfileRoute() : const AuthRoute(),
+        //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         final numFavourites =
@@ -50,15 +50,23 @@ class MainPage extends StatelessWidget {
                   tabsRouter.setActiveIndex(0);
                 },
               ),
-              if (isCheckedIn != null && !isCheckedIn)
-                BottomNavItem(
-                  index: 1,
-                  label: 'Check-in',
-                  icon: Icons.qr_code_2,
-                  onNavTap: () {
-                    tabsRouter.setActiveIndex(1);
-                  },
-                ),
+              !isCheckedIn
+                  ? BottomNavItem(
+                      index: 1,
+                      label: 'Check-in',
+                      icon: Icons.qr_code_2,
+                      onNavTap: () {
+                        tabsRouter.setActiveIndex(1);
+                      },
+                    )
+                  : BottomNavItem(
+                      index: 1,
+                      label: 'Regisztrációm',
+                      icon: Icons.list_alt_rounded,
+                      onNavTap: () {
+                        tabsRouter.setActiveIndex(1);
+                      },
+                    ),
               if (isLoggedIn)
                 BottomNavItem(
                   index: 2,
@@ -69,14 +77,15 @@ class MainPage extends StatelessWidget {
                     tabsRouter.setActiveIndex(2);
                   },
                 ),
-              BottomNavItem(
-                index: 3,
-                label: isLoggedIn ? 'Profilom' : 'Belépés',
-                icon: isLoggedIn ? Icons.person_sharp : Icons.login_sharp,
-                onNavTap: () {
-                  tabsRouter.setActiveIndex(3);
-                },
-              ),
+              if (isLoggedIn)
+                BottomNavItem(
+                  index: 3,
+                  label: 'Kilépés',
+                  icon: Icons.logout_sharp,
+                  onNavTap: () {
+                    authProvider.logout();
+                  },
+                ),
             ],
           ),
         );
@@ -138,7 +147,11 @@ class BottomNavItem extends StatelessWidget {
               children: [
                 badgeText != null && badgeText != '0'
                     ? Badge(
-                        badgeContent: Text(badgeText!),
+                        badgeColor: Color(0xFFDB2777),
+                        badgeContent: Text(
+                          badgeText!,
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
                         child: Icon(
                           icon,
                           size: 30,

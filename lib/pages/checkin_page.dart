@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:dio/dio.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
@@ -17,6 +16,7 @@ class CheckInPage extends StatefulWidget {
 
 class _CheckInPageState extends State<CheckInPage> {
   Barcode? result;
+  bool isLoading = false;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -39,54 +39,61 @@ class _CheckInPageState extends State<CheckInPage> {
     }
   }
 
-  void readQr() async {
+  @override
+  Widget build(BuildContext context) {
+    final eventProvider = Provider.of<EventProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+
     if (result != null) {
       controller!.pauseCamera();
       controller!.dispose();
+      _checkIn(eventProvider, result!.code ?? '', authProvider, context);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    readQr();
-
-    final eventProvider = Provider.of<EventProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context);
-    final router = AutoTabsRouter.of(context);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          const code = 'dbdc6c23abee1a55a41f8ecfc094e024';
-
-          try {
-            await eventProvider.checkIn(code);
-            await authProvider.loginWithCode(code);
-
-            router.navigate(
-                const EventMainRoute(children: [EventProgramRoute()]));
-          } catch (e) {
-            final snackBar = SnackBar(
-              content: Text(e.toString()),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-        },
-        child: const Icon(Icons.qr_code),
-        backgroundColor: Colors.green,
-      ),
-      body: QRView(
-        key: qrKey,
-        onQRViewCreated: _onQRViewCreated,
-        overlay: QrScannerOverlayShape(
-          borderColor: Colors.orange,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: 250,
-        ),
-      ),
+      body: (isLoading)
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Colors.orange,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: 250,
+              ),
+            ),
     );
+  }
+
+  Future<void> _checkIn(EventProvider eventProvider, String code,
+      AuthProvider authProvider, BuildContext context) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await eventProvider.checkIn(code);
+      await authProvider.loginWithCode(code);
+      final router = AutoTabsRouter.of(context);
+      router.navigate(const EventMainRoute(children: [EventProgramRoute()]));
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      const snackBar = SnackBar(
+        content: Text('Sikertelen check-in'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      setState(() {
+        isLoading = false;
+        result = null;
+      });
+    }
   }
 
   @override

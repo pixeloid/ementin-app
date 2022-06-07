@@ -28,29 +28,37 @@ class EventListPage extends StatelessWidget {
               isShowBackButton: false,
             ),
             FutureBuilder(
-              builder: (ctx, snapshot) =>
-                  snapshot.connectionState == ConnectionState.waiting
-                      ? Center(
-                          child: CupertinoActivityIndicator(
-                          radius: 16.SP,
-                        ))
-                      : Consumer<EventProvider>(
-                          builder: (context, eventProvider, index) {
-                          var eventList = eventProvider.events;
-                          return Expanded(
-                            child: RefreshIndicator(
-                              onRefresh: () => _getEvents(context),
-                              child: ListView.builder(
-                                padding: EdgeInsets.only(left: 16, right: 16),
-                                shrinkWrap: true,
-                                itemCount: eventList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return EventCard(event: eventList[index]);
-                                },
-                              ),
+              builder: (ctx, snapshot) => snapshot.connectionState ==
+                      ConnectionState.waiting
+                  ? Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : Consumer<EventProvider>(
+                      builder: (context, eventProvider, index) {
+                        var eventList = eventProvider.events;
+                        return Expanded(
+                          child: RefreshIndicator(
+                            onRefresh: () => _getEvents(context),
+                            child: ListView.separated(
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(
+                                  height: 16,
+                                );
+                              },
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              itemCount: eventList.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return EventCard(event: eventList[index]);
+                              },
                             ),
-                          );
-                        }),
+                          ),
+                        );
+                      },
+                    ),
               future: _getEvents(context),
             ),
           ],
