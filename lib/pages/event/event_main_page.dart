@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/pages/event/main/event_info_page.dart';
 import 'package:eventapp/pages/event/main/event_program_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../providers/event_provider.dart';
 import '../../utils/widgets/w_header.dart';
@@ -27,19 +27,20 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
             ),
             Expanded(
               child: DefaultTabController(
-                length: 2,
+                length: eventProvider.eventDays.length,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Container(
                       decoration: const BoxDecoration(color: Color(0xFFE5EAF0)),
                       child: TabBar(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         unselectedLabelColor: Colors.black54,
                         isScrollable: true,
                         indicatorWeight: 1,
-                        labelPadding: EdgeInsets.symmetric(horizontal: 16),
+                        labelPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         labelColor: Theme.of(context).colorScheme.primary,
                         indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -51,20 +52,16 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
                           height: 1,
                           fontSize: 14,
                         ),
-                        tabs: const [
-                          Tab(
+                        tabs: eventProvider.eventDays.map((day) {
+                          return Tab(
                             child: Align(
                               alignment: Alignment.center,
-                              child: Text("Program"),
+                              child: Text(DateFormat('EEEE', 'hu')
+                                  .format(day)
+                                  .toUpperCase()),
                             ),
-                          ),
-                          Tab(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("Info"),
-                            ),
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ),
                     Expanded(
@@ -73,11 +70,10 @@ class EventMainPage extends StatelessWidget with HeaderDelegate {
                             border: Border(
                                 top: BorderSide(
                                     color: Colors.grey, width: 0.5))),
-                        child: const TabBarView(
-                          children: [
-                            EventProgramPage(),
-                            EventInfoPage(),
-                          ],
+                        child: TabBarView(
+                          children: eventProvider.eventDays.map((day) {
+                            return EventProgramPage(date: day);
+                          }).toList(),
                         ),
                       ),
                     ),

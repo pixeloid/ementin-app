@@ -67,8 +67,10 @@ class AppRouter extends _i11.RootStackRouter {
           routeData: routeData, child: const _i9.EventInfoPage());
     },
     EventProgramRoute.name: (routeData) {
+      final args = routeData.argsAs<EventProgramRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.EventProgramPage());
+          routeData: routeData,
+          child: _i10.EventProgramPage(key: args.key, date: args.date));
     }
   };
 
@@ -177,8 +179,23 @@ class EventInfoRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.EventProgramPage]
-class EventProgramRoute extends _i11.PageRouteInfo<void> {
-  const EventProgramRoute() : super(EventProgramRoute.name, path: 'program');
+class EventProgramRoute extends _i11.PageRouteInfo<EventProgramRouteArgs> {
+  EventProgramRoute({_i12.Key? key, required DateTime date})
+      : super(EventProgramRoute.name,
+            path: 'program', args: EventProgramRouteArgs(key: key, date: date));
 
   static const String name = 'EventProgramRoute';
+}
+
+class EventProgramRouteArgs {
+  const EventProgramRouteArgs({this.key, required this.date});
+
+  final _i12.Key? key;
+
+  final DateTime date;
+
+  @override
+  String toString() {
+    return 'EventProgramRouteArgs{key: $key, date: $date}';
+  }
 }

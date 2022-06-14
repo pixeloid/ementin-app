@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eventapp/utils/other/dynamic_size.dart';
 import 'package:eventapp/app_define/app_assets.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 mixin HeaderDelegate {
   void onBack(BuildContext context);
@@ -47,7 +45,7 @@ class WHeader extends StatelessWidget with DynamicSize {
           child: Column(
             children: <Widget>[
               Container(
-                height: 20.h,
+                height: 10.h,
               ),
               Container(
                 child: Row(
@@ -56,7 +54,6 @@ class WHeader extends StatelessWidget with DynamicSize {
                   children: <Widget>[
                     SizedBox(
                       width: 28.w,
-                      height: 18.h,
                       child: isShowBackButton == true
                           ? InkWell(
                               onTap: () {
@@ -81,24 +78,24 @@ class WHeader extends StatelessWidget with DynamicSize {
                     ),
                     SizedBox(
                       width: 28.w,
-                      height: 18.h,
                     )
                   ],
                 ),
               ),
               Container(
-                height: 70.h,
+                padding: EdgeInsets.symmetric(vertical: 16),
                 child: Row(
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         title!.toUpperCase(),
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            letterSpacing: -.5,
-                            color: Color(0xFF315565)),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          height: 1.2,
+                          letterSpacing: -.5,
+                          color: Color(0xFF315565),
+                        ),
                       ),
                     ),
                   ],

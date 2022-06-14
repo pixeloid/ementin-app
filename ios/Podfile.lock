@@ -4,10 +4,19 @@ PODS:
     - ReachabilitySwift
   - Flutter (1.0.0)
   - MTBBarcodeScanner (5.0.11)
-  - onesignal_flutter (3.3.0):
+  - onesignal_flutter (3.3.1):
     - Flutter
-    - OneSignalXCFramework (= 3.10.1)
-  - OneSignalXCFramework (3.10.1)
+    - OneSignalXCFramework (= 3.11.1)
+  - OneSignalXCFramework (3.11.1):
+    - OneSignalXCFramework/OneSignalCore (= 3.11.1)
+    - OneSignalXCFramework/OneSignalExtension (= 3.11.1)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.1)
+  - OneSignalXCFramework/OneSignalCore (3.11.1)
+  - OneSignalXCFramework/OneSignalExtension (3.11.1):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.11.1):
+    - OneSignalXCFramework/OneSignalCore
   - path_provider_ios (0.0.1):
     - Flutter
   - permission_handler_apple (9.0.4):
@@ -17,6 +26,8 @@ PODS:
     - MTBBarcodeScanner
   - ReachabilitySwift (5.0.0)
   - shared_preferences_ios (0.0.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
@@ -28,6 +39,7 @@ DEPENDENCIES:
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -50,18 +62,21 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/qr_code_scanner/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
-  onesignal_flutter: a89207b9d7e97cc9d7d12bcfb4a25f62aedc445b
-  OneSignalXCFramework: fe027712118f2862ab193b72270487f11450ea63
+  onesignal_flutter: 8f17fbc764b033117d2c878db635c3cd4911ff04
+  OneSignalXCFramework: 8bdcaa3b7f6082565bf29c5481435376a33e94f2
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
 PODFILE CHECKSUM: f910e06c51f037f0cf65b4180cb1b1abf4b99ae1
 

@@ -31,8 +31,8 @@ class MainPage extends StatelessWidget {
             Provider.of<ProgramProvider>(context).favourites.length.toString();
 
         return Container(
-          height: 90,
-          padding: const EdgeInsets.only(bottom: 20),
+          height: 80,
+          padding: const EdgeInsets.only(bottom: 10),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -45,7 +45,7 @@ class MainPage extends StatelessWidget {
               BottomNavItem(
                 index: 0,
                 icon: Icons.home_rounded,
-                label: 'Részletek',
+                label: 'Program',
                 onNavTap: () {
                   tabsRouter.setActiveIndex(0);
                 },

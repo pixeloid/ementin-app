@@ -15,6 +15,8 @@ class EventProvider extends ChangeNotifierSafety {
   int? _selectedEventId;
 
   List<EventModel> get events => _events;
+  List<DateTime> get eventDays =>
+      getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
   set events(List<EventModel> value) {
     _events = value;
@@ -43,6 +45,7 @@ class EventProvider extends ChangeNotifierSafety {
   Future getEvents() async {
     events = await _eventRepository.getEvents();
     isLoading = false;
+    notifyListeners();
   }
 
   @override
@@ -65,5 +68,13 @@ class EventProvider extends ChangeNotifierSafety {
     } catch (_) {
       rethrow;
     }
+  }
+
+  List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {
+    List<DateTime> days = [];
+    for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
+      days.add(startDate.add(Duration(days: i)));
+    }
+    return days;
   }
 }

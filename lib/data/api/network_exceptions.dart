@@ -57,23 +57,17 @@ abstract class NetworkExceptions with _$NetworkExceptions {
       case 403:
         return NetworkExceptions.unauthorizedRequest(
             errorModel?.statusMessage ?? "Not found");
-        break;
       case 404:
         return NetworkExceptions.notFound(
             errorModel?.statusMessage ?? "Not found");
-        break;
       case 409:
         return NetworkExceptions.conflict();
-        break;
       case 408:
         return NetworkExceptions.requestTimeout();
-        break;
       case 500:
         return NetworkExceptions.internalServerError(errorModel!.description);
-        break;
       case 503:
         return NetworkExceptions.serviceUnavailable();
-        break;
       default:
         var responseCode = statusCode;
         return NetworkExceptions.defaultError(

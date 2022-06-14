@@ -17,11 +17,6 @@ mixin DynamicSize {
     ScreenUtil.init(
       context,
       designSize: const Size(375, 812),
-      deviceSize: Size(
-        MediaQuery.of(context).size.width,
-        MediaQuery.of(context).size.height,
-      ),
-      orientation: Orientation.portrait,
     );
   }
 }

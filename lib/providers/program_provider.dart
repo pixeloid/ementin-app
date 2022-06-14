@@ -1,25 +1,28 @@
 import 'dart:convert';
 
 import 'package:eventapp/data/api/repository/program_repository.dart';
-import 'package:eventapp/models/program_presentation_model.dart';
-import 'package:eventapp/models/program_section_model.dart';
+import 'package:eventapp/models/program_item_model.dart';
+import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
+import 'package:collection/collection.dart';
 
 class ProgramProvider extends ChangeNotifierSafety {
   ProgramProvider(this._programRepository);
 
   late final ProgramRepository _programRepository;
 
-  List<ProgramSectionModel> _programSections = [];
+  List<ProgramItemModel> _programItems = [];
 
-  List<ProgramSectionModel> get programSections => _programSections;
+  List<ProgramItemModel> get programItems => _programItems;
 
-  get numItems => _programSections.length;
+  get numItems => _programItems.length;
 
   get favourites {
     var result = [];
-    for (var section in _programSections) {
-      var prezik = section.presentations
+    for (var item in _programItems) {
+      if (item.isLiked != null) result.add(item);
+
+      var prezik = item.children
           .where((presentation) => presentation.isLiked != null)
           .toList();
       for (var prezi in prezik) {
@@ -29,8 +32,8 @@ class ProgramProvider extends ChangeNotifierSafety {
     return result;
   }
 
-  set programSections(List<ProgramSectionModel> value) {
-    _programSections = value;
+  set programItems(List<ProgramItemModel> value) {
+    _programItems = value;
     notifyListeners();
   }
 
@@ -43,23 +46,25 @@ class ProgramProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 
-  ProgramSectionModel get activeProgram => _programSections[2];
+  ProgramItemModel get activeProgram => _programItems[2];
 
   /// Get Tickets
-  Future<void> getProgram(int eventId) async {
-    final result = await _programRepository.getProgram(eventId);
-    programSections = result;
+  Future<void> getProgram(int eventId, {DateTime? date}) async {
+    final result = await _programRepository.getProgram(eventId, date);
+    programItems = result;
     isLoading = false;
   }
 
   @override
   void resetState() {
     _isLoading = false;
-    _programSections = [];
+    _programItems = [];
   }
 
-  Future<void> toggleLike(id) async {
-    var programPresentation = findPresentationById(id);
+  Future<void> toggleLike(ProgramItemModel presentation) async {
+    var programPresentation = findPresentation(presentation);
+    if (programPresentation == null) return null;
+
     var oldLike = programPresentation.isLiked;
     programPresentation.toggleLike();
     notifyListeners();
@@ -79,10 +84,39 @@ class ProgramProvider extends ChangeNotifierSafety {
     }
   }
 
-  ProgramPresentationModel findPresentationById(id) {
-    return _programSections
-        .expand((programSection) => programSection.presentations)
+  ProgramItemModel? findPresentation(ProgramItemModel programItem) {
+    ProgramItemModel? item = _programItems.firstWhereOrNull(
+        (ProgramItemModel element) =>
+            element.id == programItem.id && element.type == programItem.type);
+
+    if (item != null) return item;
+    item = _programItems
+        .expand((programItem) => programItem.children)
         .toList()
-        .firstWhere((element) => element.id == id);
+        .firstWhereOrNull((element) =>
+            element.id == programItem.id && element.type == programItem.type);
+
+    return item;
+  }
+
+  rate(ProgramItemModel program, double val) async {
+    var programPresentation = findPresentation(program);
+
+    if (programPresentation == null) return null;
+
+    final prevRate = programPresentation.rateValue;
+
+    try {
+      programPresentation.rateValue = val;
+      notifyListeners();
+
+      final rateJson = (programPresentation.rate == null)
+          ? await _programRepository.addRate(val, programPresentation)
+          : await _programRepository.updateRate(val, programPresentation);
+      programPresentation.rate =
+          ProgramPresentationRateModel.fromJson(rateJson);
+    } catch (error) {
+      programPresentation.rateValue = prevRate;
+    }
   }
 }

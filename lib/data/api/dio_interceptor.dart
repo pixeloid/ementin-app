@@ -13,7 +13,11 @@ class DioInterceptor extends Interceptor {
       options.headers['Authorization'] =
           'Bearer ${_prefsLocator.getUserToken()}';
     }
-    // options.headers['accept'] = 'application/json';
+    if (options.method == 'PATCH') {
+      options.headers['content-type'] =
+          'application/merge-patch+json; charset=utf-8';
+    }
+
     super.onRequest(options, handler);
   }
 

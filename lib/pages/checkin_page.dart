@@ -51,6 +51,38 @@ class _CheckInPageState extends State<CheckInPage> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          const code = '762badf95becc95d22a2a950ba280d9c';
+          setState(() {
+            isLoading = true;
+          });
+
+          try {
+            await eventProvider.checkIn(code);
+            await authProvider.loginWithCode(code);
+
+            setState(() {
+              isLoading = false;
+            });
+
+            final router = AutoTabsRouter.of(context);
+
+            //   eventProvider.getEvents();
+
+            router.navigate(EventMainRoute(children: [
+              EventProgramRoute(date: eventProvider.eventDays.first)
+            ]));
+          } catch (e) {
+            final snackBar = SnackBar(
+              content: Text(e.toString()),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        child: const Icon(Icons.qr_code),
+        backgroundColor: Colors.green,
+      ),
       body: (isLoading)
           ? const Center(
               child: CircularProgressIndicator(),
@@ -79,7 +111,6 @@ class _CheckInPageState extends State<CheckInPage> {
       await eventProvider.checkIn(code);
       await authProvider.loginWithCode(code);
       final router = AutoTabsRouter.of(context);
-      router.navigate(const EventMainRoute(children: [EventProgramRoute()]));
       setState(() {
         isLoading = false;
       });

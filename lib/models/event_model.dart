@@ -14,10 +14,11 @@ class EventModel {
   final String? deadline;
   final String? abstractDeadline;
   final EventRegistrationModel? eventRegistration;
-
   final String daterange;
-
   final bool isInProgress;
+  final List<AdModel> ads;
+  final DateTime startDate;
+  final DateTime endDate;
 
   EventModel({
     required this.id,
@@ -34,6 +35,9 @@ class EventModel {
     this.eventRegistration,
     required this.daterange,
     required this.isInProgress,
+    required this.ads,
+    required this.startDate,
+    required this.endDate,
   });
 
   factory EventModel.fromJson(json) {
@@ -42,25 +46,31 @@ class EventModel {
       iri: json['@id'],
       name: json['name'] as String,
       checkedIn: json['checkedIn'],
-      end: DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['end'])),
+      end:
+          DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
+      endDate: DateTime.parse(json['end']),
+      startDate: DateTime.parse(json['start']),
       venue: json['venue'],
       image: json['image'],
       address: json['venueAddress'] ?? '',
       eventRegistration: json['eventRegistration'] != null
-          ? EventRegistrationModel?.fromJson(json['eventRegistration'])
+          ? EventRegistrationModel?.fromJson(
+              json['eventRegistration'] as Map<String, dynamic>)
           : null,
       deadline: json['deadline'] != null
-          ? DateFormat('yyyy. MMMM d.').format(DateTime.parse(json['deadline']))
+          ? DateFormat('yyyy. MMMM d.', 'hu')
+              .format(DateTime.parse(json['deadline']))
           : null,
       abstractDeadline: json['abstractDeadline'] != null
-          ? DateFormat('yyyy. MMMM d.')
+          ? DateFormat('yyyy. MMMM d.', 'hu')
               .format(DateTime.parse(json['abstractDeadline']))
           : null,
-      daterange:
-          DateFormat('yyyy. MMMM d').format(DateTime.parse(json['start'])) +
-              DateFormat('-d.').format(DateTime.parse(json['end'])),
+      daterange: DateFormat('yyyy. MMMM d', 'hu')
+              .format(DateTime.parse(json['start'])) +
+          DateFormat('-d.', 'hu').format(DateTime.parse(json['end'])),
       isInProgress: json['isInProgress'] ?? false,
+      ads: (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList(),
     );
   }
 
@@ -68,4 +78,24 @@ class EventModel {
         "name": name,
         "id": id,
       };
+}
+
+class AdModel {
+  final String image;
+  final String? url;
+  final int id;
+
+  AdModel({
+    required this.id,
+    required this.image,
+    this.url,
+  });
+
+  factory AdModel.fromJson(json) {
+    return AdModel(
+      id: json['id'],
+      image: json['image'],
+      url: json['url'].isNotEmpty ? json['url'] : null,
+    );
+  }
 }
