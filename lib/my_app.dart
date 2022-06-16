@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app_define/app_route.gr.dart';
 import 'data/api/repository/event_repository.dart';
 import 'providers/program_provider.dart';
@@ -35,6 +35,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    OneSignal.shared.setAppId('37356181-bc89-4053-9944-446bdf13d90a');
+
     final LocaleProvider localeProvider = context.watch<LocaleProvider>();
 
     return ScreenUtilInit(

@@ -33,7 +33,6 @@ class EventProgramPage extends StatelessWidget {
 
     selectedEvent!.ads.shuffle();
     final ad = selectedEvent.ads.isNotEmpty ? selectedEvent.ads.first : null;
-
     return FutureBuilder(
       future: _refreshProgram(context),
       builder: (ctx, snapshot) => snapshot.connectionState ==
@@ -42,114 +41,120 @@ class EventProgramPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             )
           : Consumer<ProgramProvider>(
-              builder: (ctx, programData, _) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: const BoxDecoration(color: Color(0xFFFcFcFc)),
-                child: ListView.separated(
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 8,
-                    );
-                  },
-                  padding: const EdgeInsets.only(top: 16),
-                  itemCount: programData.numItems +
-                      (isCheckedIn! && ad != null ? 1 : 0),
-                  itemBuilder: (_, i) {
-                    var item = programData.programItems[i];
+              builder: (ctx, programData, _) {
+                final count =
+                    programData.numItems + (isCheckedIn! && ad != null ? 1 : 0);
 
-                    if (i == 0 && isCheckedIn && ad != null) {
-                      return GestureDetector(
-                        onTap: () => ad.url != null ? _openUrl(ad.url) : null,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                              bottomLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(8),
-                            ),
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 4 / 1,
-                            child: Image(
-                              image: NetworkImage(
-                                  "https://home.ementin.hu${ad.image}"),
-                            ),
-                          ),
-                        ),
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: const BoxDecoration(color: Color(0xFFFcFcFc)),
+                  child: ListView.separated(
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 8,
                       );
-                    }
+                    },
+                    padding: const EdgeInsets.only(top: 16),
+                    itemCount: count,
+                    itemBuilder: (_, i) {
+                      if (i >= programData.numItems) return Container();
+                      var item = programData.programItems[i];
 
-                    return item.children.isEmpty
-                        ? ProgramItem(
-                            presentation: item,
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
+                      if (i == 0 && isCheckedIn && ad != null) {
+                        return GestureDetector(
+                          onTap: () => ad.url != null ? _openUrl(ad.url) : null,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8),
                                 topRight: Radius.circular(8),
                                 bottomLeft: Radius.circular(8),
                                 bottomRight: Radius.circular(8),
                               ),
-                              color: const Color.fromRGBO(255, 255, 255, 1),
-                              border: Border.all(
-                                color: const Color.fromRGBO(243, 244, 246, 1),
-                                width: 1,
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 4 / 1,
+                              child: Image(
+                                image: NetworkImage(
+                                    "https://home.ementin.hu${ad.image}"),
                               ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ProgramHeaderSimple(
-                                  time:
-                                      '${item.start.toString()}-${item.end.toString()}',
-                                  title: item.title,
+                          ),
+                        );
+                      }
+
+                      return item.children.isEmpty
+                          ? ProgramItem(
+                              presentation: item,
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                  bottomLeft: Radius.circular(8),
+                                  bottomRight: Radius.circular(8),
                                 ),
-                                if (item.chairs != null)
-                                  Text(
-                                    'Üléselnök: ${item.chairs}',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                      color: Color(0xFF554577),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.2,
-                                    ),
+                                color: const Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: const Color.fromRGBO(243, 244, 246, 1),
+                                  width: 1,
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ProgramHeaderSimple(
+                                    time:
+                                        '${item.start.toString()}-${item.end.toString()}',
+                                    title: item.title,
                                   ),
-                                if (item.children.isNotEmpty)
-                                  Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 8,
+                                  if (item.chairs != null)
+                                    Text(
+                                      'Üléselnök: ${item.chairs}',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                        color: Color(0xFF554577),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 1.2,
                                       ),
-                                      ListView.separated(
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return SizedBox(
-                                            height: 12,
-                                          );
-                                        },
-                                        itemCount: item.children.length,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (_, i) {
-                                          return ProgramItem(
-                                            presentation: item.children[i],
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  )
-                              ],
-                            ));
-                  },
-                ),
-              ),
+                                    ),
+                                  if (item.children.isNotEmpty)
+                                    Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        ListView.separated(
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return SizedBox(
+                                              height: 12,
+                                            );
+                                          },
+                                          itemCount: item.children.length,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (_, i) {
+                                            return ProgramItem(
+                                              presentation: item.children[i],
+                                            );
+                                          },
+                                        )
+                                      ],
+                                    )
+                                ],
+                              ));
+                    },
+                  ),
+                );
+              },
             ),
     );
   }
