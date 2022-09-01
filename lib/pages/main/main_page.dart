@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/pages/poll/poll.dart';
 import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/providers/poll_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,79 +19,98 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);
     var eventProvider = Provider.of<EventProvider>(context);
+    final pollProvider = Provider.of<PollProvider>(context, listen: false);
+    pollProvider.subscribe();
+    pollProvider.getPollSession();
     final isLoggedIn = authProvider.isAuth;
     final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
-    return AutoTabsScaffold(
-      routes: [
-        const EventMainRoute(),
-        !isCheckedIn! ? const CheckInRoute() : const RegistrationDetailsRoute(),
-        const FavouritesRoute(),
-        //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
-      ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        final numFavourites =
-            Provider.of<ProgramProvider>(context).favourites.length.toString();
+    return Consumer<PollProvider>(
+      builder: (_, pollProvider, __) => Scaffold(
+        body: Stack(
+          children: [
+            AutoTabsScaffold(
+              routes: [
+                const EventMainRoute(),
+                !isCheckedIn!
+                    ? const CheckInRoute()
+                    : const RegistrationDetailsRoute(),
+                const FavouritesRoute(),
+                //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
+              ],
+              bottomNavigationBuilder: (_, tabsRouter) {
+                final numFavourites = Provider.of<ProgramProvider>(context)
+                    .favourites
+                    .length
+                    .toString();
 
-        return Container(
-          height: 80,
-          padding: const EdgeInsets.only(bottom: 10),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xFFF4F2FA), Color(0xFFF6EFF8)]),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BottomNavItem(
-                index: 0,
-                icon: Icons.home_rounded,
-                label: 'Program',
-                onNavTap: () {
-                  tabsRouter.setActiveIndex(0);
-                },
-              ),
-              !isCheckedIn
-                  ? BottomNavItem(
-                      index: 1,
-                      label: 'Check-in',
-                      icon: Icons.qr_code_2,
-                      onNavTap: () {
-                        tabsRouter.setActiveIndex(1);
-                      },
-                    )
-                  : BottomNavItem(
-                      index: 1,
-                      label: 'Regisztrációm',
-                      icon: Icons.list_alt_rounded,
-                      onNavTap: () {
-                        tabsRouter.setActiveIndex(1);
-                      },
-                    ),
-              if (isLoggedIn)
-                BottomNavItem(
-                  index: 2,
-                  icon: Icons.favorite_outline_sharp,
-                  label: 'Kedvencek',
-                  badgeText: numFavourites,
-                  onNavTap: () {
-                    tabsRouter.setActiveIndex(2);
-                  },
-                ),
-              if (isLoggedIn)
-                BottomNavItem(
-                  index: 3,
-                  label: 'Kilépés',
-                  icon: Icons.logout_sharp,
-                  onNavTap: () {
-                    authProvider.logout();
-                  },
-                ),
-            ],
-          ),
-        );
-      },
+                return Container(
+                  height: 80,
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[Color(0xFFF4F2FA), Color(0xFFF6EFF8)]),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      BottomNavItem(
+                        index: 0,
+                        icon: Icons.home_rounded,
+                        label: 'Program',
+                        onNavTap: () {
+                          tabsRouter.setActiveIndex(0);
+                        },
+                      ),
+                      !isCheckedIn
+                          ? BottomNavItem(
+                              index: 1,
+                              label: 'Check-in',
+                              icon: Icons.qr_code_2,
+                              onNavTap: () {
+                                tabsRouter.setActiveIndex(1);
+                              },
+                            )
+                          : BottomNavItem(
+                              index: 1,
+                              label: 'Regisztrációm',
+                              icon: Icons.list_alt_rounded,
+                              onNavTap: () {
+                                tabsRouter.setActiveIndex(1);
+                              },
+                            ),
+                      if (isLoggedIn)
+                        BottomNavItem(
+                          index: 2,
+                          icon: Icons.favorite_outline_sharp,
+                          label: 'Kedvencek',
+                          badgeText: numFavourites,
+                          onNavTap: () {
+                            tabsRouter.setActiveIndex(2);
+                          },
+                        ),
+                      if (isLoggedIn)
+                        BottomNavItem(
+                          index: 3,
+                          label: 'Kilépés',
+                          icon: Icons.logout_sharp,
+                          onNavTap: () {
+                            authProvider.logout();
+                          },
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            if (pollProvider.poll != null)
+              Dialog(
+                child: Poll(poll: pollProvider.poll, key: UniqueKey()),
+              )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -147,10 +168,11 @@ class BottomNavItem extends StatelessWidget {
               children: [
                 badgeText != null && badgeText != '0'
                     ? Badge(
-                        badgeColor: Color(0xFFDB2777),
+                        badgeColor: const Color(0xFFDB2777),
                         badgeContent: Text(
                           badgeText!,
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                         ),
                         child: Icon(
                           icon,

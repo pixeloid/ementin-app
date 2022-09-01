@@ -6,6 +6,7 @@ import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:eventapp/app_define/app_config.dart';
 
 class CheckInPage extends StatefulWidget {
   const CheckInPage({Key? key}) : super(key: key);
@@ -49,40 +50,43 @@ class _CheckInPageState extends State<CheckInPage> {
       controller!.dispose();
       _checkIn(eventProvider, result!.code ?? '', authProvider, context);
     }
+    AppConfig.shared.env;
 
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     const code = '762badf95becc95d22a2a950ba280d9c';
-      //     setState(() {
-      //       isLoading = true;
-      //     });
+      floatingActionButton: AppConfig.shared.env!.isProd
+          ? null
+          : FloatingActionButton(
+              onPressed: () async {
+                const code = 'cdf77b03dee14670470476721bf0778b';
+                setState(() {
+                  isLoading = true;
+                });
 
-      //     try {
-      //       await eventProvider.checkIn(code);
-      //       await authProvider.loginWithCode(code);
+                try {
+                  await eventProvider.checkIn(code);
+                  await authProvider.loginWithCode(code);
 
-      //       setState(() {
-      //         isLoading = false;
-      //       });
+                  setState(() {
+                    isLoading = false;
+                  });
 
-      //       final router = AutoTabsRouter.of(context);
+                  final router = AutoTabsRouter.of(context);
 
-      //       //   eventProvider.getEvents();
+                  //   eventProvider.getEvents();
 
-      //       router.navigate(EventMainRoute(children: [
-      //         EventProgramRoute(date: eventProvider.eventDays.first)
-      //       ]));
-      //     } catch (e) {
-      //       final snackBar = SnackBar(
-      //         content: Text(e.toString()),
-      //       );
-      //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      //     }
-      //   },
-      //   child: const Icon(Icons.qr_code),
-      //   backgroundColor: Colors.green,
-      // ),
+                  router.navigate(EventMainRoute(children: [
+                    EventProgramRoute(date: eventProvider.eventDays.first)
+                  ]));
+                } catch (e) {
+                  final snackBar = SnackBar(
+                    content: Text(e.toString()),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+              child: const Icon(Icons.qr_code),
+              backgroundColor: Colors.green,
+            ),
       body: (isLoading)
           ? const Center(
               child: CircularProgressIndicator(),
@@ -110,7 +114,6 @@ class _CheckInPageState extends State<CheckInPage> {
     try {
       await eventProvider.checkIn(code);
       await authProvider.loginWithCode(code);
-      final router = AutoTabsRouter.of(context);
       setState(() {
         isLoading = false;
       });

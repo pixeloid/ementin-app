@@ -8,7 +8,7 @@ class EventRegistrationModel {
   final String city;
   final String? accommodation;
   final String? room;
-  final tickets;
+  final List<TicketModel> tickets;
   final String? checkin;
   final String? checkout;
 
@@ -35,7 +35,7 @@ class EventRegistrationModel {
       lastname: json['lastname'],
       city: json['city'],
       tickets: tickets != null
-          ? tickets.map((p) => TicketModel.fromJson(p)).toList()
+          ? List<TicketModel>.from(tickets.map((p) => TicketModel.fromJson(p)))
           : [],
       accommodation: json['accommodation'],
       room: json['room'],

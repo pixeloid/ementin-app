@@ -7,6 +7,7 @@ extension ProductionEnvironment on Environment {
         graphQLEndPoint: 'https://home.ementin.hu/api/graphql',
         restEndPoint: 'https://home.ementin.hu/api',
         googleApiKey: '',
-        websocketEndpoint: 'http://192.168.0.59:3000/.well-known/mercure');
+        websocketEndpoint: 'https://mercure.ementin.hu/.well-known/mercure',
+        isProd: true);
   }
 }

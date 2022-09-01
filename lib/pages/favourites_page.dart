@@ -22,7 +22,7 @@ class FavouritesPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: const BoxDecoration(color: Color(0xFFFcFcFc)),
             child: ListView.separated(
-              padding: EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 16),
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(
                   height: 8,
@@ -30,11 +30,9 @@ class FavouritesPage extends StatelessWidget {
               },
               itemCount: favourites.length,
               itemBuilder: (_, i) {
-                return Container(
-                  child: ProgramItem(
-                    presentation: favourites[i],
-                    prefix: 'likes-',
-                  ),
+                return ProgramItem(
+                  presentation: favourites[i],
+                  prefix: 'likes-',
                 );
               },
             ),

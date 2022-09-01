@@ -37,7 +37,7 @@ class ProgramItemHero extends StatelessWidget {
         .checkedIn;
 
     return Hero(
-      tag: '${prefix}${presentation.iri}',
+      tag: '$prefix${presentation.iri}',
       child: Material(
         type: MaterialType.transparency,
         child: GestureDetector(
@@ -53,7 +53,7 @@ class ProgramItemHero extends StatelessWidget {
               color: const Color(0xFFF4F6FA),
               border: presentation.body != null
                   ? Border.all(
-                      color: Color.fromARGB(255, 227, 227, 227),
+                      color: const Color.fromARGB(255, 227, 227, 227),
                       width: 1,
                     )
                   : null,
@@ -255,7 +255,7 @@ class ProgramItemFullHero extends StatelessWidget {
                 if (presentation.body != null)
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [

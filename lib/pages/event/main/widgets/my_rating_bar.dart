@@ -6,7 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class MyRatingBar extends StatelessWidget {
-  final value;
+  final  value;
   final ProgramItemModel presentation;
 
   const MyRatingBar({
@@ -24,15 +24,15 @@ class MyRatingBar extends StatelessWidget {
           Provider.of<ProgramProvider>(context, listen: false)
               .rate(presentation, val),
       ratingWidget: RatingWidget(
-        full: Icon(
+        full: const Icon(
           PhosphorIcons.star_fill,
           color: Colors.amber,
         ),
-        half: Icon(
+        half: const Icon(
           PhosphorIcons.star_half,
           color: Colors.amber,
         ),
-        empty: Icon(
+        empty: const Icon(
           PhosphorIcons.star,
           color: Colors.amber,
         ),

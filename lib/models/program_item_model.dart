@@ -76,7 +76,7 @@ class ProgramItemModel {
               .map((p) => AuthorModel.fromJson(p))
               .toList()
           : [],
-      chairs: json['chairs'] ?? null,
+      chairs: json['chairs'],
     );
   }
 

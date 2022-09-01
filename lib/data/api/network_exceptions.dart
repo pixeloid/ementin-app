@@ -37,7 +37,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
   const factory NetworkExceptions.formatException() = FormatException;
 
-  const factory NetworkExceptions.unableToProcess() = UnableToProcess;
+  const factory NetworkExceptions.unableToProcess(String error) =
+      UnableToProcess;
 
   const factory NetworkExceptions.defaultError(String error) = DefaultError;
 
@@ -61,13 +62,16 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         return NetworkExceptions.notFound(
             errorModel?.statusMessage ?? "Not found");
       case 409:
-        return NetworkExceptions.conflict();
+        return const NetworkExceptions.conflict();
+      case 422:
+        return NetworkExceptions.unableToProcess(
+            errorModel?.description ?? "Hiba a feldolgozás közben");
       case 408:
-        return NetworkExceptions.requestTimeout();
+        return const NetworkExceptions.requestTimeout();
       case 500:
         return NetworkExceptions.internalServerError(errorModel!.description);
       case 503:
-        return NetworkExceptions.serviceUnavailable();
+        return const NetworkExceptions.serviceUnavailable();
       default:
         var responseCode = statusCode;
         return NetworkExceptions.defaultError(
@@ -83,41 +87,42 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         if (error is DioError) {
           switch (error.type) {
             case DioErrorType.cancel:
-              networkExceptions = NetworkExceptions.requestCancelled();
+              networkExceptions = const NetworkExceptions.requestCancelled();
               break;
             case DioErrorType.connectTimeout:
-              networkExceptions = NetworkExceptions.requestTimeout();
+              networkExceptions = const NetworkExceptions.requestTimeout();
               break;
             case DioErrorType.other:
-              networkExceptions = NetworkExceptions.noInternetConnection();
+              networkExceptions =
+                  const NetworkExceptions.noInternetConnection();
               break;
             case DioErrorType.receiveTimeout:
-              networkExceptions = NetworkExceptions.sendTimeout();
+              networkExceptions = const NetworkExceptions.sendTimeout();
               break;
             case DioErrorType.response:
               networkExceptions =
                   NetworkExceptions.handleResponse(error.response);
               break;
             case DioErrorType.sendTimeout:
-              networkExceptions = NetworkExceptions.sendTimeout();
+              networkExceptions = const NetworkExceptions.sendTimeout();
               break;
           }
         } else if (error is SocketException) {
-          networkExceptions = NetworkExceptions.noInternetConnection();
+          networkExceptions = const NetworkExceptions.noInternetConnection();
         } else {
-          networkExceptions = NetworkExceptions.unexpectedError();
+          networkExceptions = const NetworkExceptions.unexpectedError();
         }
         return networkExceptions;
       } on FormatException catch (_) {
-        return NetworkExceptions.formatException();
+        return const NetworkExceptions.formatException();
       } catch (_) {
-        return NetworkExceptions.unexpectedError();
+        return const NetworkExceptions.unexpectedError();
       }
     } else {
       if (error.toString().contains("is not a subtype of")) {
-        return NetworkExceptions.unableToProcess();
+        return NetworkExceptions.unableToProcess(error.toString());
       } else {
-        return NetworkExceptions.unexpectedError();
+        return const NetworkExceptions.unexpectedError();
       }
     }
   }
@@ -150,8 +155,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
       errorMessage = "Error due to a conflict";
     }, sendTimeout: () {
       errorMessage = "Send timeout in connection with API server";
-    }, unableToProcess: () {
-      errorMessage = "Unable to process the data";
+    }, unableToProcess: (String error) {
+      errorMessage = error;
     }, defaultError: (String error) {
       errorMessage = error;
     }, formatException: () {

@@ -10,6 +10,7 @@ class EventModel {
   final String end;
   final String venue;
   final String address;
+  final String domain;
   final String? image;
   final String? deadline;
   final String? abstractDeadline;
@@ -27,6 +28,7 @@ class EventModel {
     required this.end,
     required this.venue,
     required this.address,
+    required this.domain,
     this.image,
     required this.name,
     required this.checkedIn,
@@ -45,6 +47,7 @@ class EventModel {
       id: json['id'],
       iri: json['@id'],
       name: json['name'] as String,
+      domain: json['domain'] as String,
       checkedIn: json['checkedIn'],
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),

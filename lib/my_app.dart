@@ -1,7 +1,9 @@
 import 'package:eventapp/data/api/repository/auth_repository.dart';
+import 'package:eventapp/data/api/repository/poll_repository.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/locale_provider.dart';
+import 'package:eventapp/providers/poll_provider.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -33,9 +35,38 @@ class _MyAppState extends State<MyApp> {
 
   final _appRouter = AppRouter();
 
+  Future<void> initOneSignal(BuildContext context) async {
+    /// Set App Id.
+    await OneSignal.shared.setAppId('37356181-bc89-4053-9944-446bdf13d90a');
+
+    /// Get the Onesignal userId and update that into the firebase.
+    /// So, that it can be used to send Notifications to users later.̥
+    final status = await OneSignal.shared.getDeviceState();
+    final String? osUserID = status?.userId;
+    // ignore: avoid_print
+    print('Player ID: $osUserID');
+    // We will update this once he logged in and goes to dashboard.
+    ////updateUserProfile(osUserID);
+    // Store it into shared prefs, So that later we can use it.
+    //Preferences.setOnesignalUserId(osUserID);
+
+    // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    await OneSignal.shared.promptUserForPushNotificationPermission(
+      fallbackToSettings: true,
+    );
+
+    /// Calls when foreground notification arrives.
+    // OneSignal.shared.setNotificationWillShowInForegroundHandler(
+    //   handleForegroundNotifications,
+    // );
+
+    // /// Calls when the notification opens the app.
+    // OneSignal.shared.setNotificationOpenedHandler(handleBackgroundNotification);
+  }
+
   @override
   Widget build(BuildContext context) {
-    OneSignal.shared.setAppId('37356181-bc89-4053-9944-446bdf13d90a');
+    initOneSignal(context);
 
     final LocaleProvider localeProvider = context.watch<LocaleProvider>();
 
@@ -88,6 +119,9 @@ Future<void> myMain() async {
     Provider<ProgramRepository>(
       create: (_) => ProgramRepository(),
     ),
+    Provider<PollRepository>(
+      create: (_) => PollRepository(),
+    ),
     ChangeNotifierProvider<EventProvider>(
       create: (BuildContext context) => EventProvider(
         context.read<EventRepository>(),
@@ -95,6 +129,12 @@ Future<void> myMain() async {
     ),
     ChangeNotifierProvider<AppThemeProvider>(
       create: (_) => AppThemeProvider(),
+    ),
+    ChangeNotifierProxyProvider<EventProvider, PollProvider>(
+      update: (context, eventProvider, previousPollProvider) =>
+          PollProvider(context.read<PollRepository>(), eventProvider),
+      create: (BuildContext context) =>
+          PollProvider(context.read<PollRepository>(), null),
     ),
     ChangeNotifierProvider<AuthProvider>(
       create: (BuildContext context) => AuthProvider(

@@ -63,7 +63,7 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   Future<void> toggleLike(ProgramItemModel presentation) async {
     var programPresentation = findPresentation(presentation);
-    if (programPresentation == null) return null;
+    if (programPresentation == null) return;
 
     var oldLike = programPresentation.isLiked;
     programPresentation.toggleLike();

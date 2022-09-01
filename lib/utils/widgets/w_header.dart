@@ -47,43 +47,41 @@ class WHeader extends StatelessWidget with DynamicSize {
               Container(
                 height: 10.h,
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 28.w,
-                      child: isShowBackButton == true
-                          ? InkWell(
-                              onTap: () {
-                                if (delegate != null) {
-                                  delegate?.onBack(context);
-                                } else {
-                                  //    context.navigator()?.pop();
-                                }
-                              },
-                              child: Image.asset(
-                                AppAssets.origin().icBack,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )
-                          : null,
-                    ),
-                    SizedBox(
-                      width: 32.w,
-                      height: 32.h,
-                      child: Image.asset(
-                          'assets/app/icons/ementin_logo_circle.png'),
-                    ),
-                    SizedBox(
-                      width: 28.w,
-                    )
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: 28.w,
+                    child: isShowBackButton == true
+                        ? InkWell(
+                            onTap: () {
+                              if (delegate != null) {
+                                delegate?.onBack(context);
+                              } else {
+                                //    context.navigator()?.pop();
+                              }
+                            },
+                            child: Image.asset(
+                              AppAssets.origin().icBack,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                        : null,
+                  ),
+                  SizedBox(
+                    width: 32.w,
+                    height: 32.h,
+                    child: Image.asset(
+                        'assets/app/icons/ementin_logo_circle.png'),
+                  ),
+                  SizedBox(
+                    width: 28.w,
+                  )
+                ],
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Row(
                   children: [
                     Expanded(
