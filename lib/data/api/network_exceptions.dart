@@ -49,6 +49,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
     try {
       errorModel = ErrorModel.fromJson(response?.data, response?.statusCode);
+      // ignore: empty_catches
     } catch (e) {}
 
     int statusCode = response?.statusCode ?? 0;

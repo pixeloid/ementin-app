@@ -34,7 +34,6 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   set programItems(List<ProgramItemModel> value) {
     _programItems = value;
-    notifyListeners();
   }
 
   /// Loading state
@@ -43,7 +42,6 @@ class ProgramProvider extends ChangeNotifierSafety {
   bool get isLoading => _isLoading;
   set isLoading(bool value) {
     _isLoading = value;
-    notifyListeners();
   }
 
   ProgramItemModel get activeProgram => _programItems[2];
@@ -53,6 +51,7 @@ class ProgramProvider extends ChangeNotifierSafety {
     final result = await _programRepository.getProgram(eventId, date);
     programItems = result;
     isLoading = false;
+    notifyListeners();
   }
 
   @override

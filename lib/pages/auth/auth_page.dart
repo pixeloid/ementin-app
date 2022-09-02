@@ -71,7 +71,7 @@ class AuthCard extends StatefulWidget {
   const AuthCard({Key? key}) : super(key: key);
 
   @override
-  _AuthCardState createState() => _AuthCardState();
+  State<AuthCard> createState() => _AuthCardState();
 }
 
 class _AuthCardState extends State<AuthCard> {
@@ -218,14 +218,14 @@ class _AuthCardState extends State<AuthCard> {
                   const CircularProgressIndicator()
                 else
                   ElevatedButton(
+                    onPressed: _submit,
                     child: Text(
                         _authMode == AuthMode.login ? 'BELÉPÉS' : 'SIGN UP'),
-                    onPressed: _submit,
                   ),
                 TextButton(
+                  onPressed: _switchAuthMode,
                   child: Text(
                       '${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
-                  onPressed: _switchAuthMode,
                 ),
               ],
             ),

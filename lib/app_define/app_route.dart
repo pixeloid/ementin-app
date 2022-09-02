@@ -51,12 +51,12 @@ import '../pages/event_list_page.dart';
           page: ProfilePage,
         ),
         AutoRoute(
-          path: 'check-in',
-          page: CheckInPage,
-        ),
-        AutoRoute(
           path: 'auth',
           page: AuthPage,
+        ),
+        AutoRoute(
+          path: 'check-in',
+          page: CheckInPage,
         ),
       ],
     ),

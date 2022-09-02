@@ -26,17 +26,20 @@ class EventRegistrationModel {
   });
 
   factory EventRegistrationModel.fromJson(Map<String, dynamic> json) {
-    final tickets = (json['tickets']);
-
+    final t = json['tickets'] as List;
+    final tickets = t.where(
+      (element) {
+        return element['qty'] > 0;
+      },
+    );
     return EventRegistrationModel(
       id: json['id'],
       iri: json['@id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
       city: json['city'],
-      tickets: tickets != null
-          ? List<TicketModel>.from(tickets.map((p) => TicketModel.fromJson(p)))
-          : [],
+      tickets:
+          List<TicketModel>.from(tickets.map((p) => TicketModel.fromJson(p))),
       accommodation: json['accommodation'],
       room: json['room'],
       checkin: json['checkin'] != null

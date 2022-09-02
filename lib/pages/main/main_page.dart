@@ -31,9 +31,7 @@ class MainPage extends StatelessWidget {
             AutoTabsScaffold(
               routes: [
                 const EventMainRoute(),
-                !isCheckedIn!
-                    ? const CheckInRoute()
-                    : const RegistrationDetailsRoute(),
+                if (isCheckedIn!) const RegistrationDetailsRoute(),
                 const FavouritesRoute(),
                 //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
               ],
@@ -63,23 +61,15 @@ class MainPage extends StatelessWidget {
                           tabsRouter.setActiveIndex(0);
                         },
                       ),
-                      !isCheckedIn
-                          ? BottomNavItem(
-                              index: 1,
-                              label: 'Check-in',
-                              icon: Icons.qr_code_2,
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(1);
-                              },
-                            )
-                          : BottomNavItem(
-                              index: 1,
-                              label: 'Regisztrációm',
-                              icon: Icons.list_alt_rounded,
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(1);
-                              },
-                            ),
+                      if (isLoggedIn && isCheckedIn)
+                        BottomNavItem(
+                          index: 1,
+                          label: 'Regisztrációm',
+                          icon: Icons.list_alt_rounded,
+                          onNavTap: () {
+                            tabsRouter.setActiveIndex(1);
+                          },
+                        ),
                       if (isLoggedIn)
                         BottomNavItem(
                           index: 2,
@@ -96,6 +86,7 @@ class MainPage extends StatelessWidget {
                           label: 'Kilépés',
                           icon: Icons.logout_sharp,
                           onNavTap: () {
+                            tabsRouter.setActiveIndex(0);
                             authProvider.logout();
                           },
                         ),

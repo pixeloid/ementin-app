@@ -20,7 +20,6 @@ class EventProvider extends ChangeNotifierSafety {
 
   set events(List<EventModel> value) {
     _events = value;
-    notifyListeners();
   }
 
   EventModel? get selectedEvent {
@@ -38,7 +37,6 @@ class EventProvider extends ChangeNotifierSafety {
   bool get isLoading => _isLoading;
   set isLoading(bool value) {
     _isLoading = value;
-    notifyListeners();
   }
 
   /// Get Tickets
@@ -53,6 +51,7 @@ class EventProvider extends ChangeNotifierSafety {
     _isLoading = false;
     _events = [];
     _selectedEventId = null;
+    notifyListeners();
   }
 
   getById(String id) {
@@ -64,7 +63,6 @@ class EventProvider extends ChangeNotifierSafety {
       await _eventRepository.checkIn(selectedEvent!.id, code);
 
       selectedEvent?.checkedIn = true;
-      notifyListeners();
     } catch (_) {
       rethrow;
     }

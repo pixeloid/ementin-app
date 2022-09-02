@@ -7,12 +7,12 @@ class GraphQLAPIClient {
   GraphQLClient get client => _client();
 
   GraphQLClient _client() {
-    final HttpLink _httpLink = HttpLink(
+    final HttpLink httpLink = HttpLink(
       AppConfig.shared.env!.graphQLEndPoint,
     );
 
     /// Auth link
-    final AuthLink _authLink = AuthLink(getToken: () async {
+    final AuthLink authLink = AuthLink(getToken: () async {
       final prefs = await SharedPreferences.getInstance();
 
       if (!prefs.containsKey('token')) {
@@ -25,11 +25,11 @@ class GraphQLAPIClient {
         return null;
       }
 
-      return 'Bearer ' + token;
+      return 'Bearer $token';
     });
 
     /// Link
-    final Link _link = _authLink.concat(_httpLink);
+    final Link link = authLink.concat(httpLink);
 
     /// Policies
     /// - Remove cache
@@ -41,7 +41,7 @@ class GraphQLAPIClient {
       cache: GraphQLCache(
         store: InMemoryStore(),
       ),
-      link: _link,
+      link: link,
       defaultPolicies: DefaultPolicies(
         watchQuery: policies,
         query: policies,
@@ -53,13 +53,13 @@ class GraphQLAPIClient {
   /// Start execute
   Future<QueryResult> execute(
       {required String queries, dynamic variables}) async {
-    final WatchQueryOptions _options = WatchQueryOptions(
+    final WatchQueryOptions options = WatchQueryOptions(
       document: gql(queries),
       pollInterval: const Duration(seconds: 15),
       fetchResults: true,
       variables: variables ?? {},
     );
-    return await _client().query(_options);
+    return await _client().query(options);
   }
 
   /// Handle exception

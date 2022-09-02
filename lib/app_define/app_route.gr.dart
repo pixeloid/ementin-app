@@ -10,11 +10,12 @@
 //
 // ignore_for_file: type=lint
 
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i11;
 import 'package:flutter/material.dart' as _i12;
 
-import '../pages/auth/auth_page.dart' as _i8;
-import '../pages/checkin_page.dart' as _i7;
+import '../pages/auth/auth_page.dart' as _i7;
+import '../pages/checkin_page.dart' as _i8;
 import '../pages/event/event_main_page.dart' as _i3;
 import '../pages/event/main/event_info_page.dart' as _i9;
 import '../pages/event/main/event_program_page.dart' as _i10;
@@ -54,13 +55,13 @@ class AppRouter extends _i11.RootStackRouter {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i6.ProfilePage());
     },
-    CheckInRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.CheckInPage());
-    },
     AuthRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i8.AuthPage());
+          routeData: routeData, child: const _i7.AuthPage());
+    },
+    CheckInRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i8.CheckInPage());
     },
     EventInfoRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
@@ -95,9 +96,10 @@ class AppRouter extends _i11.RootStackRouter {
               path: 'registration-details', parent: MainRoute.name),
           _i11.RouteConfig(ProfileRoute.name,
               path: 'profile', parent: MainRoute.name),
+          _i11.RouteConfig(AuthRoute.name,
+              path: 'auth', parent: MainRoute.name),
           _i11.RouteConfig(CheckInRoute.name,
-              path: 'check-in', parent: MainRoute.name),
-          _i11.RouteConfig(AuthRoute.name, path: 'auth', parent: MainRoute.name)
+              path: 'check-in', parent: MainRoute.name)
         ])
       ];
 }
@@ -154,19 +156,19 @@ class ProfileRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.CheckInPage]
-class CheckInRoute extends _i11.PageRouteInfo<void> {
-  const CheckInRoute() : super(CheckInRoute.name, path: 'check-in');
-
-  static const String name = 'CheckInRoute';
-}
-
-/// generated route for
-/// [_i8.AuthPage]
+/// [_i7.AuthPage]
 class AuthRoute extends _i11.PageRouteInfo<void> {
   const AuthRoute() : super(AuthRoute.name, path: 'auth');
 
   static const String name = 'AuthRoute';
+}
+
+/// generated route for
+/// [_i8.CheckInPage]
+class CheckInRoute extends _i11.PageRouteInfo<void> {
+  const CheckInRoute() : super(CheckInRoute.name, path: 'check-in');
+
+  static const String name = 'CheckInRoute';
 }
 
 /// generated route for

@@ -13,6 +13,7 @@ class WHeader extends StatelessWidget with DynamicSize {
       this.title,
       this.bgColor,
       this.isShowBackButton,
+      this.topRight,
       this.delegate})
       : super(key: key);
 
@@ -22,7 +23,7 @@ class WHeader extends StatelessWidget with DynamicSize {
   final Color? bgColor;
   final bool? isShowBackButton;
   final HeaderDelegate? delegate;
-
+  final Widget? topRight;
   //#region BUILD
   //-------------------
   @override
@@ -52,19 +53,22 @@ class WHeader extends StatelessWidget with DynamicSize {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: 28.w,
+                    width: 120.w,
                     child: isShowBackButton == true
-                        ? InkWell(
-                            onTap: () {
-                              if (delegate != null) {
-                                delegate?.onBack(context);
-                              } else {
-                                //    context.navigator()?.pop();
-                              }
-                            },
-                            child: Image.asset(
-                              AppAssets.origin().icBack,
-                              color: Theme.of(context).primaryColor,
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              onTap: () {
+                                if (delegate != null) {
+                                  delegate?.onBack(context);
+                                } else {
+                                  //    context.navigator()?.pop();
+                                }
+                              },
+                              child: Image.asset(
+                                AppAssets.origin().icBack,
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
                           )
                         : null,
@@ -72,11 +76,15 @@ class WHeader extends StatelessWidget with DynamicSize {
                   SizedBox(
                     width: 32.w,
                     height: 32.h,
-                    child: Image.asset(
-                        'assets/app/icons/ementin_logo_circle.png'),
+                    child:
+                        Image.asset('assets/app/icons/ementin_logo_circle.png'),
                   ),
                   SizedBox(
-                    width: 28.w,
+                    width: 120.w,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: topRight,
+                    ),
                   )
                 ],
               ),

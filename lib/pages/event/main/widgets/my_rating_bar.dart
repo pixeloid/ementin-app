@@ -6,12 +6,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class MyRatingBar extends StatelessWidget {
-  final  value;
+  final double value;
   final ProgramItemModel presentation;
 
   const MyRatingBar({
     Key? key,
-    required double this.value,
+    required this.value,
     required this.presentation,
   }) : super(key: key);
 

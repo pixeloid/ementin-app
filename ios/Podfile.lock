@@ -6,18 +6,18 @@ PODS:
   - flutter_local_notifications (0.0.1):
     - Flutter
   - MTBBarcodeScanner (5.0.11)
-  - onesignal_flutter (3.3.1):
+  - onesignal_flutter (3.4.1):
     - Flutter
-    - OneSignalXCFramework (= 3.11.1)
-  - OneSignalXCFramework (3.11.1):
-    - OneSignalXCFramework/OneSignalCore (= 3.11.1)
-    - OneSignalXCFramework/OneSignalExtension (= 3.11.1)
-    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.1)
-  - OneSignalXCFramework/OneSignalCore (3.11.1)
-  - OneSignalXCFramework/OneSignalExtension (3.11.1):
+    - OneSignalXCFramework (= 3.11.2)
+  - OneSignalXCFramework (3.11.2):
+    - OneSignalXCFramework/OneSignalCore (= 3.11.2)
+    - OneSignalXCFramework/OneSignalExtension (= 3.11.2)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.2)
+  - OneSignalXCFramework/OneSignalCore (3.11.2)
+  - OneSignalXCFramework/OneSignalExtension (3.11.2):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOutcomes (3.11.1):
+  - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
     - OneSignalXCFramework/OneSignalCore
   - path_provider_ios (0.0.1):
     - Flutter
@@ -72,11 +72,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
-  onesignal_flutter: 8f17fbc764b033117d2c878db635c3cd4911ff04
-  OneSignalXCFramework: 8bdcaa3b7f6082565bf29c5481435376a33e94f2
+  onesignal_flutter: 02a850e079073e8bd03948f50a2fb9a7918b5db6
+  OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
@@ -84,6 +84,6 @@ SPEC CHECKSUMS:
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
-PODFILE CHECKSUM: f910e06c51f037f0cf65b4180cb1b1abf4b99ae1
+PODFILE CHECKSUM: ed19ff14632a8bb02aa8869d56898a256bf29f86
 
 COCOAPODS: 1.11.3

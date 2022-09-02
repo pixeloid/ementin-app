@@ -53,26 +53,21 @@ class _CheckInPageState extends State<CheckInPage> {
     AppConfig.shared.env;
 
     return Scaffold(
-      floatingActionButton: AppConfig.shared.env!.isProd
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AppConfig.shared.env!.isProd || isLoading
           ? null
-          : FloatingActionButton(
+          : FloatingActionButton.extended(
               onPressed: () async {
-                const code = 'cdf77b03dee14670470476721bf0778b';
+                const code = '7d94f18d3b0dfc076533271871974930';
                 setState(() {
-                  isLoading = true;
+                  // isLoading = true;
                 });
 
                 try {
+                  final router = AutoRouter.of(context);
+
                   await eventProvider.checkIn(code);
                   await authProvider.loginWithCode(code);
-
-                  setState(() {
-                    isLoading = false;
-                  });
-
-                  final router = AutoTabsRouter.of(context);
-
-                  //   eventProvider.getEvents();
 
                   router.navigate(EventMainRoute(children: [
                     EventProgramRoute(date: eventProvider.eventDays.first)
@@ -83,24 +78,44 @@ class _CheckInPageState extends State<CheckInPage> {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
+
+                if (mounted) {
+                  Navigator.pop(context);
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               },
-              child: const Icon(Icons.qr_code),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.primaries.first,
+              label: const Text('Check in'),
+              icon: const Icon(Icons.qr_code),
             ),
       body: (isLoading)
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: Colors.orange,
-                borderRadius: 10,
-                borderLength: 30,
-                borderWidth: 10,
-                cutOutSize: 250,
-              ),
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                FloatingActionButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Dismiss'),
+                ),
+                Expanded(
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                    overlay: QrScannerOverlayShape(
+                      borderColor: Colors.orange,
+                      borderRadius: 10,
+                      borderLength: 30,
+                      borderWidth: 10,
+                      cutOutSize: 250,
+                    ),
+                  ),
+                ),
+              ],
             ),
     );
   }

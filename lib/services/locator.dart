@@ -8,9 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 //
 Future<void> setup() async {
-  final _prefs = await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferenceHelper>(
-    SharedPreferenceHelper(prefs: _prefs),
+    SharedPreferenceHelper(prefs: prefs),
   );
   getIt.registerSingleton<DioClient>(DioClient());
   getIt.registerSingleton<AuthProvider>(AuthProvider(AuthRepository()));
