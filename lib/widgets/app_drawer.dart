@@ -15,7 +15,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text(auth.userId ?? 'Not logged in'),
+            title: const Text('Not logged in'),
             //   automaticallyImplyLeading: false,
           ),
           const Divider(),

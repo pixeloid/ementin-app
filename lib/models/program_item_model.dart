@@ -1,6 +1,5 @@
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/program_presentation_rate_model.dart';
-import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 
 class ProgramItemModel {
@@ -8,9 +7,9 @@ class ProgramItemModel {
   List<ProgramItemModel> children = [];
   Duration duration;
   String title;
-  String start;
+  DateTime start;
   int? isLiked;
-  String end;
+  DateTime end;
   ProgramPresentationRateModel? rate;
   int id;
   String type;
@@ -37,14 +36,16 @@ class ProgramItemModel {
   });
 
   factory ProgramItemModel.fromJson(Map<String, dynamic> json) {
+    DateTime startDate = DateTime.parse(json['from']);
+    DateTime endDate = DateTime.parse(json['to']);
     return ProgramItemModel(
       id: json['id'],
       type: json['@type'],
       iri: json['@id'],
       title: json['title'] as String,
       body: json['body'] as String,
-      start: DateFormat('Hm').format(DateTime.parse(json['from'])),
-      end: DateFormat('Hm').format(DateTime.parse(json['to'])),
+      start: startDate,
+      end: endDate,
       isLiked: (json['presentationFavorites'] != null &&
               json['presentationFavorites'].isNotEmpty)
           ? (json['presentationFavorites'] as List)
@@ -78,6 +79,11 @@ class ProgramItemModel {
           : [],
       chairs: json['chairs'],
     );
+  }
+
+  get inProgress {
+    final now = DateTime.now().toUtc().add(const Duration(hours: 2));
+    return start.isBefore(now) && end.isAfter(now);
   }
 
   void toggleLike() {

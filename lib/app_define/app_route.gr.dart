@@ -14,6 +14,7 @@
 import 'package:auto_route/auto_route.dart' as _i11;
 import 'package:flutter/material.dart' as _i12;
 
+import '../models/program_item_model.dart' as _i13;
 import '../pages/auth/auth_page.dart' as _i7;
 import '../pages/checkin_page.dart' as _i8;
 import '../pages/event/event_main_page.dart' as _i3;
@@ -67,11 +68,11 @@ class AppRouter extends _i11.RootStackRouter {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i9.EventInfoPage());
     },
-    EventProgramRoute.name: (routeData) {
-      final args = routeData.argsAs<EventProgramRouteArgs>();
+    ProgramListRoute.name: (routeData) {
+      final args = routeData.argsAs<ProgramListRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i10.EventProgramPage(key: args.key, date: args.date));
+          child: _i10.ProgramListPage(args.programData, key: args.key));
     }
   };
 
@@ -87,7 +88,7 @@ class AppRouter extends _i11.RootStackRouter {
               children: [
                 _i11.RouteConfig(EventInfoRoute.name,
                     path: 'info', parent: EventMainRoute.name),
-                _i11.RouteConfig(EventProgramRoute.name,
+                _i11.RouteConfig(ProgramListRoute.name,
                     path: 'program', parent: EventMainRoute.name)
               ]),
           _i11.RouteConfig(FavouritesRoute.name,
@@ -180,24 +181,26 @@ class EventInfoRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.EventProgramPage]
-class EventProgramRoute extends _i11.PageRouteInfo<EventProgramRouteArgs> {
-  EventProgramRoute({_i12.Key? key, required DateTime date})
-      : super(EventProgramRoute.name,
-            path: 'program', args: EventProgramRouteArgs(key: key, date: date));
+/// [_i10.ProgramListPage]
+class ProgramListRoute extends _i11.PageRouteInfo<ProgramListRouteArgs> {
+  ProgramListRoute(
+      {required List<_i13.ProgramItemModel> programData, _i12.Key? key})
+      : super(ProgramListRoute.name,
+            path: 'program',
+            args: ProgramListRouteArgs(programData: programData, key: key));
 
-  static const String name = 'EventProgramRoute';
+  static const String name = 'ProgramListRoute';
 }
 
-class EventProgramRouteArgs {
-  const EventProgramRouteArgs({this.key, required this.date});
+class ProgramListRouteArgs {
+  const ProgramListRouteArgs({required this.programData, this.key});
+
+  final List<_i13.ProgramItemModel> programData;
 
   final _i12.Key? key;
 
-  final DateTime date;
-
   @override
   String toString() {
-    return 'EventProgramRouteArgs{key: $key, date: $date}';
+    return 'ProgramListRouteArgs{programData: $programData, key: $key}';
   }
 }

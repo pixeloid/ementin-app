@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -44,6 +45,8 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
+    final programProvider =
+        Provider.of<ProgramProvider>(context, listen: false);
 
     if (result != null) {
       controller!.pauseCamera();
@@ -58,19 +61,21 @@ class _CheckInPageState extends State<CheckInPage> {
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
-                const code = '7d94f18d3b0dfc076533271871974930';
+                const code = 'ec9e5c7e339027514d089acf918e424a';
+                final router = AutoRouter.of(context);
+
                 setState(() {
                   // isLoading = true;
                 });
 
                 try {
-                  final router = AutoRouter.of(context);
-
                   await eventProvider.checkIn(code);
                   await authProvider.loginWithCode(code);
 
                   router.navigate(EventMainRoute(children: [
-                    EventProgramRoute(date: eventProvider.eventDays.first)
+                    ProgramListRoute(
+                        programData: programProvider
+                            .getProgramForDay(eventProvider.eventDays.first))
                   ]));
                 } catch (e) {
                   final snackBar = SnackBar(
@@ -100,7 +105,7 @@ class _CheckInPageState extends State<CheckInPage> {
               children: <Widget>[
                 FloatingActionButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Dismiss'),
+                  child: const Text('Dismiss'),
                 ),
                 Expanded(
                   child: QRView(
@@ -122,25 +127,32 @@ class _CheckInPageState extends State<CheckInPage> {
 
   Future<void> _checkIn(EventProvider eventProvider, String code,
       AuthProvider authProvider, BuildContext context) async {
-    setState(() {
-      isLoading = true;
-    });
+    final router = AutoRouter.of(context);
+    var scaffoldText = const Text('Sikeres bejelentkezés!');
+    setState(() {});
 
     try {
       await eventProvider.checkIn(code);
       await authProvider.loginWithCode(code);
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      const snackBar = SnackBar(
-        content: Text('Sikertelen check-in'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
+      router.navigate(const RegistrationDetailsRoute());
+    } catch (e) {
+      scaffoldText = const Text('Sikertelen bejelentkezés!');
       setState(() {
         isLoading = false;
         result = null;
+      });
+    }
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: scaffoldText,
+      ));
+
+      Navigator.pop(context);
+
+      setState(() {
+        isLoading = false;
       });
     }
   }

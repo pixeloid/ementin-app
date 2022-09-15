@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eventapp/data/api/repository/program_repository.dart';
 import 'package:eventapp/models/program_item_model.dart';
+import 'package:flutter/material.dart';
 import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
@@ -11,15 +12,13 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   late final ProgramRepository _programRepository;
 
-  List<ProgramItemModel> _programItems = [];
+  List<ProgramItemModel> programItems = [];
 
-  List<ProgramItemModel> get programItems => _programItems;
-
-  get numItems => _programItems.length;
+  get numItems => programItems.length;
 
   get favourites {
     var result = [];
-    for (var item in _programItems) {
+    for (var item in programItems) {
       if (item.isLiked != null) result.add(item);
 
       var prezik = item.children
@@ -32,19 +31,13 @@ class ProgramProvider extends ChangeNotifierSafety {
     return result;
   }
 
-  set programItems(List<ProgramItemModel> value) {
-    _programItems = value;
-  }
-
   /// Loading state
-  bool _isLoading = false;
+  bool isLoading = false;
 
-  bool get isLoading => _isLoading;
-  set isLoading(bool value) {
-    _isLoading = value;
-  }
-
-  ProgramItemModel get activeProgram => _programItems[2];
+  get inProgress => programItems.indexWhere((element) {
+        final now = DateTime.now().toUtc().add(const Duration(hours: 2));
+        return element.start.isBefore(now) && element.end.isAfter(now);
+      });
 
   /// Get Tickets
   Future<void> getProgram(int eventId, {DateTime? date}) async {
@@ -56,8 +49,8 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   @override
   void resetState() {
-    _isLoading = false;
-    _programItems = [];
+    isLoading = false;
+    programItems = [];
   }
 
   Future<void> toggleLike(ProgramItemModel presentation) async {
@@ -84,12 +77,12 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   ProgramItemModel? findPresentation(ProgramItemModel programItem) {
-    ProgramItemModel? item = _programItems.firstWhereOrNull(
+    ProgramItemModel? item = programItems.firstWhereOrNull(
         (ProgramItemModel element) =>
             element.id == programItem.id && element.type == programItem.type);
 
     if (item != null) return item;
-    item = _programItems
+    item = programItems
         .expand((programItem) => programItem.children)
         .toList()
         .firstWhereOrNull((element) =>
@@ -117,5 +110,11 @@ class ProgramProvider extends ChangeNotifierSafety {
     } catch (error) {
       programPresentation.rateValue = prevRate;
     }
+  }
+
+  List<ProgramItemModel> getProgramForDay(DateTime day) {
+    return programItems
+        .where((element) => DateUtils.isSameDay(day, element.start))
+        .toList();
   }
 }

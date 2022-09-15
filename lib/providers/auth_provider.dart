@@ -8,7 +8,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../data/api/repository/auth_repository.dart';
 
 class AuthProvider with ChangeNotifier {
-  String? _userId;
   Timer? _authTimer;
   final locator = getIt.get<SharedPreferenceHelper>();
 
@@ -22,10 +21,6 @@ class AuthProvider with ChangeNotifier {
       return !JwtDecoder.isExpired(token);
     }
     return false;
-  }
-
-  String? get userId {
-    return _userId;
   }
 
   Future<void> loginWithCode(String code) async {
@@ -54,11 +49,11 @@ class AuthProvider with ChangeNotifier {
       final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
         _autoLogout();
-        notifyListeners();
       });
-      await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
-        notifyListeners();
-      });
+      await locator
+          .setRefreshToken(refreshToken: refreshToken)
+          .then((value) {});
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
@@ -91,27 +86,8 @@ class AuthProvider with ChangeNotifier {
     return _authenticate(email, password, 'verifyPassword');
   }
 
-  // Future<bool> tryAutoLogin() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   if (!prefs.containsKey('token')) {
-  //     return false;
-  //   }
-
-  //   String? token = prefs.getString('token');
-
-  //   if (JwtDecoder.isExpired(token!)) {
-  //     return false;
-  //   }
-  //   _token = token;
-
-  //   notifyListeners();
-  //   _autoLogout();
-  //   return true;
-  // }
-
   Future<void> logout() async {
     await locator.prefs.clear();
-    _userId = null;
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;

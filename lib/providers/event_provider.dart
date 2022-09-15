@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:eventapp/data/api/repository/event_repository.dart';
 
@@ -10,21 +11,22 @@ class EventProvider extends ChangeNotifierSafety {
 
   late final EventRepository _eventRepository;
 
-  List<EventModel> _events = [];
+  List<EventModel> events = [];
 
   int? _selectedEventId;
-
-  List<EventModel> get events => _events;
   List<DateTime> get eventDays =>
       getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
-  set events(List<EventModel> value) {
-    _events = value;
+  EventModel? get selectedEvent {
+    return events.firstWhere((event) => event.id == _selectedEventId);
   }
 
-  EventModel? get selectedEvent {
-    return _events.firstWhere((event) => event.id == _selectedEventId);
-  }
+  get currentDayIndex => max(
+      eventDays
+          .indexWhere((element) => element.isDateEqual(DateTime.now().toUtc())),
+      0);
+
+  int get currentSectionIndex => 0;
 
   set selectedEventId(int? id) {
     _selectedEventId = id;
@@ -32,12 +34,7 @@ class EventProvider extends ChangeNotifierSafety {
   }
 
   /// Loading state
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-  set isLoading(bool value) {
-    _isLoading = value;
-  }
+  bool isLoading = false;
 
   /// Get Tickets
   Future getEvents() async {
@@ -48,8 +45,8 @@ class EventProvider extends ChangeNotifierSafety {
 
   @override
   void resetState() {
-    _isLoading = false;
-    _events = [];
+    isLoading = false;
+    events = [];
     _selectedEventId = null;
     notifyListeners();
   }
@@ -74,5 +71,11 @@ class EventProvider extends ChangeNotifierSafety {
       days.add(startDate.add(Duration(days: i)));
     }
     return days;
+  }
+}
+
+extension CompareDates on DateTime {
+  bool isDateEqual(DateTime date2) {
+    return year == date2.year && month == date2.month && day == date2.day;
   }
 }

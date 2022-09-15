@@ -34,7 +34,7 @@ import '../pages/event_list_page.dart';
             ),
             AutoRoute(
               path: 'program',
-              page: EventProgramPage,
+              page: ProgramListPage,
             ),
           ],
         ),

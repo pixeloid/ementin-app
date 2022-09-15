@@ -22,13 +22,8 @@ class EventCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               eventProvider.selectedEventId = event.id;
-              AutoRouter.of(context).push(MainRoute(children: [
-                EventMainRoute(
-                  children: [
-                    EventProgramRoute(date: eventProvider.eventDays.first),
-                  ],
-                ),
-              ]));
+              AutoRouter.of(context)
+                  .push(const MainRoute(children: [EventMainRoute()]));
             },
             child: Column(
               children: [
