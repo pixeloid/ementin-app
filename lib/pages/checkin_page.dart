@@ -75,11 +75,8 @@ class _CheckInPageState extends State<CheckInPage> {
                   OneSignal.shared
                       .setExternalUserId(
                           checkIn['eventRegistration']['user']['id'].toString())
-                      .then((results) {
-                    print(results.toString());
-                  }).catchError((error) {
-                    print(error.toString());
-                  });
+                      .then((results) {})
+                      .catchError((error) {});
                   await authProvider.loginWithCode(code);
 
                   router.navigate(EventMainRoute(children: [
