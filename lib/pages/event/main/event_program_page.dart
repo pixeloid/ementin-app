@@ -63,8 +63,7 @@ class _ProgramListPageState extends State<ProgramListPage> {
         itemCount: count,
         itemScrollController: itemController,
         itemBuilder: (_, i) {
-          if (i >= widget.programData.length) return Container();
-          var item = widget.programData[i];
+          //  if (i >= widget.programData.length) return Container();
 
           if (i == 0 && isCheckedIn && ad != null) {
             return GestureDetector(
@@ -87,6 +86,8 @@ class _ProgramListPageState extends State<ProgramListPage> {
               ),
             );
           }
+          var item =
+              widget.programData[i - (isCheckedIn && ad != null ? 1 : 0)];
 
           return item.children.isEmpty
               ? ProgramItem(

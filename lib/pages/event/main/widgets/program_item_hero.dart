@@ -18,7 +18,6 @@ class ProgramItemHero extends StatefulWidget {
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
-  final bool showRatingBar;
 
   final String? prefix;
 
@@ -28,7 +27,6 @@ class ProgramItemHero extends StatefulWidget {
       required this.onTap,
       required this.showBody,
       required this.showLoveButton,
-      required this.showRatingBar,
       this.prefix})
       : super(key: key);
 
@@ -162,7 +160,8 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                         children: [
                           if (author != null) Author(author: author),
                           if (checkedIn &&
-                              widget.presentation.type == 'Presentation')
+                              widget.presentation.type == 'Presentation' &&
+                              widget.presentation.isRatable)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -277,7 +276,6 @@ class ProgramItemFullHero extends StatelessWidget {
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
-  final bool showRatingBar;
 
   const ProgramItemFullHero({
     Key? key,
@@ -285,7 +283,6 @@ class ProgramItemFullHero extends StatelessWidget {
     required this.onTap,
     required this.showBody,
     required this.showLoveButton,
-    required this.showRatingBar,
   }) : super(key: key);
 
   @override
@@ -382,7 +379,7 @@ class ProgramItemFullHero extends StatelessWidget {
                   ),
                 if (checkedIn &&
                     presentation.type == 'Presentation' &&
-                    showRatingBar)
+                    presentation.isRatable)
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.only(top: 8, bottom: 32),

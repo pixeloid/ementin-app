@@ -5,6 +5,7 @@ import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:eventapp/app_define/app_config.dart';
@@ -69,7 +70,16 @@ class _CheckInPageState extends State<CheckInPage> {
                 });
 
                 try {
-                  await eventProvider.checkIn(code);
+                  final checkIn = await eventProvider.checkIn(code);
+
+                  OneSignal.shared
+                      .setExternalUserId(
+                          checkIn['eventRegistration']['user']['id'].toString())
+                      .then((results) {
+                    print(results.toString());
+                  }).catchError((error) {
+                    print(error.toString());
+                  });
                   await authProvider.loginWithCode(code);
 
                   router.navigate(EventMainRoute(children: [
@@ -132,7 +142,10 @@ class _CheckInPageState extends State<CheckInPage> {
     setState(() {});
 
     try {
-      await eventProvider.checkIn(code);
+      final checkIn = await eventProvider.checkIn(code);
+
+      checkIn;
+
       await authProvider.loginWithCode(code);
 
       router.navigate(const RegistrationDetailsRoute());

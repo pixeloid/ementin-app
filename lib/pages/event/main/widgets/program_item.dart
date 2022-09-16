@@ -20,7 +20,6 @@ class ProgramItem extends StatelessWidget {
           showBody: false,
           prefix: prefix,
           showLoveButton: presentation.type == 'Presentation',
-          showRatingBar: false,
           onTap: presentation.body != null
               ? () {
                   Navigator.of(context).push(
@@ -32,7 +31,6 @@ class ProgramItem extends StatelessWidget {
                             presentation: presentation,
                             showBody: true,
                             showLoveButton: presentation.type == 'Presentation',
-                            showRatingBar: presentation.type == 'Presentation',
                             onTap: () {
                               Navigator.of(context).pop();
                             },
