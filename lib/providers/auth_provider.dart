@@ -31,8 +31,8 @@ class AuthProvider with ChangeNotifier {
       final token = response["token"];
       await locator.setUserToken(userToken: token).then((value) {
         _autoLogout();
-        notifyListeners();
       });
+      notifyListeners();
     } catch (error) {
       rethrow;
     }

@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
-import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
@@ -46,8 +45,6 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
-    final programProvider =
-        Provider.of<ProgramProvider>(context, listen: false);
 
     if (result != null) {
       controller!.pauseCamera();
@@ -62,41 +59,8 @@ class _CheckInPageState extends State<CheckInPage> {
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
-                const code = 'ec9e5c7e339027514d089acf918e424a';
-                final router = AutoRouter.of(context);
-
-                setState(() {
-                  // isLoading = true;
-                });
-
-                try {
-                  final checkIn = await eventProvider.checkIn(code);
-
-                  OneSignal.shared
-                      .setExternalUserId(
-                          checkIn['eventRegistration']['user']['id'].toString())
-                      .then((results) {})
-                      .catchError((error) {});
-                  await authProvider.loginWithCode(code);
-
-                  router.navigate(EventMainRoute(children: [
-                    ProgramListRoute(
-                        programData: programProvider
-                            .getProgramForDay(eventProvider.eventDays.first))
-                  ]));
-                } catch (e) {
-                  final snackBar = SnackBar(
-                    content: Text(e.toString()),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-
-                if (mounted) {
-                  Navigator.pop(context);
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
+                const code = 'f8a89e99390c5a69c1052ebed3ed1378';
+                _checkIn(eventProvider, code, authProvider, context);
               },
               backgroundColor: Colors.primaries.first,
               label: const Text('Check in'),
@@ -141,7 +105,11 @@ class _CheckInPageState extends State<CheckInPage> {
     try {
       final checkIn = await eventProvider.checkIn(code);
 
-      checkIn;
+      OneSignal.shared
+          .setExternalUserId(
+              checkIn['eventRegistration']['user']['id'].toString())
+          .then((results) {})
+          .catchError((error) {});
 
       await authProvider.loginWithCode(code);
 
