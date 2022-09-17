@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eventapp/data/api/repository/auth_repository.dart';
 import 'package:eventapp/data/api/repository/poll_repository.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
@@ -5,6 +7,7 @@ import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/locale_provider.dart';
 import 'package:eventapp/providers/poll_provider.dart';
 import 'package:eventapp/services/locator.dart';
+import 'package:eventapp/widgets/internet_not_available.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +16,7 @@ import 'package:eventapp/generated/l10n.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_theme.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -28,12 +32,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _appRouter = AppRouter();
+  late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
+
   @override
   void initState() {
     super.initState();
   }
-
-  final _appRouter = AppRouter();
 
   Future<void> initOneSignal(BuildContext context) async {
     /// Set App Id.
@@ -70,23 +77,34 @@ class _MyAppState extends State<MyApp> {
 
     final LocaleProvider localeProvider = context.watch<LocaleProvider>();
 
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      builder: (BuildContext context, child) => MaterialApp.router(
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
-        locale: localeProvider.locale,
-        supportedLocales: S.delegate.supportedLocales,
-        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.fromType(ThemeType.ementin).themeData,
-      ),
-    );
+    return Provider.of<InternetConnectionStatus>(context) ==
+            InternetConnectionStatus.disconnected
+        ? const Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text('NO NET'),
+          )
+        : ScreenUtilInit(
+            designSize: const Size(360, 690),
+            builder: (BuildContext context, child) => MaterialApp.router(
+              routerDelegate: _appRouter.delegate(),
+              routeInformationParser: _appRouter.defaultRouteParser(),
+              locale: localeProvider.locale,
+              supportedLocales: S.delegate.supportedLocales,
+              localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.fromType(ThemeType.ementin).themeData,
+            ),
+          );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 
@@ -110,6 +128,12 @@ Future<void> myMain() async {
   await setup();
 
   runApp(MultiProvider(providers: <SingleChildWidget>[
+    StreamProvider<InternetConnectionStatus>(
+      initialData: InternetConnectionStatus.disconnected,
+      create: (_) {
+        return InternetConnectionChecker().onStatusChange;
+      },
+    ),
     Provider<EventRepository>(
       create: (_) => EventRepository(),
     ),
