@@ -25,12 +25,19 @@ class _ProgramListPageState extends State<ProgramListPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      final inProgressIndex = widget.programData.indexWhere((element) {
+      var inProgressIndex = widget.programData.indexWhere((element) {
         final now = DateTime.now().toUtc().add(const Duration(hours: 2));
         return element.start.isBefore(now) && element.end.isAfter(now);
       });
+      inProgressIndex = max(inProgressIndex, 0);
       if (inProgressIndex > 0) {
-        scrollToIndex(max(inProgressIndex, 0));
+        inProgressIndex += Provider.of<EventProvider>(context, listen: false)
+                .selectedEvent!
+                .ads
+                .isNotEmpty
+            ? 1
+            : 0;
+        scrollToIndex(inProgressIndex);
       }
     });
     super.initState();
@@ -171,10 +178,8 @@ class _ProgramListPageState extends State<ProgramListPage> {
 
   void scrollToIndex(int index) {
     if (itemController.isAttached) {
-      itemController.scrollTo(
+      itemController.jumpTo(
         index: index,
-        duration: const Duration(milliseconds: 1000),
-        curve: Curves.easeInOutCubic,
       );
     }
   }
