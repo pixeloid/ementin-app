@@ -57,5 +57,21 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLName</key>
+		<string>ementin.hu</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>ementin</string>
+		</array>
+		</dict>
+	</array>
+
 </dict>
 </plist>
