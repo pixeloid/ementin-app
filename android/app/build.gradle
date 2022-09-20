@@ -47,7 +47,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,8 +67,8 @@ android {
         applicationId "com.pixeloid.eventapp"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 19
-        versionName "1.1"
+        versionCode 21
+        versionName "1.2"
         multiDexEnabled true
     }
 
