@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProgramHeaderSimple extends StatelessWidget {
-  final String time;
-
+  final String? time;
   final String title;
 
   const ProgramHeaderSimple({
@@ -17,15 +16,16 @@ class ProgramHeaderSimple extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          time,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF2C2B7A),
-            height: 1.2,
+        if (time != null)
+          Text(
+            time!,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF2C2B7A),
+              height: 1.2,
+            ),
           ),
-        ),
         Text(
           title.toUpperCase(),
           style: const TextStyle(

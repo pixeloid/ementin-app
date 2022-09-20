@@ -17,8 +17,8 @@ class ProgramItemModel {
   String? chairs;
   List<AuthorModel> people;
   double rateValue;
-
   bool isRatable;
+  bool isTimeHidden;
 
   ProgramItemModel({
     required this.id,
@@ -36,52 +36,55 @@ class ProgramItemModel {
     required this.body,
     required this.chairs,
     required this.isRatable,
+    required this.isTimeHidden,
   });
 
   factory ProgramItemModel.fromJson(Map<String, dynamic> json) {
     DateTime startDate = DateTime.parse(json['from']);
     DateTime endDate = DateTime.parse(json['to']);
     return ProgramItemModel(
-        id: json['id'],
-        type: json['@type'],
-        iri: json['@id'],
-        title: json['title'] as String,
-        body: json['body'] as String,
-        start: startDate,
-        end: endDate,
-        isLiked: (json['presentationFavorites'] != null &&
-                json['presentationFavorites'].isNotEmpty)
-            ? (json['presentationFavorites'] as List)
-                .map((e) => e['id'])
-                .firstOrNull
-            : null,
-        rate: (json['presentationRates'] != null &&
-                json['presentationRates'].isNotEmpty)
-            ? (json['presentationRates'] as List)
-                .map((p) => ProgramPresentationRateModel.fromJson(p))
-                .first
-            : null,
-        rateValue: (json['presentationRates'] != null &&
-                json['presentationRates'].isNotEmpty)
-            ? (json['presentationRates'] as List)
-                .map((p) => ProgramPresentationRateModel.fromJson(p))
-                .first
-                .rate
-            : 0,
-        duration:
-            DateTime.parse(json['to']).difference(DateTime.parse(json['from'])),
-        children: json['children'] != null
-            ? (json['children'] as List)
-                .map((p) => ProgramItemModel.fromJson(p))
-                .toList()
-            : [],
-        people: json['people'] != null
-            ? (json['people'] as List)
-                .map((p) => AuthorModel.fromJson(p))
-                .toList()
-            : [],
-        chairs: json['chairs'],
-        isRatable: json['isRatable']);
+      id: json['id'],
+      type: json['@type'],
+      iri: json['@id'],
+      title: json['title'] as String,
+      body: json['body'] as String,
+      start: startDate,
+      end: endDate,
+      isLiked: (json['presentationFavorites'] != null &&
+              json['presentationFavorites'].isNotEmpty)
+          ? (json['presentationFavorites'] as List)
+              .map((e) => e['id'])
+              .firstOrNull
+          : null,
+      rate: (json['presentationRates'] != null &&
+              json['presentationRates'].isNotEmpty)
+          ? (json['presentationRates'] as List)
+              .map((p) => ProgramPresentationRateModel.fromJson(p))
+              .first
+          : null,
+      rateValue: (json['presentationRates'] != null &&
+              json['presentationRates'].isNotEmpty)
+          ? (json['presentationRates'] as List)
+              .map((p) => ProgramPresentationRateModel.fromJson(p))
+              .first
+              .rate
+          : 0,
+      duration:
+          DateTime.parse(json['to']).difference(DateTime.parse(json['from'])),
+      children: json['children'] != null
+          ? (json['children'] as List)
+              .map((p) => ProgramItemModel.fromJson(p))
+              .toList()
+          : [],
+      people: json['people'] != null
+          ? (json['people'] as List)
+              .map((p) => AuthorModel.fromJson(p))
+              .toList()
+          : [],
+      chairs: json['chairs'],
+      isRatable: json['isRatable'],
+      isTimeHidden: json['isTimeHidden'],
+    );
   }
 
   get inProgress {

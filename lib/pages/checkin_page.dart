@@ -56,7 +56,10 @@ class _CheckInPageState extends State<CheckInPage> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AppConfig.shared.env!.isProd || isLoading
-          ? null
+          ? FloatingActionButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Icon(Icons.close),
+            )
           : FloatingActionButton.extended(
               onPressed: () async {
                 const code = 'f8a89e99390c5a69c1052ebed3ed1378';
@@ -74,10 +77,6 @@ class _CheckInPageState extends State<CheckInPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                FloatingActionButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Dismiss'),
-                ),
                 Expanded(
                   child: QRView(
                     key: qrKey,

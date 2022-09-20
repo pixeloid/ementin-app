@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/pages/checkin_page.dart';
-import 'package:eventapp/pages/event/main/event_program_page.dart';
+import 'package:eventapp/pages/event/main/program_list_page.dart';
+import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,8 @@ import 'package:intl/intl.dart';
 import '../../providers/event_provider.dart';
 import '../../utils/widgets/w_header.dart';
 
-class EventMainPage extends StatelessWidget with HeaderDelegate {
-  const EventMainPage({
+class EventProgramPage extends StatelessWidget with HeaderDelegate {
+  const EventProgramPage({
     Key? key,
   }) : super(key: key);
 

@@ -1,7 +1,4 @@
-
-enum CredentialKey {
-  token
-}
+enum CredentialKey { token }
 
 extension CredentialKeyExtension on CredentialKey {
   String getKey() {
@@ -38,10 +35,7 @@ extension TutorialExtension on Tutorial {
   }
 }
 
-enum Identity {
-  front,
-  back
-}
+enum Identity { front, back }
 
 extension IdentityExtension on Identity {
   String title() {

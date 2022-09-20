@@ -51,10 +51,10 @@ class _MyAppState extends State<MyApp> {
     //Preferences.setOnesignalUserId(osUserID);
 
     // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    await OneSignal.shared.promptUserForPushNotificationPermission(
-      fallbackToSettings: true,
-    );
-
+    // await OneSignal.shared.promptUserForPushNotificationPermission(
+    //   fallbackToSettings: true,
+    // );
+//
     /// Calls when foreground notification arrives.
     // OneSignal.shared.setNotificationWillShowInForegroundHandler(
     //   handleForegroundNotifications,

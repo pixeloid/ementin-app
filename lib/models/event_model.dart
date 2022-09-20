@@ -20,6 +20,7 @@ class EventModel {
   final List<AdModel> ads;
   final DateTime startDate;
   final DateTime endDate;
+  final String? instaUrl;
 
   EventModel({
     required this.id,
@@ -40,6 +41,7 @@ class EventModel {
     required this.ads,
     required this.startDate,
     required this.endDate,
+    required this.instaUrl,
   });
 
   factory EventModel.fromJson(json) {
@@ -74,6 +76,7 @@ class EventModel {
           DateFormat('-d.', 'hu').format(DateTime.parse(json['end'])),
       isInProgress: json['isInProgress'] ?? false,
       ads: (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList(),
+      instaUrl: json['insta'],
     );
   }
 

@@ -115,18 +115,20 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            DateFormat('Hm')
-                                .format(widget.presentation.start)
-                                .toString(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF2C2B7A),
-                              height: 1.2,
+                          if (!widget.presentation.isTimeHidden)
+                            Text(
+                              DateFormat('Hm')
+                                  .format(widget.presentation.start)
+                                  .toString(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF2C2B7A),
+                                height: 1.2,
+                              ),
                             ),
-                          ),
-                          if (widget.presentation.duration.inMinutes < 120)
+                          if (widget.presentation.duration.inMinutes < 120 &&
+                              !widget.presentation.isTimeHidden)
                             Text(
                               "${widget.presentation.duration.inMinutes} perc",
                               style: const TextStyle(
@@ -158,7 +160,11 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                       ),
                       Row(
                         children: [
-                          if (author != null) Author(author: author),
+                          if (author != null)
+                            Author(
+                              author: author,
+                              hideDescription: true,
+                            ),
                           if (checkedIn &&
                               widget.presentation.type == 'Presentation' &&
                               widget.presentation.isRatable)
@@ -204,9 +210,12 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 }
 
 class Author extends StatelessWidget {
+  final bool? hideDescription;
+
   const Author({
     Key? key,
     required this.author,
+    required this.hideDescription,
   }) : super(key: key);
 
   final AuthorModel author;
@@ -215,6 +224,7 @@ class Author extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (author.image != null)
             Row(
@@ -260,6 +270,18 @@ class Author extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       height: 1.2,
+                    ),
+                  ),
+                if (author.description != null && !hideDescription!)
+                  Container(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      author.description ?? '',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        height: 1.3,
+                      ),
                     ),
                   ),
               ],
@@ -322,26 +344,28 @@ class ProgramItemFullHero extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  DateFormat('Hm')
-                                      .format(presentation.start)
-                                      .toString(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF2C2B7A),
-                                    height: 1.2,
+                                if (!presentation.isTimeHidden)
+                                  Text(
+                                    DateFormat('Hm')
+                                        .format(presentation.start)
+                                        .toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF2C2B7A),
+                                      height: 1.2,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "${presentation.duration.inMinutes} perc",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFFABAAB5),
-                                    height: 1.2,
+                                if (!presentation.isTimeHidden)
+                                  Text(
+                                    "${presentation.duration.inMinutes} perc",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFFABAAB5),
+                                      height: 1.2,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                             const SizedBox(height: 8),
@@ -362,7 +386,12 @@ class ProgramItemFullHero extends StatelessWidget {
                             ]),
                             const SizedBox(height: 8),
                             if (author != null)
-                              Row(children: [Author(author: author)]),
+                              Row(children: [
+                                Author(
+                                  author: author,
+                                  hideDescription: false,
+                                )
+                              ]),
                             const SizedBox(height: 16),
                             Html(data: presentation.body, style: {
                               "body": Style(

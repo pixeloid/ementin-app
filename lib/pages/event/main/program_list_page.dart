@@ -120,8 +120,9 @@ class _ProgramListPageState extends State<ProgramListPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProgramHeaderSimple(
-                        time:
-                            '${DateFormat('Hm').format(item.start).toString()}-${DateFormat('Hm').format(item.end).toString()}',
+                        time: !item.isTimeHidden
+                            ? '${DateFormat('Hm').format(item.start).toString()}-${DateFormat('Hm').format(item.end).toString()}'
+                            : null,
                         title: item.title,
                       ),
                       if (item.chairs != null)
