@@ -64,7 +64,18 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                                     ),
                                   ),
                                 )
-                              : null,
+                              : TextButton(
+                                  onPressed: () => Provider.of<AuthProvider>(
+                                          context,
+                                          listen: false)
+                                      .logout(),
+                                  child: const Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Icon(
+                                      Icons.logout_outlined,
+                                    ),
+                                  ),
+                                ),
                         ),
                         Expanded(
                           child: DefaultTabController(

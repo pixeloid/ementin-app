@@ -33,11 +33,11 @@ class MainPage extends StatelessWidget {
           body: Stack(
             children: [
               AutoTabsScaffold(
-                routes: [
-                  const EventMainRoute(),
-                  if (isCheckedIn!) const RegistrationDetailsRoute(),
-                  const FavouritesRoute(),
-                  if (hasGallery) const GalleryRoute(),
+                routes: const [
+                  EventMainRoute(),
+                  RegistrationDetailsRoute(),
+                  FavouritesRoute(),
+                  GalleryRoute(),
                   //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
                 ],
                 bottomNavigationBuilder: (_, tabsRouter) {
@@ -69,7 +69,7 @@ class MainPage extends StatelessWidget {
                             tabsRouter.setActiveIndex(0);
                           },
                         ),
-                        if (isLoggedIn && isCheckedIn)
+                        if (isLoggedIn && isCheckedIn!)
                           BottomNavItem(
                             index: 1,
                             label: 'Regisztrációm',
@@ -88,24 +88,13 @@ class MainPage extends StatelessWidget {
                               tabsRouter.setActiveIndex(2);
                             },
                           ),
-                        if (isLoggedIn)
-                          BottomNavItem(
-                            index: 3,
-                            label: 'Kilépés',
-                            icon: Icons.logout_sharp,
-                            onNavTap: () {
-                              tabsRouter.setActiveIndex(0);
-                              authProvider.logout();
-                            },
-                          ),
                         if (hasGallery)
                           BottomNavItem(
-                            index: 2,
+                            index: 3,
                             label: 'Fotók',
                             icon: Icons.photo_library,
                             onNavTap: () {
-                              tabsRouter.setActiveIndex(2);
-                              authProvider.logout();
+                              tabsRouter.setActiveIndex(3);
                             },
                           ),
                       ],
