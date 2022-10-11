@@ -65,7 +65,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
         .checkedIn;
 
     return Hero(
-      tag: '${widget.prefix}${widget.presentation.iri}',
+      tag: 1,
       child: Material(
         type: MaterialType.transparency,
         child: GestureDetector(

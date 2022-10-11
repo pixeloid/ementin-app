@@ -23,9 +23,10 @@ class ProgramItem extends StatelessWidget {
           onTap: presentation.body != null
               ? () {
                   Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      //fullscreenDialog: true,
-                      builder: (BuildContext context) {
+                    PageRouteBuilder(
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
                         return Scaffold(
                           body: ProgramItemFullHero(
                             presentation: presentation,
@@ -37,6 +38,21 @@ class ProgramItem extends StatelessWidget {
                           ),
                         );
                       },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(0.0, 1.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+
+                        var tween = Tween(begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+
+                        return SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 500),
                     ),
                   );
                 }

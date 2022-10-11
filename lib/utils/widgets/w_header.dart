@@ -1,7 +1,13 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/pages/checkin_page.dart';
+import 'package:eventapp/providers/auth_provider.dart';
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/utils/other/dynamic_size.dart';
 import 'package:eventapp/app_define/app_assets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 mixin HeaderDelegate {
   void onBack(BuildContext context);
@@ -14,7 +20,8 @@ class WHeader extends StatelessWidget with DynamicSize {
       this.bgColor,
       this.isShowBackButton,
       this.topRight,
-      this.delegate})
+      this.delegate,
+      this.showAuth = true})
       : super(key: key);
 
   //#region Properties
@@ -24,6 +31,8 @@ class WHeader extends StatelessWidget with DynamicSize {
   final bool? isShowBackButton;
   final HeaderDelegate? delegate;
   final Widget? topRight;
+  final bool showAuth;
+
   //#region BUILD
   //-------------------
   @override
@@ -81,9 +90,57 @@ class WHeader extends StatelessWidget with DynamicSize {
                   ),
                   SizedBox(
                     width: 120.w,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: topRight,
+                    child: Consumer<EventProvider>(
+                      builder: (context, eventProvider, _) {
+                        return (eventProvider.selectedEvent != null && showAuth)
+                            ? Align(
+                                alignment: Alignment.centerRight,
+                                child: !eventProvider.selectedEvent!.checkedIn
+                                    ? ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: const Size(10, 26),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 13),
+                                          backgroundColor:
+                                              const Color(0xFFf172ac),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .push(CheckInOverlay());
+                                        },
+                                        child: SizedBox(
+                                          child: Text(
+                                            'Check-in'.toUpperCase(),
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : TextButton(
+                                        onPressed: () {
+                                          Provider.of<AuthProvider>(context,
+                                                  listen: false)
+                                              .logout()
+                                              .then((value) => {
+                                                    AutoRouter.of(context)
+                                                        .navigate(
+                                                      const EventMainRoute(),
+                                                    )
+                                                  });
+                                        },
+                                        child: const Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Icon(
+                                            Icons.logout_outlined,
+                                          ),
+                                        ),
+                                      ),
+                              )
+                            : Container();
+                      },
                     ),
                   )
                 ],
@@ -111,6 +168,46 @@ class WHeader extends StatelessWidget with DynamicSize {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CheckInOverlay extends ModalRoute<void> {
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 200);
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  Color get barrierColor => Colors.black.withOpacity(0.5);
+
+  @override
+  String get barrierLabel => 'Barrrier label';
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    // This makes sure that text and other content follows the material style
+    return const CheckInPage();
+  }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    // You can add your own animations for the overlay content
+    return FadeTransition(
+      opacity: animation,
+      child: child,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:eventapp/data/api/repository/event_repository.dart';
 
 import '../models/event_model.dart';
@@ -18,7 +19,7 @@ class EventProvider extends ChangeNotifierSafety {
       getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
   EventModel? get selectedEvent {
-    return events.firstWhere((event) => event.id == _selectedEventId);
+    return events.firstWhereOrNull((event) => event.id == _selectedEventId);
   }
 
   get currentDayIndex => max(

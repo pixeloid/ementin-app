@@ -19,7 +19,7 @@ class PollProvider with ChangeNotifier {
     final Mercure mercure = Mercure(
       url: AppConfig.shared.env!.websocketEndpoint, // your mercure hub url
       topics: [
-        'https://${_eventProvider?.selectedEvent!.domain}.ementin.hu/api/poll_sessions/{id}'
+        'http://${_eventProvider?.selectedEvent!.domain}.ms.test:8095/api/poll_sessions/{id}'
       ], // your mercure topics
       //   token: 'your_jwt_token', // Bearer authorization
       //     lastEventId: 'last_event_id', // in case your stored last recieved event

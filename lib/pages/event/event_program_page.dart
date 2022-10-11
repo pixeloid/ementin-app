@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/pages/checkin_page.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
-import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,41 +39,6 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                           title: eventProvider.selectedEvent!.name,
                           isShowBackButton: true,
                           delegate: this,
-                          topRight: !eventProvider.selectedEvent!.checkedIn
-                              ? ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize: const Size(10, 26),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 13),
-                                    backgroundColor: const Color(0xFFf172ac),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(CheckInOverlay());
-                                  },
-                                  child: SizedBox(
-                                    child: Text(
-                                      'Check-in'.toUpperCase(),
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : TextButton(
-                                  onPressed: () => Provider.of<AuthProvider>(
-                                          context,
-                                          listen: false)
-                                      .logout(),
-                                  child: const Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Icon(
-                                      Icons.logout_outlined,
-                                    ),
-                                  ),
-                                ),
                         ),
                         Expanded(
                           child: DefaultTabController(
@@ -156,45 +119,5 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
   @override
   void onBack(context) {
     AutoRouter.of(context).pop();
-  }
-}
-
-class CheckInOverlay extends ModalRoute<void> {
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 200);
-
-  @override
-  bool get opaque => false;
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Color get barrierColor => Colors.black.withOpacity(0.5);
-
-  @override
-  String get barrierLabel => 'Barrrier label';
-
-  @override
-  bool get maintainState => true;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    // This makes sure that text and other content follows the material style
-    return const CheckInPage();
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    // You can add your own animations for the overlay content
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
   }
 }

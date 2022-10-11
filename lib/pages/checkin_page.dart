@@ -98,7 +98,6 @@ class _CheckInPageState extends State<CheckInPage> {
   Future<void> _checkIn(EventProvider eventProvider, String code,
       AuthProvider authProvider, BuildContext context) async {
     final router = AutoRouter.of(context);
-    var scaffoldText = const Text('Sikeres bejelentkezés!');
     setState(() {});
 
     try {
@@ -114,7 +113,11 @@ class _CheckInPageState extends State<CheckInPage> {
 
       router.navigate(const RegistrationDetailsRoute());
     } catch (e) {
-      scaffoldText = const Text('Sikertelen bejelentkezés!');
+      var scaffoldText = const Text('Sikertelen bejelentkezés!');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: scaffoldText,
+      ));
+
       setState(() {
         isLoading = false;
         result = null;
@@ -122,10 +125,6 @@ class _CheckInPageState extends State<CheckInPage> {
     }
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: scaffoldText,
-      ));
-
       Navigator.pop(context);
 
       setState(() {

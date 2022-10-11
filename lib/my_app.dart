@@ -145,9 +145,7 @@ Future<void> myMain() async {
       create: (_) => LocaleProvider(),
     ),
     ChangeNotifierProvider<ProgramProvider>(
-      create: (BuildContext context) => ProgramProvider(
-        context.read<ProgramRepository>(),
-      ),
+      create: (BuildContext context) => ProgramProvider(),
     ),
   ], child: const MyApp()));
 }

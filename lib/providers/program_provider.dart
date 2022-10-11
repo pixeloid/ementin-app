@@ -1,16 +1,17 @@
 import 'dart:convert';
-
+import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
+import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:mercure_client/mercure_client.dart';
 import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
 
 class ProgramProvider extends ChangeNotifierSafety {
-  ProgramProvider(this._programRepository);
-
-  late final ProgramRepository _programRepository;
+  final ProgramRepository _programRepository = getIt<ProgramRepository>();
 
   List<ProgramItemModel> programItems = [];
 
@@ -39,11 +40,28 @@ class ProgramProvider extends ChangeNotifierSafety {
         return element.start.isBefore(now) && element.end.isAfter(now);
       });
 
+  subscribe() async {
+    final Mercure mercure = Mercure(
+      url: AppConfig.shared.env!.websocketEndpoint, // your mercure hub url
+      topics: [
+        'http://meta2022.ms.test:8095/api/presentations/{id}',
+        'http://meta2022.ms.test:8095/api/presentation_sections/{id}',
+      ], // your mercure topics
+      token: getIt.get<SharedPreferenceHelper>().getUserToken(),
+      //     lastEventId: 'last_event_id', // in case your stored last recieved event
+    );
+
+    mercure.listen((event) {
+      notifyListeners();
+    });
+  }
+
   /// Get Tickets
   Future<void> getProgram(int eventId, {DateTime? date}) async {
     final result = await _programRepository.getProgram(eventId, date);
     programItems = result;
     isLoading = false;
+    subscribe();
     notifyListeners();
   }
 

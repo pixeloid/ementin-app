@@ -18,8 +18,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    var eventProvider = Provider.of<EventProvider>(context);
+    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var eventProvider = Provider.of<EventProvider>(context, listen: false);
     final pollProvider = Provider.of<PollProvider>(context, listen: false);
     pollProvider.subscribe();
     pollProvider.getPollSession();

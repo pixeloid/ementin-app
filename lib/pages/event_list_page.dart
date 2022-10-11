@@ -24,6 +24,7 @@ class EventListPage extends StatelessWidget {
             WHeader(
               title: 'Rendezvényeink',
               isShowBackButton: false,
+              showAuth: false,
             ),
             FutureBuilder(
               builder: (ctx, snapshot) => snapshot.connectionState ==

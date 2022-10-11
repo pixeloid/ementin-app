@@ -13,6 +13,8 @@ class AuthProvider with ChangeNotifier {
 
   final AuthRepository _authRepository;
 
+  bool loggingOut = false;
+
   AuthProvider(this._authRepository);
 
   bool get isAuth {
@@ -87,11 +89,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
+    loggingOut = true;
+    notifyListeners();
     await locator.prefs.clear();
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
     }
+    loggingOut = false;
     notifyListeners();
   }
 
