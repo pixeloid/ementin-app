@@ -34,7 +34,7 @@ class MainPage extends StatelessWidget {
             children: [
               AutoTabsScaffold(
                 routes: const [
-                  EventMainRoute(),
+                  EventProgramRoute(),
                   RegistrationDetailsRoute(),
                   FavouritesRoute(),
                   GalleryRoute(),

@@ -52,7 +52,7 @@ class ProgramItem extends StatelessWidget {
                           child: child,
                         );
                       },
-                      transitionDuration: Duration(milliseconds: 500),
+                      transitionDuration: const Duration(milliseconds: 500),
                     ),
                   );
                 }

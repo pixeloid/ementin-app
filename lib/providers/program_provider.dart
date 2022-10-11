@@ -47,11 +47,32 @@ class ProgramProvider extends ChangeNotifierSafety {
         'http://meta2022.ms.test:8095/api/presentations/{id}',
         'http://meta2022.ms.test:8095/api/presentation_sections/{id}',
       ], // your mercure topics
-      token: getIt.get<SharedPreferenceHelper>().getUserToken(),
+      //token: getIt.get<SharedPreferenceHelper>().getUserToken(),
       //     lastEventId: 'last_event_id', // in case your stored last recieved event
     );
 
     mercure.listen((event) {
+      final ProgramItemModel newProgramItem =
+          ProgramItemModel.fromJson(json.decode(event.data));
+
+      final sectionIndex = programItems.indexWhere(
+        (element) => element.id == newProgramItem.id,
+      );
+
+      if (sectionIndex != -1) {
+        programItems[sectionIndex] = newProgramItem;
+      } else {
+        for (var section in programItems) {
+          final sindex = programItems.indexOf(section);
+          for (var child in section.children) {
+            if (child.id == newProgramItem.id) {
+              final index = section.children.indexOf(child);
+              programItems[sindex].children[index] = newProgramItem;
+            }
+          }
+        }
+      }
+
       notifyListeners();
     });
   }

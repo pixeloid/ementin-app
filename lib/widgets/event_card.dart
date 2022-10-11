@@ -23,7 +23,7 @@ class EventCard extends StatelessWidget {
             onTap: () {
               eventProvider.selectedEventId = event.id;
               AutoRouter.of(context)
-                  .push(const MainRoute(children: [EventMainRoute()]));
+                  .push(const MainRoute(children: [EventProgramRoute()]));
             },
             child: Column(
               children: [

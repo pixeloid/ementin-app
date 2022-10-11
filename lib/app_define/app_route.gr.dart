@@ -35,87 +35,152 @@ class AppRouter extends _i12.RootStackRouter {
   final Map<String, _i12.PageFactory> pagesMap = {
     EventListRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.EventListPage());
+        routeData: routeData,
+        child: const _i1.EventListPage(),
+      );
     },
     MainRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.MainPage());
+        routeData: routeData,
+        child: const _i2.MainPage(),
+      );
     },
-    EventMainRoute.name: (routeData) {
+    EventProgramRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.EventProgramPage());
+        routeData: routeData,
+        child: const _i3.EventProgramPage(),
+      );
     },
     FavouritesRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.FavouritesPage());
+        routeData: routeData,
+        child: const _i4.FavouritesPage(),
+      );
     },
     RegistrationDetailsRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.RegistrationDetailsPage());
+        routeData: routeData,
+        child: const _i5.RegistrationDetailsPage(),
+      );
     },
     ProfileRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i6.ProfilePage());
+        routeData: routeData,
+        child: const _i6.ProfilePage(),
+      );
     },
     GalleryRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.GalleryPage());
+        routeData: routeData,
+        child: const _i7.GalleryPage(),
+      );
     },
     AuthRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i8.AuthPage());
+        routeData: routeData,
+        child: const _i8.AuthPage(),
+      );
     },
     CheckInRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i9.CheckInPage());
+        routeData: routeData,
+        child: const _i9.CheckInPage(),
+      );
     },
     EventInfoRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.EventInfoPage());
+        routeData: routeData,
+        child: const _i10.EventInfoPage(),
+      );
     },
     ProgramListRoute.name: (routeData) {
       final args = routeData.argsAs<ProgramListRouteArgs>();
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i11.ProgramListPage(args.programData, key: args.key));
-    }
+        routeData: routeData,
+        child: _i11.ProgramListPage(
+          args.programData,
+          key: args.key,
+        ),
+      );
+    },
   };
 
   @override
   List<_i12.RouteConfig> get routes => [
-        _i12.RouteConfig('/#redirect',
-            path: '/', redirectTo: '/events', fullMatch: true),
-        _i12.RouteConfig(EventListRoute.name, path: '/events'),
-        _i12.RouteConfig(MainRoute.name, path: '/main', children: [
-          _i12.RouteConfig(EventMainRoute.name,
+        _i12.RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: '/events',
+          fullMatch: true,
+        ),
+        _i12.RouteConfig(
+          EventListRoute.name,
+          path: '/events',
+        ),
+        _i12.RouteConfig(
+          MainRoute.name,
+          path: '/main',
+          children: [
+            _i12.RouteConfig(
+              EventProgramRoute.name,
               path: 'event',
               parent: MainRoute.name,
               children: [
-                _i12.RouteConfig(EventInfoRoute.name,
-                    path: 'info', parent: EventMainRoute.name),
-                _i12.RouteConfig(ProgramListRoute.name,
-                    path: 'program', parent: EventMainRoute.name)
-              ]),
-          _i12.RouteConfig(FavouritesRoute.name,
-              path: 'favourtes', parent: MainRoute.name),
-          _i12.RouteConfig(RegistrationDetailsRoute.name,
-              path: 'registration-details', parent: MainRoute.name),
-          _i12.RouteConfig(ProfileRoute.name,
-              path: 'profile', parent: MainRoute.name),
-          _i12.RouteConfig(GalleryRoute.name,
-              path: 'gallery', parent: MainRoute.name),
-          _i12.RouteConfig(AuthRoute.name,
-              path: 'auth', parent: MainRoute.name),
-          _i12.RouteConfig(CheckInRoute.name,
-              path: 'check-in', parent: MainRoute.name)
-        ])
+                _i12.RouteConfig(
+                  EventInfoRoute.name,
+                  path: 'info',
+                  parent: EventProgramRoute.name,
+                ),
+                _i12.RouteConfig(
+                  ProgramListRoute.name,
+                  path: 'program',
+                  parent: EventProgramRoute.name,
+                ),
+              ],
+            ),
+            _i12.RouteConfig(
+              FavouritesRoute.name,
+              path: 'favourtes',
+              parent: MainRoute.name,
+            ),
+            _i12.RouteConfig(
+              RegistrationDetailsRoute.name,
+              path: 'registration-details',
+              parent: MainRoute.name,
+            ),
+            _i12.RouteConfig(
+              ProfileRoute.name,
+              path: 'profile',
+              parent: MainRoute.name,
+            ),
+            _i12.RouteConfig(
+              GalleryRoute.name,
+              path: 'gallery',
+              parent: MainRoute.name,
+            ),
+            _i12.RouteConfig(
+              AuthRoute.name,
+              path: 'auth',
+              parent: MainRoute.name,
+            ),
+            _i12.RouteConfig(
+              CheckInRoute.name,
+              path: 'check-in',
+              parent: MainRoute.name,
+            ),
+          ],
+        ),
       ];
 }
 
 /// generated route for
 /// [_i1.EventListPage]
 class EventListRoute extends _i12.PageRouteInfo<void> {
-  const EventListRoute() : super(EventListRoute.name, path: '/events');
+  const EventListRoute()
+      : super(
+          EventListRoute.name,
+          path: '/events',
+        );
 
   static const String name = 'EventListRoute';
 }
@@ -124,24 +189,36 @@ class EventListRoute extends _i12.PageRouteInfo<void> {
 /// [_i2.MainPage]
 class MainRoute extends _i12.PageRouteInfo<void> {
   const MainRoute({List<_i12.PageRouteInfo>? children})
-      : super(MainRoute.name, path: '/main', initialChildren: children);
+      : super(
+          MainRoute.name,
+          path: '/main',
+          initialChildren: children,
+        );
 
   static const String name = 'MainRoute';
 }
 
 /// generated route for
 /// [_i3.EventProgramPage]
-class EventMainRoute extends _i12.PageRouteInfo<void> {
-  const EventMainRoute({List<_i12.PageRouteInfo>? children})
-      : super(EventMainRoute.name, path: 'event', initialChildren: children);
+class EventProgramRoute extends _i12.PageRouteInfo<void> {
+  const EventProgramRoute({List<_i12.PageRouteInfo>? children})
+      : super(
+          EventProgramRoute.name,
+          path: 'event',
+          initialChildren: children,
+        );
 
-  static const String name = 'EventMainRoute';
+  static const String name = 'EventProgramRoute';
 }
 
 /// generated route for
 /// [_i4.FavouritesPage]
 class FavouritesRoute extends _i12.PageRouteInfo<void> {
-  const FavouritesRoute() : super(FavouritesRoute.name, path: 'favourtes');
+  const FavouritesRoute()
+      : super(
+          FavouritesRoute.name,
+          path: 'favourtes',
+        );
 
   static const String name = 'FavouritesRoute';
 }
@@ -150,7 +227,10 @@ class FavouritesRoute extends _i12.PageRouteInfo<void> {
 /// [_i5.RegistrationDetailsPage]
 class RegistrationDetailsRoute extends _i12.PageRouteInfo<void> {
   const RegistrationDetailsRoute()
-      : super(RegistrationDetailsRoute.name, path: 'registration-details');
+      : super(
+          RegistrationDetailsRoute.name,
+          path: 'registration-details',
+        );
 
   static const String name = 'RegistrationDetailsRoute';
 }
@@ -158,7 +238,11 @@ class RegistrationDetailsRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.ProfilePage]
 class ProfileRoute extends _i12.PageRouteInfo<void> {
-  const ProfileRoute() : super(ProfileRoute.name, path: 'profile');
+  const ProfileRoute()
+      : super(
+          ProfileRoute.name,
+          path: 'profile',
+        );
 
   static const String name = 'ProfileRoute';
 }
@@ -166,7 +250,11 @@ class ProfileRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.GalleryPage]
 class GalleryRoute extends _i12.PageRouteInfo<void> {
-  const GalleryRoute() : super(GalleryRoute.name, path: 'gallery');
+  const GalleryRoute()
+      : super(
+          GalleryRoute.name,
+          path: 'gallery',
+        );
 
   static const String name = 'GalleryRoute';
 }
@@ -174,7 +262,11 @@ class GalleryRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.AuthPage]
 class AuthRoute extends _i12.PageRouteInfo<void> {
-  const AuthRoute() : super(AuthRoute.name, path: 'auth');
+  const AuthRoute()
+      : super(
+          AuthRoute.name,
+          path: 'auth',
+        );
 
   static const String name = 'AuthRoute';
 }
@@ -182,7 +274,11 @@ class AuthRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i9.CheckInPage]
 class CheckInRoute extends _i12.PageRouteInfo<void> {
-  const CheckInRoute() : super(CheckInRoute.name, path: 'check-in');
+  const CheckInRoute()
+      : super(
+          CheckInRoute.name,
+          path: 'check-in',
+        );
 
   static const String name = 'CheckInRoute';
 }
@@ -190,7 +286,11 @@ class CheckInRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.EventInfoPage]
 class EventInfoRoute extends _i12.PageRouteInfo<void> {
-  const EventInfoRoute() : super(EventInfoRoute.name, path: 'info');
+  const EventInfoRoute()
+      : super(
+          EventInfoRoute.name,
+          path: 'info',
+        );
 
   static const String name = 'EventInfoRoute';
 }
@@ -198,17 +298,26 @@ class EventInfoRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i11.ProgramListPage]
 class ProgramListRoute extends _i12.PageRouteInfo<ProgramListRouteArgs> {
-  ProgramListRoute(
-      {required List<_i14.ProgramItemModel> programData, _i13.Key? key})
-      : super(ProgramListRoute.name,
-            path: 'program',
-            args: ProgramListRouteArgs(programData: programData, key: key));
+  ProgramListRoute({
+    required List<_i14.ProgramItemModel> programData,
+    _i13.Key? key,
+  }) : super(
+          ProgramListRoute.name,
+          path: 'program',
+          args: ProgramListRouteArgs(
+            programData: programData,
+            key: key,
+          ),
+        );
 
   static const String name = 'ProgramListRoute';
 }
 
 class ProgramListRouteArgs {
-  const ProgramListRouteArgs({required this.programData, this.key});
+  const ProgramListRouteArgs({
+    required this.programData,
+    this.key,
+  });
 
   final List<_i14.ProgramItemModel> programData;
 
