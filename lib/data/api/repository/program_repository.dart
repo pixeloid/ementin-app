@@ -11,12 +11,11 @@ class ProgramRepository {
   final netWorkLocator = getIt.get<DioClient>();
   final sharedPrefLocator = getIt.get<SharedPreferenceHelper>();
 
-  Future<List<ProgramItemModel>> getProgram(int eventId, DateTime? date) async {
+  Future<List<ProgramItemModel>> getProgram(int eventId) async {
     final response = await netWorkLocator.dio.get(
       '${EndPoints.baseUrl}${EndPoints.eventProgram}',
       queryParameters: {
         'event': eventId,
-        if (date != null) 'date': date,
       },
     );
     return response.data['hydra:member']

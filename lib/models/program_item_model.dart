@@ -1,4 +1,5 @@
 import 'package:eventapp/models/author_model.dart';
+import 'package:eventapp/models/qa/qa_session_model.dart';
 import 'package:eventapp/models/program_presentation_rate_model.dart';
 import 'package:collection/collection.dart';
 
@@ -19,6 +20,7 @@ class ProgramItemModel {
   double rateValue;
   bool isRatable;
   bool isTimeHidden;
+  List<QASessionModel> qaSessions;
 
   ProgramItemModel({
     required this.id,
@@ -37,6 +39,7 @@ class ProgramItemModel {
     required this.chairs,
     required this.isRatable,
     required this.isTimeHidden,
+    required this.qaSessions,
   });
 
   factory ProgramItemModel.fromJson(Map<String, dynamic> json) {
@@ -82,8 +85,13 @@ class ProgramItemModel {
               .toList()
           : [],
       chairs: json['chairs'],
-      isRatable: json['isRatable'],
-      isTimeHidden: json['isTimeHidden'],
+      isRatable: json['isRatable'] ?? false,
+      isTimeHidden: json['isTimeHidden'] ?? false,
+      qaSessions: json['activeQASessions'] != null
+          ? (json['activeQASessions'] as List)
+              .map((p) => QASessionModel.fromMap(p))
+              .toList()
+          : [],
     );
   }
 
@@ -94,5 +102,13 @@ class ProgramItemModel {
 
   void toggleLike() {
     isLiked = isLiked != null ? null : -1;
+  }
+
+  bool get qAactive {
+    return qaSessions.isNotEmpty;
+  }
+
+  int? get activeQAId {
+    return qaSessions.isNotEmpty ? qaSessions.first.id : null;
   }
 }

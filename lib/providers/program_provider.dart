@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
-import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,10 @@ class ProgramProvider extends ChangeNotifierSafety {
   final ProgramRepository _programRepository = getIt<ProgramRepository>();
 
   List<ProgramItemModel> programItems = [];
+
+  List<ProgramItemModel> programItemsPlain = [];
+
+  int? _eventId;
 
   get numItems => programItems.length;
 
@@ -45,45 +48,37 @@ class ProgramProvider extends ChangeNotifierSafety {
       url: AppConfig.shared.env!.websocketEndpoint, // your mercure hub url
       topics: [
         'http://meta2022.ms.test:8095/api/presentations/{id}',
+        'http://meta2022.ms.test:8095/api/q_a_sessions/{id}',
         'http://meta2022.ms.test:8095/api/presentation_sections/{id}',
       ], // your mercure topics
       //token: getIt.get<SharedPreferenceHelper>().getUserToken(),
       //     lastEventId: 'last_event_id', // in case your stored last recieved event
     );
 
-    mercure.listen((event) {
-      final ProgramItemModel newProgramItem =
-          ProgramItemModel.fromJson(json.decode(event.data));
-
-      final sectionIndex = programItems.indexWhere(
-        (element) => element.id == newProgramItem.id,
-      );
-
-      if (sectionIndex != -1) {
-        programItems[sectionIndex] = newProgramItem;
-      } else {
-        for (var section in programItems) {
-          final sindex = programItems.indexOf(section);
-          for (var child in section.children) {
-            if (child.id == newProgramItem.id) {
-              final index = section.children.indexOf(child);
-              programItems[sindex].children[index] = newProgramItem;
-            }
-          }
-        }
-      }
-
+    mercure.listen((event) async {
+      await refreshProgram();
       notifyListeners();
     });
   }
 
-  /// Get Tickets
-  Future<void> getProgram(int eventId, {DateTime? date}) async {
-    final result = await _programRepository.getProgram(eventId, date);
-    programItems = result;
+  Future<void> getProgram(int eventId) async {
+    _eventId = eventId;
+
+    await refreshProgram();
+
     isLoading = false;
     subscribe();
     notifyListeners();
+  }
+
+  Future<void> refreshProgram() async {
+    final result = await _programRepository.getProgram(_eventId!);
+    programItems = result;
+
+    programItemsPlain = [
+      ...programItems,
+      ...programItems.expand((programItem) => programItem.children).toList()
+    ];
   }
 
   @override
@@ -155,5 +150,27 @@ class ProgramProvider extends ChangeNotifierSafety {
     return programItems
         .where((element) => DateUtils.isSameDay(day, element.start))
         .toList();
+  }
+
+  ProgramItemModel? findById(int id) {
+    final sectionIndex = programItems.indexWhere(
+      (element) => element.id == id,
+    );
+
+    if (sectionIndex != -1) {
+      return programItems[sectionIndex];
+    } else {
+      for (var section in programItems) {
+        final sindex = programItems.indexOf(section);
+        for (var child in section.children) {
+          if (child.id == id) {
+            final index = section.children.indexOf(child);
+            return programItems[sindex].children[index];
+          }
+        }
+      }
+    }
+
+    return null;
   }
 }

@@ -26,93 +26,92 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
       return FutureBuilder(
           future: getProgram(context),
           builder: (context, snapshot) {
-            return snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Scaffold(
-                    body: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        WHeader(
-                          title: eventProvider.selectedEvent!.name,
-                          isShowBackButton: true,
-                          delegate: this,
-                        ),
-                        Expanded(
-                          child: DefaultTabController(
-                            length: eventProvider.eventDays.length,
-                            initialIndex: eventProvider.currentDayIndex,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Container(
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xFFE5EAF0)),
-                                  child: TabBar(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                    unselectedLabelColor: Colors.black54,
-                                    isScrollable: true,
-                                    indicatorWeight: 1,
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 0),
-                                    labelColor:
-                                        Theme.of(context).colorScheme.primary,
-                                    indicator: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.white,
-                                        shape: BoxShape.rectangle),
-                                    labelStyle: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.bold,
-                                      height: 0,
-                                      fontSize: 14,
-                                    ),
-                                    tabs: eventProvider.eventDays.map((day) {
-                                      return Tab(
-                                        height: 30,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(DateFormat('EEEE', 'hu')
-                                              .format(day)
-                                              .toUpperCase()),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            top: BorderSide(
-                                                color: Colors.grey,
-                                                width: 0.5))),
-                                    child: TabBarView(
-                                      children: eventProvider.eventDays.map(
-                                        (day) {
-                                          return Consumer<ProgramProvider>(
-                                            builder: (ctx, programProvider, _) {
-                                              print('reload program');
-                                              return ProgramListPage(
-                                                  programProvider
-                                                      .getProgramForDay(day));
-                                            },
-                                          );
-                                        },
-                                      ).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Scaffold(
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    WHeader(
+                      title: eventProvider.selectedEvent!.name,
+                      isShowBackButton: true,
+                      delegate: this,
                     ),
-                  );
+                    Expanded(
+                      child: DefaultTabController(
+                        length: eventProvider.eventDays.length,
+                        initialIndex: eventProvider.currentDayIndex,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Container(
+                              decoration:
+                                  const BoxDecoration(color: Color(0xFFE5EAF0)),
+                              child: TabBar(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                unselectedLabelColor: Colors.black54,
+                                isScrollable: true,
+                                indicatorWeight: 1,
+                                labelPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 0),
+                                labelColor:
+                                    Theme.of(context).colorScheme.primary,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: Colors.white,
+                                    shape: BoxShape.rectangle),
+                                labelStyle: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                  height: 0,
+                                  fontSize: 14,
+                                ),
+                                tabs: eventProvider.eventDays.map((day) {
+                                  return Tab(
+                                    height: 30,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(DateFormat('EEEE', 'hu')
+                                          .format(day)
+                                          .toUpperCase()),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(
+                                            color: Colors.grey, width: 0.5))),
+                                child: TabBarView(
+                                  children: eventProvider.eventDays.map(
+                                    (day) {
+                                      return Consumer<ProgramProvider>(
+                                        builder: (ctx, programProvider, _) {
+                                          return ProgramListPage(programProvider
+                                              .getProgramForDay(day));
+                                        },
+                                      );
+                                    },
+                                  ).toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
           });
     });
   }

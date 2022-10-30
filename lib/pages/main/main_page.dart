@@ -18,11 +18,11 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var authProvider = Provider.of<AuthProvider>(context, listen: true);
     var eventProvider = Provider.of<EventProvider>(context, listen: false);
-    final pollProvider = Provider.of<PollProvider>(context, listen: false);
-    pollProvider.subscribe();
-    pollProvider.getPollSession();
+    // final pollProvider = Provider.of<PollProvider>(context, listen: false);
+    // pollProvider.subscribe();
+    // pollProvider.getPollSession();
     final isLoggedIn = authProvider.isAuth;
     final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
     final hasGallery = eventProvider.selectedEvent?.instaUrl != null;
@@ -34,7 +34,7 @@ class MainPage extends StatelessWidget {
             children: [
               AutoTabsScaffold(
                 routes: const [
-                  EventProgramRoute(),
+                  ProgramRouter(),
                   RegistrationDetailsRoute(),
                   FavouritesRoute(),
                   GalleryRoute(),

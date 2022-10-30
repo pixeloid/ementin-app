@@ -50,7 +50,7 @@ class EventModel {
       iri: json['@id'],
       name: json['name'] as String,
       domain: json['domain'] as String,
-      checkedIn: json['checkedIn'],
+      checkedIn: json['checkedIn'] ??= false,
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
@@ -75,7 +75,9 @@ class EventModel {
               .format(DateTime.parse(json['start'])) +
           DateFormat('-d.', 'hu').format(DateTime.parse(json['end'])),
       isInProgress: json['isInProgress'] ?? false,
-      ads: (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList(),
+      ads: json['ads'] != null
+          ? (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList()
+          : [],
       instaUrl: json['insta'],
     );
   }

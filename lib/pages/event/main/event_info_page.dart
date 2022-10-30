@@ -1,6 +1,5 @@
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:eventapp/pages/base/base_page.dart';
 import 'package:provider/provider.dart';
 
 class EventInfoPage extends StatelessWidget {
@@ -12,8 +11,8 @@ class EventInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context, listen: false);
     final er = eventProvider.selectedEvent!.eventRegistration;
-    return BasePage(
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Text(er.toString()),
       ),
     );

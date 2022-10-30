@@ -14,4 +14,6 @@ class EndPoints {
   static const String pollResponse = '/poll_responses';
   static const String refreshToken = '/token/refresh';
   static const String pollSession = '/poll_sessions';
+  static const String qaSession = '/q_a_sessions';
+  static const String qaEntry = '/q_a_entries';
 }

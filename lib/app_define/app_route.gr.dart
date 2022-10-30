@@ -11,159 +11,156 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i12;
-import 'package:flutter/material.dart' as _i13;
+import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
 
-import '../models/program_item_model.dart' as _i14;
 import '../pages/auth/auth_page.dart' as _i8;
 import '../pages/checkin_page.dart' as _i9;
 import '../pages/event/event_program_page.dart' as _i3;
 import '../pages/event/main/event_gallery_page.dart' as _i7;
-import '../pages/event/main/event_info_page.dart' as _i10;
-import '../pages/event/main/program_list_page.dart' as _i11;
+import '../pages/event/main/presentation_details_page.dart' as _i10;
 import '../pages/event_list_page.dart' as _i1;
 import '../pages/favourites_page.dart' as _i4;
 import '../pages/main/main_page.dart' as _i2;
 import '../pages/profile_page.dart' as _i6;
 import '../pages/registration_details_page.dart' as _i5;
 
-class AppRouter extends _i12.RootStackRouter {
-  AppRouter([_i13.GlobalKey<_i13.NavigatorState>? navigatorKey])
+class AppRouter extends _i11.RootStackRouter {
+  AppRouter([_i12.GlobalKey<_i12.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i12.PageFactory> pagesMap = {
+  final Map<String, _i11.PageFactory> pagesMap = {
     EventListRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i1.EventListPage(),
       );
     },
     MainRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i2.MainPage(),
       );
     },
-    EventProgramRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+    ProgramRouter.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i3.EventProgramPage(),
       );
     },
     FavouritesRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i4.FavouritesPage(),
       );
     },
     RegistrationDetailsRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i5.RegistrationDetailsPage(),
       );
     },
     ProfileRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i6.ProfilePage(),
       );
     },
     GalleryRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i7.GalleryPage(),
       );
     },
     AuthRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i8.AuthPage(),
       );
     },
     CheckInRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i9.CheckInPage(),
       );
     },
-    EventInfoRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+    PresentationDetailsRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<PresentationDetailsRouteArgs>(
+          orElse: () => PresentationDetailsRouteArgs(
+              programItemId: pathParams.getInt('programItemId')));
+      return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i10.EventInfoPage(),
-      );
-    },
-    ProgramListRoute.name: (routeData) {
-      final args = routeData.argsAs<ProgramListRouteArgs>();
-      return _i12.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i11.ProgramListPage(
-          args.programData,
+        child: _i10.PresentationDetailsPage(
           key: args.key,
+          programItemId: args.programItemId,
         ),
       );
     },
   };
 
   @override
-  List<_i12.RouteConfig> get routes => [
-        _i12.RouteConfig(
+  List<_i11.RouteConfig> get routes => [
+        _i11.RouteConfig(
           '/#redirect',
           path: '/',
           redirectTo: '/events',
           fullMatch: true,
         ),
-        _i12.RouteConfig(
+        _i11.RouteConfig(
           EventListRoute.name,
           path: '/events',
         ),
-        _i12.RouteConfig(
+        _i11.RouteConfig(
           MainRoute.name,
           path: '/main',
           children: [
-            _i12.RouteConfig(
-              EventProgramRoute.name,
+            _i11.RouteConfig(
+              ProgramRouter.name,
               path: 'event',
               parent: MainRoute.name,
               children: [
-                _i12.RouteConfig(
-                  EventInfoRoute.name,
-                  path: 'info',
-                  parent: EventProgramRoute.name,
+                _i11.RouteConfig(
+                  PresentationDetailsRoute.name,
+                  path: 'presentation-details/:programItemId',
+                  parent: ProgramRouter.name,
                 ),
-                _i12.RouteConfig(
-                  ProgramListRoute.name,
-                  path: 'program',
-                  parent: EventProgramRoute.name,
+                _i11.RouteConfig(
+                  '*#redirect',
+                  path: '*',
+                  parent: ProgramRouter.name,
+                  redirectTo: '',
+                  fullMatch: true,
                 ),
               ],
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               FavouritesRoute.name,
               path: 'favourtes',
               parent: MainRoute.name,
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               RegistrationDetailsRoute.name,
               path: 'registration-details',
               parent: MainRoute.name,
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               ProfileRoute.name,
               path: 'profile',
               parent: MainRoute.name,
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               GalleryRoute.name,
               path: 'gallery',
               parent: MainRoute.name,
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               AuthRoute.name,
               path: 'auth',
               parent: MainRoute.name,
             ),
-            _i12.RouteConfig(
+            _i11.RouteConfig(
               CheckInRoute.name,
               path: 'check-in',
               parent: MainRoute.name,
@@ -175,7 +172,7 @@ class AppRouter extends _i12.RootStackRouter {
 
 /// generated route for
 /// [_i1.EventListPage]
-class EventListRoute extends _i12.PageRouteInfo<void> {
+class EventListRoute extends _i11.PageRouteInfo<void> {
   const EventListRoute()
       : super(
           EventListRoute.name,
@@ -187,8 +184,8 @@ class EventListRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.MainPage]
-class MainRoute extends _i12.PageRouteInfo<void> {
-  const MainRoute({List<_i12.PageRouteInfo>? children})
+class MainRoute extends _i11.PageRouteInfo<void> {
+  const MainRoute({List<_i11.PageRouteInfo>? children})
       : super(
           MainRoute.name,
           path: '/main',
@@ -200,20 +197,20 @@ class MainRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.EventProgramPage]
-class EventProgramRoute extends _i12.PageRouteInfo<void> {
-  const EventProgramRoute({List<_i12.PageRouteInfo>? children})
+class ProgramRouter extends _i11.PageRouteInfo<void> {
+  const ProgramRouter({List<_i11.PageRouteInfo>? children})
       : super(
-          EventProgramRoute.name,
+          ProgramRouter.name,
           path: 'event',
           initialChildren: children,
         );
 
-  static const String name = 'EventProgramRoute';
+  static const String name = 'ProgramRouter';
 }
 
 /// generated route for
 /// [_i4.FavouritesPage]
-class FavouritesRoute extends _i12.PageRouteInfo<void> {
+class FavouritesRoute extends _i11.PageRouteInfo<void> {
   const FavouritesRoute()
       : super(
           FavouritesRoute.name,
@@ -225,7 +222,7 @@ class FavouritesRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.RegistrationDetailsPage]
-class RegistrationDetailsRoute extends _i12.PageRouteInfo<void> {
+class RegistrationDetailsRoute extends _i11.PageRouteInfo<void> {
   const RegistrationDetailsRoute()
       : super(
           RegistrationDetailsRoute.name,
@@ -237,7 +234,7 @@ class RegistrationDetailsRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ProfilePage]
-class ProfileRoute extends _i12.PageRouteInfo<void> {
+class ProfileRoute extends _i11.PageRouteInfo<void> {
   const ProfileRoute()
       : super(
           ProfileRoute.name,
@@ -249,7 +246,7 @@ class ProfileRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.GalleryPage]
-class GalleryRoute extends _i12.PageRouteInfo<void> {
+class GalleryRoute extends _i11.PageRouteInfo<void> {
   const GalleryRoute()
       : super(
           GalleryRoute.name,
@@ -261,7 +258,7 @@ class GalleryRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.AuthPage]
-class AuthRoute extends _i12.PageRouteInfo<void> {
+class AuthRoute extends _i11.PageRouteInfo<void> {
   const AuthRoute()
       : super(
           AuthRoute.name,
@@ -273,7 +270,7 @@ class AuthRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.CheckInPage]
-class CheckInRoute extends _i12.PageRouteInfo<void> {
+class CheckInRoute extends _i11.PageRouteInfo<void> {
   const CheckInRoute()
       : super(
           CheckInRoute.name,
@@ -284,47 +281,37 @@ class CheckInRoute extends _i12.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.EventInfoPage]
-class EventInfoRoute extends _i12.PageRouteInfo<void> {
-  const EventInfoRoute()
-      : super(
-          EventInfoRoute.name,
-          path: 'info',
-        );
-
-  static const String name = 'EventInfoRoute';
-}
-
-/// generated route for
-/// [_i11.ProgramListPage]
-class ProgramListRoute extends _i12.PageRouteInfo<ProgramListRouteArgs> {
-  ProgramListRoute({
-    required List<_i14.ProgramItemModel> programData,
-    _i13.Key? key,
+/// [_i10.PresentationDetailsPage]
+class PresentationDetailsRoute
+    extends _i11.PageRouteInfo<PresentationDetailsRouteArgs> {
+  PresentationDetailsRoute({
+    _i12.Key? key,
+    required int programItemId,
   }) : super(
-          ProgramListRoute.name,
-          path: 'program',
-          args: ProgramListRouteArgs(
-            programData: programData,
+          PresentationDetailsRoute.name,
+          path: 'presentation-details/:programItemId',
+          args: PresentationDetailsRouteArgs(
             key: key,
+            programItemId: programItemId,
           ),
+          rawPathParams: {'programItemId': programItemId},
         );
 
-  static const String name = 'ProgramListRoute';
+  static const String name = 'PresentationDetailsRoute';
 }
 
-class ProgramListRouteArgs {
-  const ProgramListRouteArgs({
-    required this.programData,
+class PresentationDetailsRouteArgs {
+  const PresentationDetailsRouteArgs({
     this.key,
+    required this.programItemId,
   });
 
-  final List<_i14.ProgramItemModel> programData;
+  final _i12.Key? key;
 
-  final _i13.Key? key;
+  final int programItemId;
 
   @override
   String toString() {
-    return 'ProgramListRouteArgs{programData: $programData, key: $key}';
+    return 'PresentationDetailsRouteArgs{key: $key, programItemId: $programItemId}';
   }
 }
