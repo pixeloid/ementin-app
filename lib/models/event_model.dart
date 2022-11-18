@@ -75,7 +75,9 @@ class EventModel {
               .format(DateTime.parse(json['start'])) +
           DateFormat('-d.', 'hu').format(DateTime.parse(json['end'])),
       isInProgress: json['isInProgress'] ?? false,
-      ads: (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList(),
+      ads: json['ads'] != null
+          ? (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList()
+          : [],
       instaUrl: json['insta'],
     );
   }
