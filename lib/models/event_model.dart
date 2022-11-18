@@ -5,7 +5,6 @@ class EventModel {
   final int id;
   final String iri;
   final String name;
-  bool checkedIn;
   final int start;
   final String end;
   final String venue;
@@ -32,7 +31,6 @@ class EventModel {
     required this.domain,
     this.image,
     required this.name,
-    required this.checkedIn,
     this.deadline,
     this.abstractDeadline,
     this.eventRegistration,
@@ -50,7 +48,6 @@ class EventModel {
       iri: json['@id'],
       name: json['name'] as String,
       domain: json['domain'] as String,
-      checkedIn: json['checkedIn'] ??= false,
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
@@ -86,6 +83,10 @@ class EventModel {
         "name": name,
         "id": id,
       };
+
+  bool get checkedIn {
+    return eventRegistration != null;
+  }
 }
 
 class AdModel {

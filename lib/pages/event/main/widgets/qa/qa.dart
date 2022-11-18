@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'chat_bubble.dart';
 
 class QA extends StatefulWidget {
-  QA({
+  const QA({
     super.key,
     required this.qaSessionId,
   });

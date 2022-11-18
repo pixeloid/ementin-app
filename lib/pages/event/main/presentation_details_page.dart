@@ -1,17 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/models/program_item_model.dart';
-import 'package:eventapp/pages/event/main/widgets/author.dart';
-import 'package:eventapp/pages/event/main/widgets/my_rating_bar.dart';
 import 'package:eventapp/pages/event/main/widgets/qa/qa.dart';
-import 'package:eventapp/providers/auth_provider.dart';
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/providers/qa_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -33,7 +26,6 @@ class PresentationDetailsPage extends StatelessWidget with HeaderDelegate {
         ?.checkedIn;
 
     final programItem = programProvider.findById(programItemId);
-    final _panelHeightOpen = MediaQuery.of(context).size.height * .70;
 
     return ChangeNotifierProvider(
       create: (_) => QAProvider(),

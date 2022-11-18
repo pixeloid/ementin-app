@@ -173,7 +173,7 @@ class EventCard extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     Text(
-                                      event.venue ?? '',
+                                      event.venue,
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                           color: Color.fromRGBO(31, 41, 55, 1),

@@ -60,7 +60,7 @@ class EventProvider extends ChangeNotifierSafety {
     try {
       final result = await _eventRepository.checkIn(selectedEvent!.id, code);
 
-      selectedEvent?.checkedIn = true;
+      notifyListeners();
 
       return result;
     } catch (_) {

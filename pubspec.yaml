@@ -74,6 +74,13 @@ dependencies:
   deep_collection: ^1.0.2
   tree_iterator: ^2.0.0
   format: ^1.2.0
+  flutter_riverpod: ^2.1.1
+  equatable: ^2.0.5
+  shared_preferences_riverpod: ^0.3.0
+  flutter_secure_storage: ^6.0.0
+  riverpod_annotation: ^1.0.6
+  flutter_hooks: ^0.18.5+1
+  hooks_riverpod: ^2.1.1
 
 
 flutter_intl:
@@ -86,6 +93,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   auto_route_generator: ^5.0.2      
   build_runner: ^2.1.8
+  riverpod_generator: ^1.0.6
 
 flutter_icons:
   android: true

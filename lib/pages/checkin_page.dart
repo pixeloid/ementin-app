@@ -62,7 +62,7 @@ class _CheckInPageState extends State<CheckInPage> {
             )
           : FloatingActionButton.extended(
               onPressed: () async {
-                const code = '44f31e0e8f5f12aeab4255c465862b30';
+                const code = '47dceb0231c741c5d0670f86eccf8f5c';
                 _checkIn(eventProvider, code, authProvider, context);
               },
               backgroundColor: Colors.primaries.first,
