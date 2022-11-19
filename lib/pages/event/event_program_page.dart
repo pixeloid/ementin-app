@@ -95,7 +95,6 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                                         (day) {
                                           return Consumer<ProgramProvider>(
                                             builder: (ctx, programProvider, _) {
-                                              print('reload program');
                                               return ProgramListPage(
                                                   programProvider
                                                       .getProgramForDay(day));
