@@ -83,7 +83,7 @@ class ProgramItemModel {
           : [],
       chairs: json['chairs'],
       isRatable: json['isRatable'],
-      isTimeHidden: json['isTimeHidden'],
+      isTimeHidden: false,
     );
   }
 

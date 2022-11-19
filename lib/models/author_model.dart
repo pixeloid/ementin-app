@@ -21,7 +21,7 @@ class AuthorModel {
         id: json['id'],
         iri: json['@id'],
         name: json['name'] as String,
-        image: json['image'],
+        image: null,
         workplace: json['workplace'],
         description: json['description'],
       );

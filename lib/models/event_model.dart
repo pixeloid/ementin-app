@@ -50,7 +50,7 @@ class EventModel {
       iri: json['@id'],
       name: json['name'] as String,
       domain: json['domain'] as String,
-      checkedIn: json['checkedIn'],
+      checkedIn: false,
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
