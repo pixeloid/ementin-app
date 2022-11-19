@@ -36,7 +36,7 @@ class EventCard extends StatelessWidget {
                       bottomRight: Radius.circular(8),
                     ),
                     color: const Color.fromRGBO(255, 255, 255, 1),
-                    border: event.checkedIn
+                    border: false
                         ? Border.all(
                             color: const Color.fromARGB(255, 2, 171, 30),
                             width: 4,
@@ -172,17 +172,19 @@ class EventCard extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Text(
-                                      event.venue,
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                          color: Color.fromRGBO(31, 41, 55, 1),
-                                          fontSize: 14,
-                                          letterSpacing:
-                                              0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.4285714285714286),
-                                    ),
+                                    if (event.venue != null)
+                                      Text(
+                                        event.venue,
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            color:
+                                                Color.fromRGBO(31, 41, 55, 1),
+                                            fontSize: 14,
+                                            letterSpacing:
+                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.4285714285714286),
+                                      ),
                                     const SizedBox(height: 0),
                                     Text(
                                       event.address,
