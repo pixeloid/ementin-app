@@ -395,7 +395,6 @@ class ProgramItemFullHero extends StatelessWidget {
                             const SizedBox(height: 16),
                             Html(data: presentation.body, style: {
                               "body": Style(
-                                  margin: EdgeInsets.zero,
                                   padding: EdgeInsets.zero,
                                   fontSize: FontSize.larger,
                                   lineHeight: LineHeight.em(1.4),

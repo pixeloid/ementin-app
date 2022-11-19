@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
-import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';

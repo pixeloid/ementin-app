@@ -36,15 +36,10 @@ class EventCard extends StatelessWidget {
                       bottomRight: Radius.circular(8),
                     ),
                     color: const Color.fromRGBO(255, 255, 255, 1),
-                    border: false
-                        ? Border.all(
-                            color: const Color.fromARGB(255, 2, 171, 30),
-                            width: 4,
-                          )
-                        : Border.all(
-                            color: const Color.fromRGBO(243, 244, 246, 1),
-                            width: 1,
-                          ),
+                    border: Border.all(
+                      color: const Color.fromRGBO(243, 244, 246, 1),
+                      width: 1,
+                    ),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -174,7 +169,7 @@ class EventCard extends StatelessWidget {
                                   children: <Widget>[
                                     if (event.venue != null)
                                       Text(
-                                        event.venue,
+                                        event.venue.toString(),
                                         textAlign: TextAlign.left,
                                         style: const TextStyle(
                                             color:

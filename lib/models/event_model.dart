@@ -8,7 +8,7 @@ class EventModel {
   bool checkedIn;
   final int start;
   final String end;
-  final String venue;
+  final String? venue;
   final String address;
   final String domain;
   final String? image;
