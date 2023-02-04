@@ -49,7 +49,6 @@ dependencies:
   freezed: 2.1.0+1
   get_it: ^7.2.0
   google_fonts: ^3.0.1
-  graphql_flutter: ^5.0.1
   injectable: ^1.5.3
   jwt_decoder: ^2.0.1
   localstorage: ^4.0.0+1

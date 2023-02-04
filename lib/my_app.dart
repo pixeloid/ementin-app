@@ -2,7 +2,6 @@ import 'package:eventapp/providers/locale_provider.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:eventapp/utils/riverpod_logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:eventapp/generated/l10n.dart';
@@ -78,7 +77,6 @@ Future<void> myMain() async {
 
   /// We're using HiveStore for persistence,
   /// so we need to initialize Hive.
-  await initHiveForFlutter();
 
   await setup();
 
