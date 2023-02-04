@@ -55,7 +55,8 @@ class BottomNavItem extends StatelessWidget {
               children: [
                 badgeText != null && badgeText != '0'
                     ? Badge(
-                        badgeColor: const Color(0xFFDB2777),
+                        badgeStyle:
+                            const BadgeStyle(badgeColor: Color(0xFFDB2777)),
                         badgeContent: Text(
                           badgeText!,
                           style: const TextStyle(
