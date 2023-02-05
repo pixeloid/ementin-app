@@ -53,26 +53,11 @@ class BottomNavItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                badgeText != null && badgeText != '0'
-                    ? Badge(
-                        badgeStyle:
-                            const BadgeStyle(badgeColor: Color(0xFFDB2777)),
-                        badgeContent: Text(
-                          badgeText!,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                        child: Icon(
-                          icon,
-                          size: 30,
-                          color: const Color(0xFF2C2B7A),
-                        ),
-                      )
-                    : Icon(
-                        icon,
-                        size: 30,
-                        color: const Color(0xFF2C2B7A),
-                      ),
+                Icon(
+                  icon,
+                  size: 30,
+                  color: const Color(0xFF2C2B7A),
+                ),
               ],
             ),
           ),
