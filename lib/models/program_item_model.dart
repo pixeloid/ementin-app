@@ -33,7 +33,7 @@ class ProgramItemModel {
     required this.children,
     required this.type,
     required this.people,
-    required this.body,
+    this.body,
     required this.chairs,
     required this.isRatable,
     required this.isTimeHidden,
@@ -47,7 +47,7 @@ class ProgramItemModel {
       type: json['@type'],
       iri: json['@id'],
       title: json['title'] as String,
-      body: json['body'] as String,
+      body: json['body'],
       start: startDate,
       end: endDate,
       isLiked: (json['presentationFavorites'] != null &&
@@ -82,7 +82,7 @@ class ProgramItemModel {
               .toList()
           : [],
       chairs: json['chairs'],
-      isRatable: json['isRatable'],
+      isRatable: json['isRatable'] ?? false,
       isTimeHidden: false,
     );
   }

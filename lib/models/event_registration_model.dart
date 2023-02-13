@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
 class EventRegistrationModel {
-  final int id;
   final String iri;
   final String firstname;
   final String lastname;
@@ -13,7 +12,6 @@ class EventRegistrationModel {
   final String? checkout;
 
   EventRegistrationModel({
-    required this.id,
     required this.iri,
     required this.firstname,
     required this.lastname,
@@ -33,7 +31,6 @@ class EventRegistrationModel {
       },
     );
     return EventRegistrationModel(
-      id: json['id'],
       iri: json['@id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
@@ -54,7 +51,6 @@ class EventRegistrationModel {
   Map<String, dynamic> toJson() => {
         "firstname": firstname,
         "lastname": lastname,
-        "id": id,
       };
 }
 
