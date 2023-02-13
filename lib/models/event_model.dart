@@ -1,4 +1,5 @@
 import 'package:eventapp/models/event_registration_model.dart';
+import 'package:eventapp/models/sponsor_category.dart';
 import 'package:intl/intl.dart';
 
 class EventModel {
@@ -21,6 +22,7 @@ class EventModel {
   final DateTime startDate;
   final DateTime endDate;
   final String? instaUrl;
+  final List<SponsorCategory>? sponsorCategories;
 
   EventModel({
     required this.id,
@@ -42,6 +44,7 @@ class EventModel {
     required this.startDate,
     required this.endDate,
     required this.instaUrl,
+    this.sponsorCategories,
   });
 
   factory EventModel.fromJson(json) {
@@ -50,7 +53,7 @@ class EventModel {
       iri: json['@id'],
       name: json['name'] as String,
       domain: json['domain'] as String,
-      checkedIn: false,
+      checkedIn: json['checkedIn'],
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
@@ -79,6 +82,9 @@ class EventModel {
           ? (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList()
           : [],
       instaUrl: json['insta'],
+      sponsorCategories: (json['sponsors'] as List<dynamic>?)
+          ?.map((e) => SponsorCategory.fromMap(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 

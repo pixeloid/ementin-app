@@ -26,6 +26,7 @@ class MainPage extends StatelessWidget {
     final isLoggedIn = authProvider.isAuth;
     final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
     final hasGallery = eventProvider.selectedEvent?.instaUrl != null;
+    final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
     return ChangeNotifierProvider<GalleryProvider>(
       create: (_) => GalleryProvider(),
       child: Consumer<PollProvider>(
@@ -38,6 +39,7 @@ class MainPage extends StatelessWidget {
                   RegistrationDetailsRoute(),
                   FavouritesRoute(),
                   GalleryRoute(),
+                  SponsorsRoute(),
                   //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
                 ],
                 bottomNavigationBuilder: (_, tabsRouter) {
@@ -95,6 +97,15 @@ class MainPage extends StatelessWidget {
                             icon: Icons.photo_library,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(3);
+                            },
+                          ),
+                        if (hasSponsors)
+                          BottomNavItem(
+                            index: 4,
+                            label: 'Támogatók',
+                            icon: Icons.factory,
+                            onNavTap: () {
+                              tabsRouter.setActiveIndex(4);
                             },
                           ),
                       ],

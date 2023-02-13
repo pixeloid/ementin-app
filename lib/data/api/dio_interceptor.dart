@@ -46,7 +46,7 @@ class DioInterceptor extends Interceptor {
     var refreshToken = _prefsLocator.getRefreshToken();
 
     if (refreshToken == null) {
-      repository.logout();
+      return repository.logout();
       //
     }
 

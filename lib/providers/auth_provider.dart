@@ -31,10 +31,14 @@ class AuthProvider with ChangeNotifier {
         code: code,
       );
       final token = response["token"];
-      notifyListeners();
+      final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
         _autoLogout();
       });
+      await locator
+          .setRefreshToken(refreshToken: refreshToken)
+          .then((value) {});
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
