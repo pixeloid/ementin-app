@@ -81,7 +81,7 @@ class ProgramProvider extends ChangeNotifierSafety {
     final result = await _programRepository.getProgram(eventId, date);
     programItems = result;
     isLoading = false;
-    subscribe();
+    // subscribe();
     notifyListeners();
   }
 
@@ -105,9 +105,9 @@ class ProgramProvider extends ChangeNotifierSafety {
       } else {
         final response = await _programRepository.like(programPresentation.iri);
 
-        final responseData = json.decode(response);
+        //  final responseData = json.decode(response);
 
-        programPresentation.isLiked = responseData['@id'];
+        programPresentation.isLiked = response['id'];
       }
     } catch (error) {
       error;

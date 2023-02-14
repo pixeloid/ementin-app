@@ -22,39 +22,18 @@ class ProgramItem extends StatelessWidget {
           showLoveButton: presentation.type == 'Presentation',
           onTap: presentation.body != null
               ? () {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation) {
-                        return Scaffold(
-                          body: ProgramItemFullHero(
-                            presentation: presentation,
-                            showBody: true,
-                            showLoveButton: presentation.type == 'Presentation',
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        );
-                      },
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        const begin = Offset(0.0, 1.0);
-                        const end = Offset.zero;
-                        const curve = Curves.ease;
-
-                        var tween = Tween(begin: begin, end: end)
-                            .chain(CurveTween(curve: curve));
-
-                        return SlideTransition(
-                          position: animation.drive(tween),
-                          child: child,
-                        );
-                      },
-                      transitionDuration: const Duration(milliseconds: 500),
-                    ),
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                            body: ProgramItemFullHero(
+                              presentation: presentation,
+                              showBody: true,
+                              showLoveButton:
+                                  presentation.type == 'Presentation',
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          )));
                 }
               : () {},
         ),

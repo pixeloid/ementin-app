@@ -4,7 +4,7 @@ import 'app_define/app_config.dart';
 import 'environments/environement.dart';
 
 Future<void> main() async {
-  AppConfig(env: Environment.production());
+  AppConfig(env: Environment.development());
 
   await myMain();
 }

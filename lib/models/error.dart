@@ -8,8 +8,8 @@ class ErrorModel {
   factory ErrorModel.fromJson(Map<String, dynamic> json, int? statusCode) =>
       ErrorModel(
         statusCode as int,
-        json['hydra:title'] as String,
-        json['hydra:description'] as String,
+        json['hydra:title'] ?? json['message'] as String,
+        json['hydra:description'] ?? '',
       );
 
   Map<String, dynamic> toJson(ErrorModel instance) => <String, dynamic>{

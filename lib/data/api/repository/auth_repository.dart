@@ -98,7 +98,7 @@ class AuthRepository {
 
       completer.complete(response.data);
     } catch (e) {
-      e;
+      rethrow;
     }
     return completer.future;
   }

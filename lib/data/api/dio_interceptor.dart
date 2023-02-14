@@ -9,9 +9,9 @@ class DioInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var token = _prefsLocator.getUserToken();
+
     if (token != null && options.extra['noAuth'] != true) {
-      options.headers['Authorization'] =
-          'Bearer ${_prefsLocator.getUserToken()}';
+      options.headers['Authorization'] = 'Bearer $token';
     }
     if (options.method == 'PATCH') {
       options.headers['content-type'] =
@@ -36,7 +36,8 @@ class DioInterceptor extends Interceptor {
         try {
           var refreshToken = _prefsLocator.getRefreshToken();
 
-          if (refreshToken == null) {
+          if (refreshToken == null ||
+              err.response!.data['message'] == 'JWT Refresh Token Not Found') {
             return repository.logout();
             //
           }
@@ -51,9 +52,13 @@ class DioInterceptor extends Interceptor {
     super.onError(err, handler);
   }
 
-  refreshToken(ErrorInterceptorHandler handler) async {}
-
   _retry(RequestOptions requestOptions) {
+    var token = _prefsLocator.getUserToken();
+
+    if (token != null && requestOptions.extra['noAuth'] != true) {
+      requestOptions.headers['Authorization'] =
+          'Bearer ${_prefsLocator.getUserToken()}';
+    }
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,

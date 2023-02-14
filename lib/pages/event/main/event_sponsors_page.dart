@@ -1,3 +1,4 @@
+import 'package:eventapp/pages/event/main/event_sponsor_materials_page.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/gallery_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
@@ -48,7 +49,7 @@ class SponsorsPage extends StatelessWidget {
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                          horizontal: 30, vertical: 32),
                       child: Column(children: [
                         Text(
                           sponsorCategory.name.toString(),
@@ -60,22 +61,50 @@ class SponsorsPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 28,
                         ),
                         ...sponsorCategory.sponsors!.toList().map<Widget>(
                               (sponsor) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18, vertical: 8),
-                                child: Text(
-                                  sponsor.company!.name
-                                      .toString()
-                                      .toUpperCase(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800,
-                                    color: Color(0xFF1F2937),
-                                    height: 1.2,
-                                  ),
+                                padding: const EdgeInsets.only(bottom: 14),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      sponsor.company!.name
+                                          .toString()
+                                          .toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 16 - (i * 2),
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(0xFF1F2937),
+                                        height: 1,
+                                      ),
+                                    ),
+                                    (sponsor.materialUrls!.isNotEmpty)
+                                        ? Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 0),
+                                            child: TextButton(
+                                              style: ButtonStyle(),
+                                              onPressed: () =>
+                                                  Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Scaffold(
+                                                    body: SponsorMaterialsPage(
+                                                      sponsor: sponsor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                'További információk',
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            height: 10 - (i * 4),
+                                          )
+                                  ],
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/widgets.dart';
@@ -79,8 +80,9 @@ class AuthProvider with ChangeNotifier {
       await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
         notifyListeners();
       });
-    } catch (error) {
-      rethrow;
+      debugPrint('Token updated to: $token');
+    } on DioError catch (_) {
+      logout();
     }
   }
 

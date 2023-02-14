@@ -145,25 +145,26 @@ class WHeader extends StatelessWidget with DynamicSize {
                   )
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        title!.toUpperCase(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 16,
-                          height: 1.2,
-                          letterSpacing: -.5,
-                          color: Color(0xFF315565),
+              if (title != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title!.toUpperCase(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                            height: 1.2,
+                            letterSpacing: -.5,
+                            color: Color(0xFF315565),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),
