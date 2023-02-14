@@ -75,7 +75,7 @@ class SponsorsPage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 16 - (i * 2),
                                         fontWeight: FontWeight.w800,
-                                        color: Color(0xFF1F2937),
+                                        color: const Color(0xFF1F2937),
                                         height: 1,
                                       ),
                                     ),
@@ -84,7 +84,7 @@ class SponsorsPage extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 12, vertical: 0),
                                             child: TextButton(
-                                              style: ButtonStyle(),
+                                              style: const ButtonStyle(),
                                               onPressed: () =>
                                                   Navigator.of(context).push(
                                                 MaterialPageRoute(

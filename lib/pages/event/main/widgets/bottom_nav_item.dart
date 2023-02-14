@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavItem extends StatelessWidget {

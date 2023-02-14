@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +95,6 @@ class _CheckInPageState extends State<CheckInPage> {
 
   Future<void> _checkIn(EventProvider eventProvider, String code,
       AuthProvider authProvider, BuildContext context) async {
-    final router = AutoRouter.of(context);
     setState(() {
       isLoading = true;
       result = null;
