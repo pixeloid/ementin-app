@@ -29,11 +29,21 @@ class DioInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response != null) {
-      if (err.response!.statusCode == 401) {
+      AuthProvider authProvider = getIt.get<AuthProvider>();
+      AuthProvider repository = getIt.get<AuthProvider>();
+
+      if (err.response!.data['code'] == 401) {
         try {
-          await refreshToken();
+          var refreshToken = _prefsLocator.getRefreshToken();
+
+          if (refreshToken == null) {
+            return repository.logout();
+            //
+          }
+
+          await repository.refreshToken(refreshToken);
+          return handler.resolve(await _retry(err.requestOptions));
         } catch (err) {
-          AuthProvider authProvider = getIt.get<AuthProvider>();
           authProvider.logout();
         }
       }
@@ -41,15 +51,18 @@ class DioInterceptor extends Interceptor {
     super.onError(err, handler);
   }
 
-  refreshToken() async {
-    AuthProvider repository = getIt.get<AuthProvider>();
-    var refreshToken = _prefsLocator.getRefreshToken();
+  refreshToken(ErrorInterceptorHandler handler) async {}
 
-    if (refreshToken == null) {
-      return repository.logout();
-      //
-    }
+  _retry(RequestOptions requestOptions) {
+    final options = Options(
+      method: requestOptions.method,
+      headers: requestOptions.headers,
+    );
+    final dio = Dio();
 
-    await repository.refreshToken(refreshToken);
+    return dio.request<dynamic>(requestOptions.path,
+        data: requestOptions.data,
+        queryParameters: requestOptions.queryParameters,
+        options: options);
   }
 }

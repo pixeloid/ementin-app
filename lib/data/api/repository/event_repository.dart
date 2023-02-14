@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/models/event_model.dart';
@@ -11,12 +12,17 @@ class EventRepository {
   final netWorkLocator = getIt.get<DioClient>();
 
   Future<List<EventModel>> getEvents() async {
-    final response = await netWorkLocator.dio.get(
-      '${EndPoints.baseUrl}${EndPoints.allEvents}',
-    );
-    return response.data['hydra:member']
-        .map<EventModel>((e) => EventModel.fromJson(e))
-        .toList();
+    try {
+      final response = await netWorkLocator.dio.get(
+        '${EndPoints.baseUrl}${EndPoints.allEvents}',
+      );
+      return response.data['hydra:member']
+          .map<EventModel>((e) => EventModel.fromJson(e))
+          .toList();
+    } on DioError catch (e) {
+      throw Exception(NetworkExceptions.getErrorMessage(
+          NetworkExceptions.getDioException(e)));
+    }
   }
 
   Future<dynamic> checkIn(int id, String code) async {

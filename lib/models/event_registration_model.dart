@@ -57,13 +57,13 @@ class EventRegistrationModel {
 class TicketModel {
   final DateTime date;
   final int qty;
-  final String description;
+  final String? description;
   final String name;
 
   TicketModel({
     required this.date,
     required this.qty,
-    required this.description,
+    this.description,
     required this.name,
   });
 

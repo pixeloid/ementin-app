@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:eventapp/data/api/repository/event_repository.dart';
+import 'package:flutter/material.dart';
 
 import '../models/event_model.dart';
 import '../utils/other/notifier_safety.dart';
@@ -39,9 +40,14 @@ class EventProvider extends ChangeNotifierSafety {
 
   /// Get Tickets
   Future getEvents() async {
-    events = await _eventRepository.getEvents();
-    isLoading = false;
-    notifyListeners();
+    try {
+      events = await _eventRepository.getEvents();
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      notifyListeners();
+      debugPrint(e.toString());
+    }
   }
 
   @override
