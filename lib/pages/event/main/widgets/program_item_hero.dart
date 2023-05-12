@@ -44,7 +44,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
     super.initState();
 
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      final DateTime now = DateTime.now().toUtc().add(const Duration(hours: 2));
+      final DateTime now = DateTime.now().toUtc().add(const Duration(hours: 1));
       final remaining = widget.presentation.end.difference(now).inSeconds;
       final length = widget.presentation.end
           .difference(widget.presentation.start)
@@ -159,14 +159,14 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     ),
                     Row(
                       children: [
+                        Text(widget.presentation.type),
                         if (author != null)
                           Author(
                             author: author,
                             hideDescription: true,
                           ),
                         if (checkedIn &&
-                            widget.presentation.type == 'Presentation' &&
-                            widget.presentation.isRatable)
+                            widget.presentation.type == 'Presentation')
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

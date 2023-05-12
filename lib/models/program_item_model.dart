@@ -88,7 +88,7 @@ class ProgramItemModel {
   }
 
   get inProgress {
-    final now = DateTime.now().toUtc().add(const Duration(hours: 2));
+    final now = DateTime.now().toUtc().add(const Duration(hours: 1));
     return start.isBefore(now) && end.isAfter(now);
   }
 
