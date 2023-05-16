@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
+import 'author.dart';
 import 'love_button.dart';
 import 'my_rating_bar.dart';
 
@@ -164,8 +165,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                             author: author,
                             hideDescription: true,
                           ),
-                        if (checkedIn &&
-                            widget.presentation.type == 'Presentation')
+                        if (checkedIn)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -204,88 +204,6 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
   }
 }
 
-class Author extends StatelessWidget {
-  final bool? hideDescription;
-
-  const Author({
-    Key? key,
-    required this.author,
-    required this.hideDescription,
-  }) : super(key: key);
-
-  final AuthorModel author;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (author.image != null)
-            Row(
-              children: [
-                Container(
-                  width: 32.0,
-                  height: 32.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://home.ementin.hu${author.image}'), // Provide your custom image
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      author.name,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: const TextStyle(
-                        color: Color(0xFF554577),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        height: 1.2,
-                      ),
-                    ),
-                    if (author.workplace != null)
-                      Text(
-                        author.workplace ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          height: 1.2,
-                        ),
-                      ),
-                    if (author.description != null && !hideDescription!)
-                      Container(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          author.description ?? '',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 1.3,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-        ],
-      ),
-    );
-  }
-}
-
 class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
   final ProgramItemModel presentation;
   final VoidCallback onTap;
@@ -314,120 +232,108 @@ class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
           delegate: this,
         ),
         Expanded(
-          child: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-              color: Color(0xFFF4F6FA),
-            ),
-            child: Column(
-              children: [
-                if (presentation.body != null)
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SingleChildScrollView(
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(00, 16, 0, 0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  if (!presentation.isTimeHidden)
-                                    Text(
-                                      DateFormat('Hm')
-                                          .format(presentation.start)
-                                          .toString(),
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF2C2B7A),
-                                        height: 1.2,
-                                      ),
-                                    ),
-                                  if (!presentation.isTimeHidden)
-                                    Text(
-                                      "${presentation.duration.inMinutes} perc",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFFABAAB5),
-                                        height: 1.2,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(children: [
-                                Flexible(
-                                  child: Text(
-                                    presentation.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 4,
+          child: Column(
+            children: [
+              if (presentation.body != null)
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(00, 16, 0, 0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (!presentation.isTimeHidden)
+                                  Text(
+                                    DateFormat('Hm')
+                                        .format(presentation.start)
+                                        .toString(),
                                     style: const TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: Color(0xFF1F2937),
+                                      color: Color(0xFF2C2B7A),
                                       height: 1.2,
                                     ),
                                   ),
+                                if (!presentation.isTimeHidden)
+                                  Text(
+                                    "${presentation.duration.inMinutes} perc",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFFABAAB5),
+                                      height: 1.2,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(children: [
+                              Flexible(
+                                child: Text(
+                                  presentation.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 4,
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF1F2937),
+                                    height: 1.2,
+                                  ),
                                 ),
-                              ]),
-                              const SizedBox(height: 8),
-                              if (authors.isNotEmpty)
-                                Wrap(
-                                    children: authors
-                                        .toList()
-                                        .map((e) => Author(
-                                              author: e,
-                                              hideDescription: false,
-                                            ))
-                                        .toList()),
-                              const SizedBox(height: 16),
-                              Html(data: presentation.body, style: {
-                                "body": Style(
-                                    padding: EdgeInsets.zero,
-                                    fontSize: FontSize.larger,
-                                    lineHeight: LineHeight.em(1.4),
-                                    fontWeight: FontWeight.w500)
-                              }),
-                            ],
-                          ),
+                              ),
+                            ]),
+                            const SizedBox(height: 8),
+                            if (authors.isNotEmpty)
+                              Wrap(
+                                  spacing: 6.0,
+                                  runSpacing: 6.0,
+                                  children: authors
+                                      .toList()
+                                      .map((e) => Author(
+                                            author: e,
+                                            hideDescription: false,
+                                          ))
+                                      .toList()),
+                            const SizedBox(height: 16),
+                            Html(data: presentation.body, style: {
+                              "body": Style(
+                                  padding: EdgeInsets.zero,
+                                  fontSize: FontSize.larger,
+                                  lineHeight: LineHeight.em(1.4),
+                                  fontWeight: FontWeight.w500)
+                            }),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                if (checkedIn &&
-                    presentation.type == 'Presentation' &&
-                    presentation.isRatable)
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 8, bottom: 32),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: 1.5, color: Colors.black12),
+                ),
+              if (checkedIn && presentation.isRatable)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 8, bottom: 32),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.5, color: Colors.black12),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Értékelésem:'.toUpperCase(),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Értékelésem:'.toUpperCase(),
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        MyRatingBar(
-                            value: presentation.rateValue,
-                            presentation: presentation),
-                      ],
-                    ),
-                  )
-              ],
-            ),
+                      MyRatingBar(
+                          value: presentation.rateValue,
+                          presentation: presentation),
+                    ],
+                  ),
+                )
+            ],
           ),
         ),
       ],
