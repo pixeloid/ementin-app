@@ -14,7 +14,7 @@ class ExitAlertDialog extends StatelessWidget {
           },
           child: Text(
             'Cancel',
-            style: Theme.of(context).textTheme.button!.copyWith(
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   fontWeight: FontWeight.normal,
                 ),
           ),

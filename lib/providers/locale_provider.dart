@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class LocaleProvider with ChangeNotifier {
   /// Save locale
+  // ignore: deprecated_member_use
   Locale _locale = Locale(ui.window.locale.languageCode);
 
   /// Get current locale

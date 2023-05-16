@@ -10,14 +10,14 @@
       "name": "Flutter Dev",
       "type": "dart",
       "request": "launch",
-      "program": "lib/main.dart",
+      "program": "lib/main_dev.dart",
 
     },
     {
       "name": "Flutter Prod",
       "type": "dart",
       "request": "launch",
-      "program": "lib/main.dart",
+      "program": "lib/main_prod.dart",
     },
   ]
 }

@@ -19,7 +19,7 @@ class ProgramItem extends StatelessWidget {
           presentation: presentation,
           showBody: false,
           prefix: prefix,
-          showLoveButton: presentation.type == 'Presentation',
+          showLoveButton: true,
           onTap: presentation.body != null
               ? () {
                   Navigator.of(context).push(MaterialPageRoute(

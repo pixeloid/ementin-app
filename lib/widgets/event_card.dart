@@ -130,7 +130,6 @@ class EventCard extends StatelessWidget {
                                 )
                               ],
                             ),
-
                             const SizedBox(height: 13),
                             Container(
                                 height: 1,
@@ -146,7 +145,7 @@ class EventCard extends StatelessWidget {
                                   textAlign: TextAlign.left,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(fontWeight: FontWeight.w900)),
                             ),
                             const SizedBox(height: 13),
@@ -337,24 +336,6 @@ class EventCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // CountdownTimer(
-                            //   endTime: event.start,
-                            //   //  widgetBuilder: (_, CurrentRemainingTime? time) {
-                            //   //    if (time == null) {
-                            //   //      return const Text('Game over');
-                            //   //    }
-                            //   //    return Text(
-                            //   //        'days: [ ${time!.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]');
-                            //   //  },
-                            //   textStyle: Theme.of(context)
-                            //       .textTheme
-                            //       .bodyText1!
-                            //       .copyWith(
-                            //         color:
-                            //             const Color.fromARGB(255, 255, 0, 153),
-                            //       ),
-                            //   endWidget: Container(),
-                            // ),
                           ],
                         ),
                       ),

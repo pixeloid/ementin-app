@@ -159,7 +159,6 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     ),
                     Row(
                       children: [
-                        Text(widget.presentation.type),
                         if (author != null)
                           Author(
                             author: author,
@@ -240,49 +239,47 @@ class Author extends StatelessWidget {
                 const SizedBox(
                   width: 12,
                 ),
-              ],
-            ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  author.name,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: const TextStyle(
-                    color: Color(0xFF554577),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.2,
-                  ),
-                ),
-                if (author.workplace != null)
-                  Text(
-                    author.workplace ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      height: 1.2,
-                    ),
-                  ),
-                if (author.description != null && !hideDescription!)
-                  Container(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      author.description ?? '',
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      author.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        height: 1.3,
+                        color: Color(0xFF554577),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        height: 1.2,
                       ),
                     ),
-                  ),
+                    if (author.workplace != null)
+                      Text(
+                        author.workplace ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          height: 1.2,
+                        ),
+                      ),
+                    if (author.description != null && !hideDescription!)
+                      Container(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          author.description ?? '',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
-          )
         ],
       ),
     );
@@ -308,9 +305,7 @@ class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
     final checkedIn = Provider.of<EventProvider>(context, listen: false)
         .selectedEvent!
         .checkedIn;
-    final AuthorModel? author =
-        presentation.people.isNotEmpty ? presentation.people.first : null;
-
+    final List<AuthorModel> authors = presentation.people;
     return Column(
       children: [
         WHeader(
@@ -385,13 +380,15 @@ class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
                                 ),
                               ]),
                               const SizedBox(height: 8),
-                              if (author != null)
-                                Row(children: [
-                                  Author(
-                                    author: author,
-                                    hideDescription: false,
-                                  )
-                                ]),
+                              if (authors.isNotEmpty)
+                                Wrap(
+                                    children: authors
+                                        .toList()
+                                        .map((e) => Author(
+                                              author: e,
+                                              hideDescription: false,
+                                            ))
+                                        .toList()),
                               const SizedBox(height: 16),
                               Html(data: presentation.body, style: {
                                 "body": Style(

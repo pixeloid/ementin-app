@@ -114,12 +114,34 @@ class AppTheme {
       inputDecorationTheme: const InputDecorationTheme(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       highlightColor: accent1,
-      toggleableActiveColor: accent1,
       textSelectionTheme: TextSelectionThemeData(
         selectionColor: greyWeak,
         selectionHandleColor: Colors.transparent,
         cursorColor: accent1,
-      ),
+      ), checkboxTheme: CheckboxThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return accent1; }
+ return null;
+ }),
+ ), radioTheme: RadioThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return accent1; }
+ return null;
+ }),
+ ), switchTheme: SwitchThemeData(
+ thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return accent1; }
+ return null;
+ }),
+ trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return accent1; }
+ return null;
+ }),
+ ),
     );
   }
 }

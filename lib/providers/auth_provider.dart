@@ -34,7 +34,7 @@ class AuthProvider with ChangeNotifier {
       final token = response["token"];
       final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
-        _autoLogout();
+        // _autoLogout();
       });
       await locator
           .setRefreshToken(refreshToken: refreshToken)
@@ -55,7 +55,7 @@ class AuthProvider with ChangeNotifier {
       final token = response["token"];
       final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
-        _autoLogout();
+        //_autoLogout();
       });
       await locator
           .setRefreshToken(refreshToken: refreshToken)
@@ -74,8 +74,8 @@ class AuthProvider with ChangeNotifier {
       final token = response["token"];
       final refreshToken = response["refresh_token"];
       await locator.setUserToken(userToken: token).then((value) {
-        _autoLogout();
-        notifyListeners();
+        //  _autoLogout();
+        //  notifyListeners();
       });
       await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
         notifyListeners();
@@ -106,6 +106,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // ignore: unused_element
   void _autoLogout() {
     if (_authTimer != null) {
       _authTimer!.cancel();
@@ -116,5 +117,10 @@ class AuthProvider with ChangeNotifier {
         ? const Duration(seconds: 0)
         : JwtDecoder.getRemainingTime(token);
     _authTimer = Timer(remaining, logout);
+  }
+
+  DateTime? getTokenExpiryDate() {
+    var token = locator.getUserToken();
+    return token == null ? null : JwtDecoder.getExpirationDate(token);
   }
 }

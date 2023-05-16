@@ -17,6 +17,7 @@ class GalleryProvider extends ChangeNotifierSafety {
       feed = data;
       notifyListeners();
       return feed;
+      // ignore: body_might_complete_normally_catch_error
     }).catchError((error) {
       isLoading = false;
       notifyListeners();

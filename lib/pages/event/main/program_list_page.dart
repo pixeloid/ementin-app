@@ -127,7 +127,7 @@ class _ProgramListPageState extends State<ProgramListPage> {
                       ),
                       if (item.chairs != null)
                         Text(
-                          'Üléselnök: ${item.chairs}',
+                          item.chairs.toString(),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: const TextStyle(

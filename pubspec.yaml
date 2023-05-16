@@ -54,7 +54,7 @@ dependencies:
   graphql_flutter: ^5.1.1
   in_date_utils: ^1.1.0
   injectable: ^2.1.0
-  intl: ^0.17.0
+  intl: 0.18.0
   jwt_decoder: ^2.0.1
   localstorage: ^4.0.0+1
   mercure_client: ^1.1.0
