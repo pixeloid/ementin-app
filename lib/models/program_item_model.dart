@@ -1,7 +1,6 @@
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/program_presentation_rate_model.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 
 class ProgramItemModel {
   String iri;
