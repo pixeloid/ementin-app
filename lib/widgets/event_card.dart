@@ -3,6 +3,7 @@ import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../app_define/app_route.gr.dart';
 
@@ -89,10 +90,11 @@ class EventCard extends StatelessWidget {
                                     bottomRight: Radius.circular(8),
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage(
+                                    image: CachedNetworkImageProvider(
                                         'https://home.ementin.hu/${event.image}'),
                                     fit: BoxFit.cover,
-                                    onError: (error, stackTrace) => error,
+                                    onError: (error, stackTrace) =>
+                                        debugPrint(error.toString()),
                                   ),
                                 ),
                               ),

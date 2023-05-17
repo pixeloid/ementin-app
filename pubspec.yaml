@@ -75,6 +75,7 @@ dependencies:
   permission_handler: ^10.2.0
   http: ^0.13.5
   sentry_flutter: ^7.5.2
+  cached_network_image: ^3.2.3
 
 
 flutter_intl:

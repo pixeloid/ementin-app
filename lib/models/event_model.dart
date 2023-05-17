@@ -1,5 +1,6 @@
 import 'package:eventapp/models/event_registration_model.dart';
 import 'package:eventapp/models/sponsor_category.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EventModel {
@@ -48,6 +49,7 @@ class EventModel {
   });
 
   factory EventModel.fromJson(json) {
+    debugPrint('Image: ${json['image']}');
     return EventModel(
       id: json['id'],
       iri: json['@id'],
@@ -95,7 +97,7 @@ class EventModel {
 }
 
 class AdModel {
-  final String image;
+  final String? image;
   final String? url;
   final int id;
 

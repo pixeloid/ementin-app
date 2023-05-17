@@ -5,5 +5,6 @@ import 'my_app.dart';
 
 Future<void> main() async {
   AppConfig(env: Environment.development());
+
   await myMain();
 }
