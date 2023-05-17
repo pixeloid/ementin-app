@@ -44,16 +44,16 @@ class _MyAppState extends State<MyApp> {
     final status = await OneSignal.shared.getDeviceState();
     final String? osUserID = status?.userId;
     // ignore: avoid_print
-    print('Player ID: $osUserID');
+    debugPrint('Player ID: $osUserID');
     // We will update this once he logged in and goes to dashboard.
     ////updateUserProfile(osUserID);
     // Store it into shared prefs, So that later we can use it.
     //Preferences.setOnesignalUserId(osUserID);
 
     // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    // await OneSignal.shared.promptUserForPushNotificationPermission(
-    //   fallbackToSettings: true,
-    // );
+    await OneSignal.shared.promptUserForPushNotificationPermission(
+      fallbackToSettings: true,
+    );
 //
     /// Calls when foreground notification arrives.
     // OneSignal.shared.setNotificationWillShowInForegroundHandler(
