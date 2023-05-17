@@ -59,8 +59,8 @@ class EventModel {
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
-      endDate: DateTime.parse(json['end']),
-      startDate: DateTime.parse(json['start']),
+      endDate: DateTime.parse(json['end']).toLocal(),
+      startDate: DateTime.parse(json['start']).toLocal(),
       venue: json['venue'],
       image: json['image'],
       address: json['venueAddress'] ?? '',

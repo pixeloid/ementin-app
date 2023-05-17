@@ -1,6 +1,7 @@
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/program_presentation_rate_model.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
 class ProgramItemModel {
   String iri;
@@ -40,8 +41,8 @@ class ProgramItemModel {
   });
 
   factory ProgramItemModel.fromJson(Map<String, dynamic> json) {
-    DateTime startDate = DateTime.parse(json['from']);
-    DateTime endDate = DateTime.parse(json['to']);
+    DateTime startDate = DateTime.parse(json['from']).toLocal();
+    DateTime endDate = DateTime.parse(json['to']).toLocal();
     return ProgramItemModel(
       id: json['id'],
       type: json['@type'],
@@ -88,7 +89,8 @@ class ProgramItemModel {
   }
 
   get inProgress {
-    final now = DateTime.now().toUtc().add(const Duration(hours: 1));
+    final now = DateTime.now();
+
     return start.isBefore(now) && end.isAfter(now);
   }
 

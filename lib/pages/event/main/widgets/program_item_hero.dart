@@ -39,20 +39,20 @@ class ProgramItemHero extends StatefulWidget {
 
 class _ProgramItemHeroState extends State<ProgramItemHero> {
   int percentProgress = 0;
+  bool inProgress = false;
 
   @override
   void initState() {
     super.initState();
 
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      final DateTime now = DateTime.now().toUtc().add(const Duration(hours: 1));
+      final DateTime now = DateTime.now();
       final remaining = widget.presentation.end.difference(now).inSeconds;
-      final length = widget.presentation.end
-          .difference(widget.presentation.start)
-          .inSeconds;
+      final length = widget.presentation.duration.inSeconds;
       if (mounted && remaining < length && remaining > 0) {
         setState(() {
           percentProgress = (100 - (100 / length * remaining)).round();
+          inProgress = percentProgress > 0 && percentProgress < 100;
         });
       }
     });
@@ -79,7 +79,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
               bottomLeft: Radius.circular(8),
               bottomRight: Radius.circular(8),
             ),
-            color: widget.presentation.inProgress
+            color: inProgress
                 ? const Color.fromARGB(69, 241, 114, 171)
                 : const Color(0xFFF4F6FA),
             border: widget.presentation.body != null
@@ -92,7 +92,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: Column(
             children: [
-              if (percentProgress > 0 && percentProgress < 100)
+              if (inProgress)
                 Column(
                   children: [
                     const SizedBox(

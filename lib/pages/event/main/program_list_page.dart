@@ -26,7 +26,7 @@ class _ProgramListPageState extends State<ProgramListPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       var inProgressIndex = widget.programData.indexWhere((element) {
-        final now = DateTime.now().toUtc().add(const Duration(hours: 2));
+        final now = DateTime.now();
         return element.start.isBefore(now) && element.end.isAfter(now);
       });
       inProgressIndex = max(inProgressIndex, 0);
