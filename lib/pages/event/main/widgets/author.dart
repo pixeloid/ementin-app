@@ -56,6 +56,14 @@ class Author extends StatelessWidget {
                     height: 1.2,
                   ),
                 ),
+                Row(
+                  children: author.presentationDays
+                      .map((day) => Chip(
+                            label: Text(day.toString()),
+                            padding: const EdgeInsets.all(0),
+                          ))
+                      .toList(),
+                ),
                 if (author.workplace != null)
                   Text(
                     author.workplace ?? '',

@@ -91,7 +91,7 @@ class SpeakerWidget extends StatelessWidget {
           },
           child: Author(
             author: speaker,
-            hideDescription: true,
+            hideDescription: false,
           ),
         ),
         if (speaker.presentations.isNotEmpty)

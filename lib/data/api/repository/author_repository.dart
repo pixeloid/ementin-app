@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
@@ -9,7 +11,7 @@ import '../network_exceptions.dart';
 class AuthorRepository {
   final netWorkLocator = getIt.get<DioClient>();
 
-  getSpeakers(int id) async {
+  FutureOr<List<AuthorModel>> getSpeakers(int id) async {
     try {
       final response = await netWorkLocator.dio.get(
         '${EndPoints.baseUrl}${EndPoints.speakers}',

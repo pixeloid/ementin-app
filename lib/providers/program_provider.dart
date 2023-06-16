@@ -85,6 +85,18 @@ class ProgramProvider extends ChangeNotifierSafety {
     programItems = await _programRepository.getProgram(eventId, date);
     speakers = await authorRepository.getSpeakers(eventId);
 
+    speakers = speakers.map((speaker) {
+      for (var element in speaker.presentationIris) {
+        final programItem = findPresentationByIri(element);
+        if (programItem != null) {
+          speaker.presentations.add(programItem);
+        }
+      }
+      speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
+
+      return speaker;
+    }).toList();
+
     isLoading = false;
     // subscribe();
     notifyListeners();
