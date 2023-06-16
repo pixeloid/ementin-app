@@ -1,18 +1,22 @@
 import 'dart:convert';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
+import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
+import '../data/api/repository/author_repository.dart';
 import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
 
 class ProgramProvider extends ChangeNotifierSafety {
   final ProgramRepository _programRepository = getIt<ProgramRepository>();
+  final AuthorRepository authorRepository = getIt<AuthorRepository>();
 
   List<ProgramItemModel> programItems = [];
+  List<AuthorModel> speakers = [];
 
   get numItems => programItems.length;
 
@@ -78,8 +82,9 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   /// Get Tickets
   Future<void> getProgram(int eventId, {DateTime? date}) async {
-    final result = await _programRepository.getProgram(eventId, date);
-    programItems = result;
+    programItems = await _programRepository.getProgram(eventId, date);
+    speakers = await authorRepository.getSpeakers(eventId);
+
     isLoading = false;
     // subscribe();
     notifyListeners();
@@ -125,6 +130,19 @@ class ProgramProvider extends ChangeNotifierSafety {
         .toList()
         .firstWhereOrNull((element) =>
             element.id == programItem.id && element.type == programItem.type);
+
+    return item;
+  }
+
+  ProgramItemModel? findPresentationByIri(String iri) {
+    ProgramItemModel? item = programItems
+        .firstWhereOrNull((ProgramItemModel element) => element.iri == iri);
+
+    if (item != null) return item;
+    item = programItems
+        .expand((programItem) => programItem.children)
+        .toList()
+        .firstWhereOrNull((element) => element.iri == iri);
 
     return item;
   }

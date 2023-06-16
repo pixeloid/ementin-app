@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/pages/auth/auth_page.dart';
 import 'package:eventapp/pages/checkin_page.dart';
+import 'package:eventapp/pages/event/event_speaker_details_page.dart';
+import 'package:eventapp/pages/event/event_speakers_page.dart';
 import 'package:eventapp/pages/event/main/event_gallery_page.dart';
 import 'package:eventapp/pages/event/main/event_info_page.dart';
 import 'package:eventapp/pages/event/main/event_sponsors_page.dart';
@@ -48,6 +50,16 @@ import '../pages/event_list_page.dart';
         AutoRoute(
           path: 'favourtes',
           page: FavouritesPage,
+        ),
+        AutoRoute(
+          path: 'speakers',
+          page: EventSpeakersPage,
+          children: [
+            AutoRoute(
+              path: 'speaker-details',
+              page: EventSpeakerDetailsPage,
+            ),
+          ],
         ),
         AutoRoute(
           path: 'registration-details',

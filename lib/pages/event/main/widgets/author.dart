@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eventapp/app_define/app_assets.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:flutter/material.dart';
 
@@ -20,23 +21,27 @@ class Author extends StatelessWidget {
       children: [
         Row(
           children: [
-            if (author.image != null)
-              Container(
-                width: 32.0,
-                height: 32.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                        'https://home.ementin.hu${author.image}'), // Provide your custom image
-                  ),
-                ),
+            Container(
+              width: 32.0,
+              height: 32.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0x22554577),
+                image: (author.image != null)
+                    ? DecorationImage(
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                            'https://home.ementin.hu${author.image}'), // Provide your custom image
+                      )
+                    : DecorationImage(
+                        image: AssetImage(AppAssets.origin().icUser),
+                        fit: BoxFit.cover,
+                      ),
               ),
-            if (author.image != null)
-              const SizedBox(
-                width: 12,
-              ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

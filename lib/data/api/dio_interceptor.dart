@@ -37,7 +37,8 @@ class DioInterceptor extends Interceptor {
           var refreshToken = _prefsLocator.getRefreshToken();
 
           if (refreshToken == null ||
-              err.response!.data['message'] == 'JWT Refresh Token Not Found') {
+              err.response!.data['message'] == 'JWT Refresh Token Not Found' ||
+              err.response!.data['message'] == 'Invalid JWT Refresh Token') {
             return repository.logout();
             //
           }

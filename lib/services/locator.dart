@@ -1,5 +1,6 @@
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/api/repository/auth_repository.dart';
+import 'package:eventapp/data/api/repository/author_repository.dart';
 import 'package:eventapp/data/api/repository/event_repository.dart';
 import 'package:eventapp/data/api/repository/insta_repository.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
@@ -20,5 +21,6 @@ Future<void> setup() async {
   getIt.registerSingleton<AuthProvider>(AuthProvider(AuthRepository()));
   getIt.registerSingleton<InstaRepository>(InstaRepository());
   getIt.registerSingleton<ProgramRepository>(ProgramRepository());
+  getIt.registerSingleton<AuthorRepository>(AuthorRepository());
   getIt.registerSingleton<EventProvider>(EventProvider(EventRepository()));
 }

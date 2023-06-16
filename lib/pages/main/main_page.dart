@@ -34,12 +34,13 @@ class MainPage extends StatelessWidget {
           body: Stack(
             children: [
               AutoTabsScaffold(
-                routes: const [
+                routes: [
                   EventProgramRoute(),
-                  RegistrationDetailsRoute(),
-                  FavouritesRoute(),
-                  GalleryRoute(),
-                  SponsorsRoute(),
+                  const EventSpeakersRoute(),
+                  const RegistrationDetailsRoute(),
+                  const FavouritesRoute(),
+                  const GalleryRoute(),
+                  const SponsorsRoute(),
                   //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
                 ],
                 bottomNavigationBuilder: (_, tabsRouter) {
@@ -71,43 +72,52 @@ class MainPage extends StatelessWidget {
                             tabsRouter.setActiveIndex(0);
                           },
                         ),
-                        if (isLoggedIn && isCheckedIn!)
+                        if (true)
                           BottomNavItem(
                             index: 1,
-                            label: 'Regisztrációm',
-                            icon: Icons.list_alt_rounded,
+                            label: 'Előadók',
+                            icon: Icons.co_present,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(1);
                             },
                           ),
-                        if (isLoggedIn)
+                        if (isCheckedIn!)
                           BottomNavItem(
                             index: 2,
-                            icon: Icons.favorite_outline_sharp,
-                            label: 'Kedvencek',
-                            badgeText: numFavourites,
+                            label: 'Regisztrációm',
+                            icon: Icons.list_alt_rounded,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(2);
                             },
                           ),
-                        if (hasGallery)
+                        if (isLoggedIn)
                           BottomNavItem(
                             index: 3,
-                            label: 'Fotók',
-                            icon: Icons.photo_library,
+                            icon: Icons.favorite_outline_sharp,
+                            label: 'Kedvencek',
+                            badgeText: numFavourites,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(3);
                             },
                           ),
-                        if (hasSponsors)
+                        if (hasGallery)
                           BottomNavItem(
                             index: 4,
-                            label: 'Támogatók',
-                            icon: Icons.factory,
+                            label: 'Fotók',
+                            icon: Icons.photo_library,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(4);
                             },
                           ),
+                        //  if (hasSponsors)
+                        //    BottomNavItem(
+                        //      index: 5,
+                        //      label: 'Támogatók',
+                        //      icon: Icons.factory,
+                        //      onNavTap: () {
+                        //        tabsRouter.setActiveIndex(5);
+                        //      },
+                        //    ),
                       ],
                     ),
                   );

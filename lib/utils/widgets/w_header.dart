@@ -129,7 +129,7 @@ class WHeader extends StatelessWidget with DynamicSize {
                                               .then((value) => {
                                                     AutoRouter.of(context)
                                                         .navigate(
-                                                      const EventProgramRoute(),
+                                                      EventProgramRoute(),
                                                     )
                                                   });
                                         },

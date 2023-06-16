@@ -19,6 +19,7 @@ class AppAssets {
   /// -----------------
   String icAppIcon = 'assets/app/icons/app_icon_ad.png';
   String icBack = 'assets/app/icons/ic_back.png';
+  String icUser = 'assets/app/icons/user.png';
   String icIdentityBack = 'assets/app/icons/ic_identify_back.png';
   String icIdentityFront = 'assets/app/icons/ic_identify_front.png';
 }

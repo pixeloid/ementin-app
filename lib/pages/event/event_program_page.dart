@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../utils/widgets/w_header.dart';
 class EventProgramPage extends StatelessWidget with HeaderDelegate {
   const EventProgramPage({
     Key? key,
+    ProgramItemModel? selectedProgramItem,
   }) : super(key: key);
 
   Future<void> getProgram(BuildContext context) async {

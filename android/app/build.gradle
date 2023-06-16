@@ -67,7 +67,7 @@ android {
         applicationId "com.pixeloid.eventapp"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 27
+        versionCode 28
         versionName "1.4.3"
         multiDexEnabled true
     }

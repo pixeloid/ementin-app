@@ -6,6 +6,7 @@ class AuthorModel {
   final String? image;
   final String? workplace;
   final String? description;
+  List<dynamic> presentations = [];
 
   AuthorModel({
     required this.id,
@@ -15,6 +16,7 @@ class AuthorModel {
     this.image,
     this.workplace,
     this.description,
+    required this.presentations,
   });
 
   factory AuthorModel.fromJson(Map<String, dynamic> json) => AuthorModel(
@@ -24,5 +26,8 @@ class AuthorModel {
         image: json['image'],
         workplace: json['workplace'],
         description: json['description'],
+        presentations: json['presentations'] != null
+            ? (json['presentations'] as List).map((e) => e['@id']).toList()
+            : [],
       );
 }
