@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/pages/event/event_speaker_details_page.dart';
 import 'package:eventapp/providers/program_provider.dart';
@@ -17,8 +18,10 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
 
   @override
   Widget build(BuildContext context) {
-    final speakers =
-        Provider.of<ProgramProvider>(context, listen: false).speakers;
+    final speakers = Provider.of<ProgramProvider>(context, listen: false)
+        .speakers
+        .where((element) => element.presentations.isNotEmpty)
+        .toList();
 
     final programProvider =
         Provider.of<ProgramProvider>(context, listen: false);
@@ -45,7 +48,7 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
                     padding: const EdgeInsets.all(16),
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
-                        height: 16,
+                        height: 8,
                       );
                     },
                     itemCount: speakers.length,
@@ -79,24 +82,40 @@ class SpeakerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => EventSpeakerDetailsPage(
-                      speaker: speaker,
-                    )));
-          },
-          child: Author(
-            author: speaker,
-            hideDescription: false,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => EventSpeakerDetailsPage(
+                  speaker: speaker,
+                )));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+            bottomLeft: Radius.circular(8),
+            bottomRight: Radius.circular(8),
+          ),
+          color: context.theme().accentTxt,
+          border: Border.all(
+            color: context.theme().greyWeaker,
+            width: 1,
           ),
         ),
-        if (speaker.presentations.isNotEmpty)
-          const Icon(PhosphorIcons.arrow_right)
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Author(
+              author: speaker,
+              hideDescription: false,
+            ),
+            if (speaker.presentations.isNotEmpty)
+              const Icon(PhosphorIcons.arrow_right_thin)
+          ],
+        ),
+      ),
     );
   }
 }
