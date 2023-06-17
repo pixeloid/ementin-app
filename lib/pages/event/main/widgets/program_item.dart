@@ -5,9 +5,14 @@ import 'program_item_hero.dart';
 
 class ProgramItem extends StatelessWidget {
   final String? prefix;
+  final bool showDayName;
 
-  const ProgramItem({Key? key, required this.presentation, this.prefix})
-      : super(key: key);
+  const ProgramItem({
+    Key? key,
+    required this.presentation,
+    this.prefix,
+    this.showDayName = false,
+  }) : super(key: key);
 
   final ProgramItemModel presentation;
 
@@ -17,6 +22,7 @@ class ProgramItem extends StatelessWidget {
       children: [
         ProgramItemHero(
           presentation: presentation,
+          showDayName: showDayName,
           showBody: false,
           prefix: prefix,
           showLoveButton: true,

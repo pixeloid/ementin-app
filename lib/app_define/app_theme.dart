@@ -22,6 +22,7 @@ class AppTheme {
     required this.grey,
     required this.greyStrong,
     required this.greyWeak,
+    required this.greyWeaker,
     required this.error,
     required this.focus,
     required this.txt,
@@ -40,6 +41,7 @@ class AppTheme {
   Color grey;
   Color greyStrong;
   Color greyWeak;
+  Color greyWeaker;
   Color error;
   Color focus;
   Color txt;
@@ -55,12 +57,13 @@ class AppTheme {
           bg1: const Color(0xFFF9FAFB),
           bg2: const Color(0xffc1dcbc),
           surface: Colors.white,
-          accent1: const Color(0xFF4F46E5),
+          accent1: const Color(0xFF2C2B7A),
           accent1Dark: const Color(0xff00856f),
           accent1Darker: const Color(0xff006b5a),
-          accent2: const Color(0xffF172AC),
+          accent2: const Color(0xFFf172ac),
           accent3: const Color(0xff5bc91a),
-          greyWeak: const Color(0xff909f9c),
+          greyWeak: const Color.fromARGB(255, 208, 216, 227),
+          greyWeaker: const Color.fromARGB(255, 234, 237, 240),
           grey: const Color(0xff515d5a),
           greyStrong: const Color(0xff151918),
           error: Colors.red.shade900,
@@ -81,6 +84,7 @@ class AppTheme {
           accent2: const Color(0xfff19e46),
           accent3: const Color(0xff5BC91A),
           greyWeak: const Color(0xffa8b3b0),
+          greyWeaker: const Color.fromARGB(255, 216, 225, 223),
           grey: const Color(0xffced4d3),
           greyStrong: const Color(0xffffffff),
           error: const Color(0xffe55642),
@@ -118,30 +122,53 @@ class AppTheme {
         selectionColor: greyWeak,
         selectionHandleColor: Colors.transparent,
         cursorColor: accent1,
-      ), checkboxTheme: CheckboxThemeData(
- fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
- if (states.contains(MaterialState.disabled)) { return null; }
- if (states.contains(MaterialState.selected)) { return accent1; }
- return null;
- }),
- ), radioTheme: RadioThemeData(
- fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
- if (states.contains(MaterialState.disabled)) { return null; }
- if (states.contains(MaterialState.selected)) { return accent1; }
- return null;
- }),
- ), switchTheme: SwitchThemeData(
- thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
- if (states.contains(MaterialState.disabled)) { return null; }
- if (states.contains(MaterialState.selected)) { return accent1; }
- return null;
- }),
- trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
- if (states.contains(MaterialState.disabled)) { return null; }
- if (states.contains(MaterialState.selected)) { return accent1; }
- return null;
- }),
- ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return accent1;
+          }
+          return null;
+        }),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return accent1;
+          }
+          return null;
+        }),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return accent1;
+          }
+          return null;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return accent1;
+          }
+          return null;
+        }),
+      ),
     );
   }
 }

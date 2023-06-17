@@ -21,17 +21,20 @@ class ProgramItemHero extends StatefulWidget {
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
-
+  final bool showDayName;
+  final bool hideAuthor;
   final String? prefix;
 
-  const ProgramItemHero(
-      {Key? key,
-      required this.presentation,
-      required this.onTap,
-      required this.showBody,
-      required this.showLoveButton,
-      this.prefix})
-      : super(key: key);
+  const ProgramItemHero({
+    Key? key,
+    required this.presentation,
+    required this.onTap,
+    required this.showBody,
+    required this.showLoveButton,
+    this.prefix,
+    this.showDayName = false,
+    this.hideAuthor = false,
+  }) : super(key: key);
 
   @override
   State<ProgramItemHero> createState() => _ProgramItemHeroState();
@@ -117,9 +120,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                       children: [
                         if (!widget.presentation.isTimeHidden)
                           Text(
-                            DateFormat('Hm')
-                                .format(widget.presentation.start)
-                                .toString(),
+                            "${DateFormat('Hm').format(widget.presentation.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(widget.presentation.start) : ''}",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -160,7 +161,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     ),
                     Row(
                       children: [
-                        if (author != null)
+                        if (author != null && !widget.hideAuthor)
                           Author(
                             author: author,
                             hideDescription: true,

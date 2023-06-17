@@ -37,8 +37,8 @@ class WHeader extends StatelessWidget with DynamicSize {
   //-------------------
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final tokenExipryDate = authProvider.getTokenExpiryDate();
+    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    //final tokenExipryDate = authProvider.getTokenExpiryDate();
     //Init dynamic size
     initDynamicSize(context);
     return Material(

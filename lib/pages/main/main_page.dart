@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget {
     final isLoggedIn = authProvider.isAuth;
     final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
     final hasGallery = eventProvider.selectedEvent?.instaUrl != null;
-    final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
+    // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
     return ChangeNotifierProvider<GalleryProvider>(
       create: (_) => GalleryProvider(),
       child: Consumer<PollProvider>(

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/author_model.dart';
-import 'package:eventapp/pages/event/main/widgets/program_item.dart';
+import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
 import 'package:flutter/material.dart';
 import '../../utils/widgets/w_header.dart';
 
@@ -24,7 +24,13 @@ class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
           ),
           Column(
             children: speaker.presentations
-                .map((programItem) => ProgramItem(presentation: programItem))
+                .map((programItem) => ProgramItemHero(
+                    presentation: programItem,
+                    showDayName: true,
+                    onTap: () {},
+                    showBody: false,
+                    showLoveButton: true,
+                    hideAuthor: true))
                 .toList(),
           ),
         ],
