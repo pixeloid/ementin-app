@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eventapp/app_define/app_assets.dart';
+import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,17 @@ class Author extends StatelessWidget {
 
   final AuthorModel author;
 
+  String getInitials(name) {
+    List<String> names = name.split(" ");
+    String initials = "";
+    int numWords = 2;
+
+    for (var i = 0; i < numWords; i++) {
+      initials += names[i][0];
+    }
+    return initials;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,26 +32,27 @@ class Author extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              width: 32.0,
-              height: 32.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0x22554577),
-                image: (author.image != null)
-                    ? DecorationImage(
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(
-                            'https://home.ementin.hu${author.image}'), // Provide your custom image
-                      )
-                    : DecorationImage(
-                        image: AssetImage(AppAssets.origin().icUser),
-                        fit: BoxFit.cover,
+            CircleAvatar(
+              radius: 16,
+              backgroundColor: Colors.grey.shade800,
+              backgroundImage: (author.image != null)
+                  ? CachedNetworkImageProvider(
+                      'https://home.ementin.hu${author.image}') // Provide your custom image
+
+                  : null,
+              child: (author.image == null)
+                  ? Text(
+                      getInitials(author.name),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13,
+                        height: 1.2,
                       ),
-              ),
+                    )
+                  : null,
             ),
             const SizedBox(
-              width: 12,
+              width: 6,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,9 +70,22 @@ class Author extends StatelessWidget {
                 ),
                 Row(
                   children: author.presentationDays
-                      .map((day) => Chip(
-                            label: Text(day.toString()),
-                            padding: const EdgeInsets.all(0),
+                      .map((day) => Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: context.theme().greyWeak),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 1),
+                              child: Text(
+                                day.toString(),
+                                style: const TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w600,
+                                  // color: context.theme().accentTxt,
+                                ),
+                              ),
+                            ),
                           ))
                       .toList(),
                 ),

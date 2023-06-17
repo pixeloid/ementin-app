@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/pages/event/event_speaker_details_page.dart';
