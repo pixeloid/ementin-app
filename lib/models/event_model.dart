@@ -1,6 +1,5 @@
 import 'package:eventapp/models/event_registration_model.dart';
 import 'package:eventapp/models/sponsor_category.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EventModel {
