@@ -10,6 +10,10 @@ class DioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var token = _prefsLocator.getUserToken();
 
+    if (options.extra['event'] != null) {
+      options.headers['event'] = options.extra['event'];
+    }
+
     if (token != null && options.extra['noAuth'] != true) {
       options.headers['Authorization'] = 'Bearer $token';
     }

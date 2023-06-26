@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/author_model.dart';
+import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/pages/event/event_speaker_details_page.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
 
   @override
   Widget build(BuildContext context) {
+    final eventProvider = Provider.of<EventProvider>(context, listen: true);
+
     final speakers = Provider.of<ProgramProvider>(context, listen: false)
         .speakers
         .where((element) => element.presentations.isNotEmpty)
@@ -24,10 +27,10 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
 
     final programProvider =
         Provider.of<ProgramProvider>(context, listen: false);
-    final eventProvider = Provider.of<EventProvider>(context, listen: true);
 
     Future<void> refreshProgram() async {
-      await programProvider.getProgram(eventProvider.selectedEvent!.id);
+      await programProvider
+          .getProgram(eventProvider.selectedEvent as EventModel);
     }
 
     return Scaffold(

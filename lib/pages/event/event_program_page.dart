@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
 import 'package:eventapp/providers/program_provider.dart';
@@ -15,11 +16,11 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
   }) : super(key: key);
 
   Future<void> getProgram(BuildContext context) async {
-    final selectedEvent =
-        Provider.of<EventProvider>(context, listen: false).selectedEvent;
+    final selectedEvent = Provider.of<EventProvider>(context, listen: false)
+        .selectedEvent as EventModel;
 
     await Provider.of<ProgramProvider>(context, listen: false)
-        .getProgram(selectedEvent!.id);
+        .getProgram(selectedEvent);
   }
 
   @override

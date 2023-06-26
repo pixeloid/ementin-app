@@ -49,7 +49,6 @@ class EventModel {
   });
 
   factory EventModel.fromJson(json) {
-    debugPrint('Image: ${json['image']}');
     return EventModel(
       id: json['id'],
       iri: json['@id'],

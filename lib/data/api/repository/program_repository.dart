@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/data/endpoints.dart';
+import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 
@@ -11,11 +12,12 @@ class ProgramRepository {
   final netWorkLocator = getIt.get<DioClient>();
   final sharedPrefLocator = getIt.get<SharedPreferenceHelper>();
 
-  Future<List<ProgramItemModel>> getProgram(int eventId, DateTime? date) async {
+  Future<List<ProgramItemModel>> getProgram(
+      EventModel event, DateTime? date) async {
+    netWorkLocator.dio.options.extra['event'] = event.domain;
     final response = await netWorkLocator.dio.get(
       '${EndPoints.baseUrl}${EndPoints.eventProgram}',
       queryParameters: {
-        'event': eventId,
         if (date != null) 'date': date,
       },
     );

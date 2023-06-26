@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:js_interop';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
 import 'package:eventapp/models/author_model.dart';
+import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
@@ -81,9 +83,9 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   /// Get Tickets
-  Future<void> getProgram(int eventId, {DateTime? date}) async {
-    programItems = await _programRepository.getProgram(eventId, date);
-    speakers = await authorRepository.getSpeakers(eventId);
+  Future<void> getProgram(EventModel event, {DateTime? date}) async {
+    programItems = await _programRepository.getProgram(event, date);
+    speakers = await authorRepository.getSpeakers(event);
 
     speakers = speakers.map((speaker) {
       for (var element in speaker.presentationIris) {
