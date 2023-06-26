@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/api/repository/program_repository.dart';
 import 'package:eventapp/models/author_model.dart';
