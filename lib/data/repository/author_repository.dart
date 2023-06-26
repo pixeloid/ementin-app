@@ -7,7 +7,7 @@ import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 
-import '../network_exceptions.dart';
+import '../api/network_exceptions.dart';
 
 class AuthorRepository {
   final netWorkLocator = getIt.get<DioClient>();

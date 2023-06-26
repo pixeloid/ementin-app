@@ -4,7 +4,7 @@ import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/services/locator.dart';
 
-import '../network_exceptions.dart';
+import '../api/network_exceptions.dart';
 
 class PollRepository {
   final netWorkLocator = getIt.get<DioClient>();

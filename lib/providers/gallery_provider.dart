@@ -1,5 +1,5 @@
-import 'package:eventapp/data/api/repository/insta_repository.dart';
-import 'package:eventapp/models/instagram_feed/instagram_feed.dart';
+import 'package:eventapp/data/repository/insta_repository.dart';
+import 'package:eventapp/models/instagram_feed.dart';
 import 'package:eventapp/utils/other/notifier_safety.dart';
 
 import '../services/locator.dart';

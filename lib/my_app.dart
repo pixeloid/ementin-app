@@ -1,6 +1,6 @@
-import 'package:eventapp/data/api/repository/auth_repository.dart';
-import 'package:eventapp/data/api/repository/poll_repository.dart';
-import 'package:eventapp/data/api/repository/program_repository.dart';
+import 'package:eventapp/data/repository/auth_repository.dart';
+import 'package:eventapp/data/repository/poll_repository.dart';
+import 'package:eventapp/data/repository/program_repository.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/locale_provider.dart';
 import 'package:eventapp/providers/poll_provider.dart';
@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app_define/app_route.gr.dart';
-import 'data/api/repository/event_repository.dart';
+import 'data/repository/event_repository.dart';
 import 'providers/program_provider.dart';
 
 class MyApp extends StatefulWidget {

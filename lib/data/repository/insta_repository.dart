@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:eventapp/models/instagram_feed/instagram_feed.dart';
+import 'package:eventapp/models/instagram_feed.dart';
 
 class InstaRepository {
   final dio = Dio();

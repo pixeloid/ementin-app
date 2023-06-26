@@ -6,7 +6,7 @@ import 'package:eventapp/services/locator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../data/api/repository/auth_repository.dart';
+import '../data/repository/auth_repository.dart';
 
 class AuthProvider with ChangeNotifier {
   Timer? _authTimer;

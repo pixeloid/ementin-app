@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:eventapp/app_define/app_config.dart';
-import 'package:eventapp/data/api/repository/program_repository.dart';
+import 'package:eventapp/data/repository/program_repository.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
-import '../data/api/repository/author_repository.dart';
+import '../data/repository/author_repository.dart';
 import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
@@ -18,6 +18,8 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   List<ProgramItemModel> programItems = [];
   List<AuthorModel> speakers = [];
+
+  String searchString = '';
 
   get numItems => programItems.length;
 
@@ -83,6 +85,7 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   /// Get Tickets
   Future<void> getProgram(EventModel event, {DateTime? date}) async {
+    isLoading = true;
     programItems = await _programRepository.getProgram(event, date);
     speakers = await authorRepository.getSpeakers(event);
 
@@ -184,6 +187,21 @@ class ProgramProvider extends ChangeNotifierSafety {
   List<ProgramItemModel> getProgramForDay(DateTime day) {
     return programItems
         .where((element) => DateUtils.isSameDay(day, element.start))
+        .toList();
+  }
+
+  void changeSearchString(String search) {
+    searchString = search;
+    debugPrint(searchString);
+    notifyListeners();
+  }
+
+  List<ProgramItemModel> findPresentationByTitle(TextEditingValue value) {
+    return programItems
+        .expand((programItem) => programItem.children)
+        .toList()
+        .where((element) =>
+            element.title.toLowerCase().contains(value.text.toLowerCase()))
         .toList();
   }
 }

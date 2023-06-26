@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:eventapp/data/api/repository/event_repository.dart';
+import 'package:eventapp/data/repository/event_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../models/event_model.dart';

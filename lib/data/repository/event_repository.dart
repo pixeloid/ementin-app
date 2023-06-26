@@ -6,7 +6,7 @@ import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 
-import '../network_exceptions.dart';
+import '../api/network_exceptions.dart';
 
 class EventRepository {
   final netWorkLocator = getIt.get<DioClient>();
