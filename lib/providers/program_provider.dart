@@ -18,8 +18,9 @@ class ProgramProvider extends ChangeNotifierSafety {
 
   List<ProgramItemModel> programItems = [];
   List<AuthorModel> speakers = [];
-
+  final int minSearchTextLength = 2;
   String searchString = '';
+  bool showSearch = false;
 
   get numItems => programItems.length;
 
@@ -191,17 +192,35 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   void changeSearchString(String search) {
-    searchString = search;
-    debugPrint(searchString);
-    notifyListeners();
+    if (search.length > minSearchTextLength) {
+      searchString = search;
+      notifyListeners();
+    } else {
+      if (searchString.length > search.length) {
+        searchString = '';
+        notifyListeners();
+      }
+    }
   }
 
-  List<ProgramItemModel> findPresentationByTitle(TextEditingValue value) {
+  List<ProgramItemModel> findPresentationByTitle(String value) {
     return programItems
         .expand((programItem) => programItem.children)
         .toList()
         .where((element) =>
-            element.title.toLowerCase().contains(value.text.toLowerCase()))
+            element.title.toLowerCase().contains(value.toLowerCase()))
         .toList();
+  }
+
+  List<ProgramItemModel> get filteredList {
+    return searchString.length > minSearchTextLength
+        ? findPresentationByTitle(searchString)
+        : [];
+  }
+
+  void toggleSearch() {
+    showSearch = !showSearch;
+    debugPrint(showSearch.toString());
+    notifyListeners();
   }
 }
