@@ -21,9 +21,9 @@ class MyRatingBar extends StatelessWidget {
     return RatingBar(
       initialRating: value,
       itemCount: 5,
-      onRatingUpdate: (val) =>
-          Provider.of<ProgramProvider>(context, listen: false)
-              .rate(presentation, val),
+      onRatingUpdate: (val) => null,
+      //    Provider.of<ProgramProvider>(context, listen: false)
+      //        .rate(presentation, val),
       ratingWidget: RatingWidget(
         full: const Icon(
           PhosphorIcons.star_fill,

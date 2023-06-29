@@ -12,21 +12,21 @@ class ProgramItemModel with _$ProgramItemModel {
 
   factory ProgramItemModel({
     required int id,
-    required String iri,
+    @Default('') String iri,
     @Default([]) List<ProgramItemModel> children,
-    required Duration duration,
+    @Default(Duration(minutes: 0)) Duration duration,
     required String title,
-    required DateTime start,
+    @JsonKey(name: 'from') required DateTime start,
+    @JsonKey(name: 'to') required DateTime end,
     int? isLiked,
-    required DateTime end,
     ProgramPresentationRateModel? rate,
     String? type,
     String? body,
     String? chairs,
     @Default([]) List<AuthorModel> people,
     double? rateValue,
-    required bool isRatable,
-    required bool isTimeHidden,
+    @Default(false) bool isRatable,
+    @Default(false) bool isTimeHidden,
   }) = _ProgramItemModel;
 
   factory ProgramItemModel.fromJson(Map<String, Object?> json) =>

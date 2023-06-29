@@ -29,8 +29,8 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
         Provider.of<ProgramProvider>(context, listen: false);
 
     Future<void> refreshProgram() async {
-      await programProvider
-          .getProgram(eventProvider.selectedEvent as EventModel);
+      //  await programProvider
+      //      .getProgram(eventProvider.selectedEvent as EventModel);
     }
 
     return Scaffold(

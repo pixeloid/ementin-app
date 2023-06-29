@@ -1,27 +1,27 @@
 import 'dart:math';
 
 import 'package:eventapp/features/event/domain/event_model.dart';
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../event/application/event_provider.dart';
 import '../domain/program_item_model.dart';
-import '../widgets/program_header_simple.dart';
-import '../widgets/program_item.dart';
+import 'program_header_simple.dart';
+import 'program_item.dart';
 
-class ProgramListPage extends StatefulWidget {
+class ProgramList extends ConsumerStatefulWidget {
   final List<ProgramItemModel> programData;
-  const ProgramListPage(this.programData, {Key? key}) : super(key: key);
+  const ProgramList(this.programData, {Key? key}) : super(key: key);
 
   @override
-  State<ProgramListPage> createState() => _ProgramListPageState();
+  createState() => _ProgramListPageState();
 }
 
-class _ProgramListPageState extends State<ProgramListPage> {
+class _ProgramListPageState extends ConsumerState<ProgramList> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -31,12 +31,8 @@ class _ProgramListPageState extends State<ProgramListPage> {
       });
       inProgressIndex = max(inProgressIndex, 0);
       if (inProgressIndex > 0) {
-        inProgressIndex += Provider.of<EventProvider>(context, listen: false)
-                .selectedEvent!
-                .ads
-                .isNotEmpty
-            ? 1
-            : 0;
+        inProgressIndex +=
+            ref.read(currentEventProvider)!.ads.isNotEmpty ? 1 : 0;
         scrollToIndex(inProgressIndex);
       }
     });
@@ -47,16 +43,14 @@ class _ProgramListPageState extends State<ProgramListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final EventModel selectedEvent =
-        Provider.of<EventProvider>(context, listen: false).selectedEvent!;
-    selectedEvent.ads.shuffle();
+    final EventModel? selectedEvent = ref.watch(currentEventProvider);
+    selectedEvent!.ads.shuffle();
     final ad = selectedEvent.ads.isNotEmpty ? selectedEvent.ads.first : null;
 
-    final isCheckedIn =
-        Provider.of<EventProvider>(context).selectedEvent?.checkedIn;
+    final isCheckedIn = selectedEvent.checkedIn;
 
     final count =
-        widget.programData.length + (isCheckedIn! && ad != null ? 1 : 0);
+        widget.programData.length + (isCheckedIn && ad != null ? 1 : 0);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(color: Color(0xFFFcFcFc)),
@@ -162,7 +156,8 @@ class _ProgramListPageState extends State<ProgramListPage> {
                           ],
                         )
                     ],
-                  ));
+                  ),
+                );
         },
       ),
     );

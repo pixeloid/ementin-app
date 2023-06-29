@@ -6,6 +6,7 @@ import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ import 'author.dart';
 import 'love_button.dart';
 import 'my_rating_bar.dart';
 
-class ProgramItemHero extends StatefulWidget {
+class ProgramItemHero extends ConsumerStatefulWidget {
   final ProgramItemModel presentation;
   final VoidCallback onTap;
   final bool showBody;
@@ -37,10 +38,10 @@ class ProgramItemHero extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ProgramItemHero> createState() => _ProgramItemHeroState();
+  ConsumerState<ProgramItemHero> createState() => _ProgramItemHeroState();
 }
 
-class _ProgramItemHeroState extends State<ProgramItemHero> {
+class _ProgramItemHeroState extends ConsumerState<ProgramItemHero> {
   int percentProgress = 0;
   bool inProgress = false;
 
@@ -66,9 +67,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
     final AuthorModel? author = widget.presentation.people.isNotEmpty
         ? widget.presentation.people.first
         : null;
-    final checkedIn = Provider.of<EventProvider>(context, listen: false)
-        .selectedEvent!
-        .checkedIn;
+    final checkedIn = false;
 
     return Material(
       type: MaterialType.transparency,
@@ -221,9 +220,7 @@ class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
 
   @override
   Widget build(BuildContext context) {
-    final checkedIn = Provider.of<EventProvider>(context, listen: false)
-        .selectedEvent!
-        .checkedIn;
+    final checkedIn = false;
     final List<AuthorModel> authors = presentation.people;
     return Column(
       children: [

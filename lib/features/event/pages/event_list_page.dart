@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:eventapp/features/event/application/events_list_provider.dart';
+import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:eventapp/features/event/widgets/event_card.dart';
 import 'package:eventapp/pages/base/base_page.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';

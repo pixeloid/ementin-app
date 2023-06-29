@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/features/event/application/events_list_provider.dart';
+import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../domain/event_model.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class EventCard extends ConsumerWidget {
         onTap: () {
           ref.read(currentEventProvider.notifier).setCurrentEvent(event.id);
           // eventProvider.selectedEventId = event.id;
-          AutoRouter.of(context).replace(const EventHomeRoute());
+          AutoRouter.of(context).push(EventHomeRoute());
         },
         child: Column(
           children: [

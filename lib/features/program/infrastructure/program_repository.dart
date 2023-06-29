@@ -6,12 +6,14 @@ import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/features/event/domain/event_model.dart';
 import 'package:eventapp/services/locator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../domain/program_item_model.dart';
 
 class ProgramRepository {
-  final netWorkLocator = getIt.get<DioClient>();
-  final sharedPrefLocator = getIt.get<SharedPreferenceHelper>();
+  final DioClient netWorkLocator;
+
+  ProgramRepository(this.netWorkLocator);
 
   Future<List<ProgramItemModel>> getProgram(
       EventModel event, DateTime? date) async {
@@ -64,3 +66,7 @@ class ProgramRepository {
     return response.data;
   }
 }
+
+final programRepositoryProvider = Provider<ProgramRepository>((ref) {
+  return ProgramRepository(ref.watch(dioClientProvider));
+});

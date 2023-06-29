@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/features/event_program_page.dart';
+import 'package:eventapp/features/program/pages/event_program_page.dart';
 import 'package:eventapp/features/event_speaker_details_page.dart';
 import 'package:eventapp/features/event_speakers_page.dart';
 import 'package:eventapp/features/main/event_gallery_page.dart';
 import 'package:eventapp/features/main/event_info_page.dart';
 import 'package:eventapp/features/main/event_sponsors_page.dart';
-import 'package:eventapp/features/program/pages/program_list_page.dart';
+import 'package:eventapp/features/program/widgets/program_list.dart';
 import 'package:eventapp/features/startup/screens/app_startup_screen.dart';
 import 'package:eventapp/pages/auth/auth_page.dart';
 import 'package:eventapp/pages/checkin_page.dart';
@@ -35,16 +35,12 @@ import '../features/program/widgets/program_item_hero.dart';
       page: EventHomePage,
       children: [
         AutoRoute(
-          path: 'event',
+          path: 'program',
           page: EventProgramPage,
           children: [
             AutoRoute(
               path: 'info',
               page: EventInfoPage,
-            ),
-            AutoRoute(
-              path: 'program',
-              page: ProgramListPage,
             ),
             AutoRoute(
               path: 'program-details',

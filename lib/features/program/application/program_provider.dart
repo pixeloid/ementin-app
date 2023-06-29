@@ -4,7 +4,10 @@ import 'package:eventapp/features/program/infrastructure/program_repository.dart
 import 'package:eventapp/features/event/domain/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/number_symbols_data.dart';
 import 'package:mercure_client/mercure_client.dart';
+import '../../event/application/event_provider.dart';
 import '../infrastructure/author_repository.dart';
 import '../../../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
@@ -83,29 +86,6 @@ class ProgramProvider extends ChangeNotifierSafety {
 
       notifyListeners();
     });
-  }
-
-  /// Get Tickets
-  Future<void> getProgram(EventModel event, {DateTime? date}) async {
-    isLoading = true;
-    programItems = await _programRepository.getProgram(event, date);
-    speakers = await authorRepository.getSpeakers(event);
-
-    speakers = speakers.map((speaker) {
-      for (var element in speaker.presentationIris) {
-        final programItem = findPresentationByIri(element);
-        if (programItem != null) {
-          speaker.presentations.add(programItem);
-        }
-      }
-      speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
-
-      return speaker;
-    }).toList();
-
-    isLoading = false;
-    // subscribe();
-    notifyListeners();
   }
 
   @override
@@ -227,3 +207,44 @@ class ProgramProvider extends ChangeNotifierSafety {
     notifyListeners();
   }
 }
+
+class ProgramNotifier extends StateNotifier<List<ProgramItemModel>> {
+  final Ref ref;
+  ProgramNotifier({required this.ref}) : super([]);
+
+  Future<void> getProgram({DateTime? date}) async {
+    final event = ref.read(currentEventProvider);
+    if (event != null) {
+      state = await ref.read(programRepositoryProvider).getProgram(event, date);
+    }
+    //  speakers = await authorRepository.getSpeakers(event);
+//
+    //  speakers = speakers.map((speaker) {
+    //    for (var element in speaker.presentationIris) {
+    //      final programItem = findPresentationByIri(element);
+    //      if (programItem != null) {
+    //        speaker.presentations.add(programItem);
+    //      }
+    //    }
+    //    speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
+//
+    //    return speaker;
+    //  }).toList();
+//
+    //  isLoading = false;
+    //  // subscribe();
+    //  notifyListeners();
+  }
+}
+
+final programProvider =
+    StateNotifierProvider<ProgramNotifier, List<ProgramItemModel>>(
+        (ref) => ProgramNotifier(ref: ref));
+
+final programOfDayProvider =
+    Provider.family<List<ProgramItemModel>, DateTime>((ref, day) {
+  return ref
+      .watch(programProvider)
+      .where((element) => DateUtils.isSameDay(day, element.start))
+      .toList();
+});

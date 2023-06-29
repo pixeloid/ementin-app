@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/event/domain/event_model.dart';
 import '../utils/states/future_state.codegen.dart';
+import '../../../utils/extension/app_extension.dart';
 
 class EventProvider extends StateNotifier<FutureState<String>> {
   // EventProvider(this._eventRepository);
@@ -83,11 +84,5 @@ class EventProvider extends StateNotifier<FutureState<String>> {
       days.add(startDate.add(Duration(days: i)));
     }
     return days;
-  }
-}
-
-extension CompareDates on DateTime {
-  bool isDateEqual(DateTime date2) {
-    return year == date2.year && month == date2.month && day == date2.day;
   }
 }

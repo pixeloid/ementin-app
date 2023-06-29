@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
-import 'package:eventapp/features/event/application/events_list_provider.dart';
+import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../utils/widgets/w_header.dart';

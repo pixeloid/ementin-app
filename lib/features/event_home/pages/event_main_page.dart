@@ -1,16 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/features/event_home/widgets/bottom_nav_item.dart';
+import 'package:eventapp/features/program/application/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/widgets/w_header.dart';
-import '../../event/application/events_list_provider.dart';
+import '../../../widgets/error_response_handler.dart';
+import '../../event/application/event_provider.dart';
 
 class EventHomePage extends ConsumerWidget with HeaderDelegate {
-  const EventHomePage({
+  EventHomePage({
     Key? key,
   }) : super(key: key);
+
+  final _eventPreloadFutureProvider = FutureProvider.autoDispose<void>(
+    (ref) async {
+      await Future.wait([
+        ref.watch(programProvider.notifier).getProgram(),
+      ]);
+    },
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,6 +32,9 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
     const hasGallery = true;
     final currentEvent = ref.watch(currentEventProvider);
     // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
+
+    final eventPreloadFuture = ref.watch(_eventPreloadFutureProvider);
+
     return Scaffold(
       body: Column(
         children: [
@@ -32,100 +45,112 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
             drawerButton: true,
           ),
           Expanded(
-            child: Stack(
-              children: [
-                AutoTabsScaffold(
-                  routes: const [
-                    //   EventProgramRoute(),
-                    //EventSpeakersRoute(),
-                    //RegistrationDetailsRoute(),
-                    //FavouritesRoute(),
-                    //GalleryRoute(),
-                    //SponsorsRoute(),
-                    //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
-                  ],
-                  bottomNavigationBuilder: (_, tabsRouter) {
-                    const numFavourites = 10;
-
-                    return Container(
-                      height: 80,
-                      padding: const EdgeInsets.only(bottom: 10),
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: <Color>[
-                              Color(0xFFF4F2FA),
-                              Color(0xFFF6EFF8)
-                            ]),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          BottomNavItem(
-                            index: 0,
-                            icon: Icons.home_rounded,
-                            label: 'Program',
-                            onNavTap: () {
-                              tabsRouter.setActiveIndex(0);
-                            },
-                          ),
-                          if (true)
-                            BottomNavItem(
-                              index: 1,
-                              label: 'Előadók',
-                              icon: Icons.co_present,
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(1);
-                              },
-                            ),
-                          if (isCheckedIn!)
-                            BottomNavItem(
-                              index: 2,
-                              label: 'Regisztrációm',
-                              icon: Icons.list_alt_rounded,
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(2);
-                              },
-                            ),
-                          if (true)
-                            BottomNavItem(
-                              index: 3,
-                              icon: Icons.favorite_outline_sharp,
-                              label: 'Kedvencek',
-                              badgeText: numFavourites.toString(),
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(3);
-                              },
-                            ),
-                          if (hasGallery)
-                            BottomNavItem(
-                              index: 4,
-                              label: 'Fotók',
-                              icon: Icons.photo_library,
-                              onNavTap: () {
-                                tabsRouter.setActiveIndex(4);
-                              },
-                            ),
-                          //  if (hasSponsors)
-                          //    BottomNavItem(
-                          //      index: 5,
-                          //      label: 'Támogatók',
-                          //      icon: Icons.factory,
-                          //      onNavTap: () {
-                          //        tabsRouter.setActiveIndex(5);
-                          //      },
-                          //    ),
-                        ],
-                      ),
-                    );
-                  },
+            child: eventPreloadFuture.when(
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, st) => Scaffold(
+                body: ErrorResponseHandler(
+                  error: error,
+                  retryCallback: () => ref.refresh(_eventPreloadFutureProvider),
+                  stackTrace: st,
                 ),
-                // if (pollProvider.poll != null)
-                //   Dialog(
-                //     child: Poll(poll: pollProvider.poll, key: UniqueKey()),
-                //   )
-              ],
+              ),
+              data: (_) => Stack(
+                children: [
+                  AutoTabsScaffold(
+                    routes: [
+                      EventProgramRoute(),
+                      //EventSpeakersRoute(),
+                      //RegistrationDetailsRoute(),
+                      //FavouritesRoute(),
+                      //GalleryRoute(),
+                      //SponsorsRoute(),
+                      //    isLoggedIn ? const ProfileRoute() : const AuthRoute(),
+                    ],
+                    bottomNavigationBuilder: (_, tabsRouter) {
+                      const numFavourites = 10;
+
+                      return Container(
+                        height: 80,
+                        padding: const EdgeInsets.only(bottom: 10),
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Color(0xFFF4F2FA),
+                                Color(0xFFF6EFF8)
+                              ]),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            BottomNavItem(
+                              index: 0,
+                              icon: Icons.home_rounded,
+                              label: 'Program',
+                              onNavTap: () {
+                                tabsRouter.setActiveIndex(0);
+                              },
+                            ),
+                            if (true)
+                              BottomNavItem(
+                                index: 1,
+                                label: 'Előadók',
+                                icon: Icons.co_present,
+                                onNavTap: () {
+                                  tabsRouter.setActiveIndex(1);
+                                },
+                              ),
+                            if (isCheckedIn)
+                              BottomNavItem(
+                                index: 2,
+                                label: 'Regisztrációm',
+                                icon: Icons.list_alt_rounded,
+                                onNavTap: () {
+                                  tabsRouter.setActiveIndex(2);
+                                },
+                              ),
+                            if (true)
+                              BottomNavItem(
+                                index: 3,
+                                icon: Icons.favorite_outline_sharp,
+                                label: 'Kedvencek',
+                                badgeText: numFavourites.toString(),
+                                onNavTap: () {
+                                  tabsRouter.setActiveIndex(3);
+                                },
+                              ),
+                            if (hasGallery)
+                              BottomNavItem(
+                                index: 4,
+                                label: 'Fotók',
+                                icon: Icons.photo_library,
+                                onNavTap: () {
+                                  tabsRouter.setActiveIndex(4);
+                                },
+                              ),
+                            //  if (hasSponsors)
+                            //    BottomNavItem(
+                            //      index: 5,
+                            //      label: 'Támogatók',
+                            //      icon: Icons.factory,
+                            //      onNavTap: () {
+                            //        tabsRouter.setActiveIndex(5);
+                            //      },
+                            //    ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  // if (pollProvider.poll != null)
+                  //   Dialog(
+                  //     child: Poll(poll: pollProvider.poll, key: UniqueKey()),
+                  //   )
+                ],
+              ),
             ),
           ),
         ],

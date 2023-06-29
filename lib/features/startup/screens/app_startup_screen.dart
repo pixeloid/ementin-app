@@ -1,4 +1,4 @@
-import 'package:eventapp/features/event/application/events_list_provider.dart';
+import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:eventapp/features/event/pages/event_list_page.dart';
 import 'package:eventapp/widgets/error_response_handler.dart';
 import 'package:eventapp/widgets/lottie_animation_loader.dart';

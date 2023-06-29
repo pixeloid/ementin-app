@@ -9,16 +9,18 @@ part of 'program_item_model.dart';
 _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
     _$_ProgramItemModel(
       id: json['id'] as int,
-      iri: json['iri'] as String,
+      iri: json['iri'] as String? ?? '',
       children: (json['children'] as List<dynamic>?)
               ?.map((e) => ProgramItemModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      duration: Duration(microseconds: json['duration'] as int),
+      duration: json['duration'] == null
+          ? const Duration(minutes: 0)
+          : Duration(microseconds: json['duration'] as int),
       title: json['title'] as String,
-      start: DateTime.parse(json['start'] as String),
+      start: DateTime.parse(json['from'] as String),
+      end: DateTime.parse(json['to'] as String),
       isLiked: json['isLiked'] as int?,
-      end: DateTime.parse(json['end'] as String),
       rate: json['rate'] == null
           ? null
           : ProgramPresentationRateModel.fromJson(
@@ -31,8 +33,8 @@ _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       rateValue: (json['rateValue'] as num?)?.toDouble(),
-      isRatable: json['isRatable'] as bool,
-      isTimeHidden: json['isTimeHidden'] as bool,
+      isRatable: json['isRatable'] as bool? ?? false,
+      isTimeHidden: json['isTimeHidden'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_ProgramItemModelToJson(_$_ProgramItemModel instance) =>
@@ -42,9 +44,9 @@ Map<String, dynamic> _$$_ProgramItemModelToJson(_$_ProgramItemModel instance) =>
       'children': instance.children,
       'duration': instance.duration.inMicroseconds,
       'title': instance.title,
-      'start': instance.start.toIso8601String(),
+      'from': instance.start.toIso8601String(),
+      'to': instance.end.toIso8601String(),
       'isLiked': instance.isLiked,
-      'end': instance.end.toIso8601String(),
       'rate': instance.rate,
       'type': instance.type,
       'body': instance.body,

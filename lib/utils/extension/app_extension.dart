@@ -28,3 +28,9 @@ extension SizeExtension on num {
   /// ignore: non_constant_identifier_names
   double get SH => sh.toDouble();
 }
+
+extension CompareDates on DateTime {
+  bool isDateEqual(DateTime date2) {
+    return year == date2.year && month == date2.month && day == date2.day;
+  }
+}

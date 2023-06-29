@@ -1,6 +1,12 @@
+import 'dart:math';
+
 import 'package:eventapp/features/event/infrastructure/event_repository.dart';
 import 'package:eventapp/features/event/domain/event_model.dart';
+import 'package:eventapp/features/program/domain/program_item_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../utils/helpers.dart';
+import '../../../utils/extension/app_extension.dart';
 
 class EventsNotifier extends StateNotifier<List<EventModel>> {
   final Ref ref;
@@ -24,10 +30,21 @@ class CurrentEventNotifier extends StateNotifier<EventModel?> {
   CurrentEventNotifier({required this.ref}) : super(null);
 
   void setCurrentEvent(int id) {
-    state = ref.read(eventListProvider).firstWhere((event) => event.id == id);
+    state = ref.watch(eventListProvider).firstWhere((event) => event.id == id);
   }
 }
 
 final currentEventProvider =
     StateNotifierProvider<CurrentEventNotifier, EventModel?>(
         (ref) => CurrentEventNotifier(ref: ref));
+
+final eventDaysListProvider = Provider<List<DateTime>>((ref) {
+  return getDaysInBetween(ref.watch(currentEventProvider)!.startDate,
+      ref.watch(currentEventProvider)!.endDate);
+});
+
+final currendDayIndexProvider = Provider<int>((ref) => max(
+    ref
+        .watch(eventDaysListProvider)
+        .indexWhere((element) => element.isDateEqual(DateTime.now().toUtc())),
+    0));

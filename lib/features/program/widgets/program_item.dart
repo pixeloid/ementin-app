@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../domain/program_item_model.dart';
 import 'program_item_hero.dart';
 
-class ProgramItem extends StatelessWidget {
+class ProgramItem extends ConsumerWidget {
   final String? prefix;
   final bool showDayName;
 
@@ -17,7 +18,7 @@ class ProgramItem extends StatelessWidget {
   final ProgramItemModel presentation;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         ProgramItemHero(
