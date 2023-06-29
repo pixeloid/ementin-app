@@ -1,37 +1,19 @@
-import 'package:eventapp/data/repository/auth_repository.dart';
-import 'package:eventapp/data/repository/poll_repository.dart';
-import 'package:eventapp/data/repository/program_repository.dart';
-import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/data/key_value_storage_base.dart';
 import 'package:eventapp/providers/locale_provider.dart';
-import 'package:eventapp/providers/poll_provider.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:eventapp/generated/l10n.dart';
-import 'package:eventapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_theme.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app_define/app_route.gr.dart';
-import 'data/repository/event_repository.dart';
-import 'providers/program_provider.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class MyApp extends ConsumerWidget {
+  MyApp({Key? key}) : super(key: key);
 
   final _appRouter = AppRouter();
 
@@ -65,17 +47,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     initOneSignal(context);
-
-    final LocaleProvider localeProvider = context.watch<LocaleProvider>();
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (BuildContext context, child) => MaterialApp.router(
         routerDelegate: _appRouter.delegate(),
         routeInformationParser: _appRouter.defaultRouteParser(),
-        locale: localeProvider.locale,
+        locale: ref.watch(localeProvider),
         supportedLocales: S.delegate.supportedLocales,
         localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
           S.delegate,
@@ -102,6 +82,8 @@ Future<void> myMain() async {
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
 
+  await KeyValueStorageBase.init();
+
   /// We're using HiveStore for persistence,
   /// so we need to initialize Hive.
   await initHiveForFlutter();
@@ -109,43 +91,5 @@ Future<void> myMain() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
 
-  runApp(MultiProvider(providers: <SingleChildWidget>[
-    Provider<EventRepository>(
-      create: (_) => EventRepository(),
-    ),
-    Provider<AuthRepository>(
-      create: (_) => AuthRepository(),
-    ),
-    Provider<ProgramRepository>(
-      create: (_) => ProgramRepository(),
-    ),
-    Provider<PollRepository>(
-      create: (_) => PollRepository(),
-    ),
-    ChangeNotifierProvider<EventProvider>(
-      create: (BuildContext context) => EventProvider(
-        context.read<EventRepository>(),
-      ),
-    ),
-    ChangeNotifierProvider<AppThemeProvider>(
-      create: (_) => AppThemeProvider(),
-    ),
-    ChangeNotifierProxyProvider<EventProvider, PollProvider>(
-      update: (context, eventProvider, previousPollProvider) =>
-          PollProvider(context.read<PollRepository>(), eventProvider),
-      create: (BuildContext context) =>
-          PollProvider(context.read<PollRepository>(), null),
-    ),
-    ChangeNotifierProvider<AuthProvider>(
-      create: (BuildContext context) => AuthProvider(
-        context.read<AuthRepository>(),
-      ),
-    ),
-    ChangeNotifierProvider<LocaleProvider>(
-      create: (_) => LocaleProvider(),
-    ),
-    ChangeNotifierProvider<ProgramProvider>(
-      create: (BuildContext context) => ProgramProvider(),
-    ),
-  ], child: const MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }

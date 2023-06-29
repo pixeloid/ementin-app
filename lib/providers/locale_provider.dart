@@ -1,18 +1,18 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class LocaleProvider with ChangeNotifier {
-  /// Save locale
+class LocaleNotifier extends StateNotifier<Locale> {
   // ignore: deprecated_member_use
-  Locale _locale = Locale(ui.window.locale.languageCode);
-
-  /// Get current locale
-  Locale get locale => _locale;
+  LocaleNotifier() : super(Locale(ui.window.locale.languageCode));
 
   /// Update new locale
   set locale(Locale value) {
-    _locale = value;
-    notifyListeners();
+    state = value;
   }
 }
+
+final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>(
+  (_) => LocaleNotifier(),
+);

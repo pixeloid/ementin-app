@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
-import 'package:eventapp/providers/auth_provider.dart';
-import 'package:eventapp/services/locator.dart';
 
 class DioInterceptor extends Interceptor {
-  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  final SharedPreferenceHelper sharedPreferences;
+  DioInterceptor(this.sharedPreferences);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    var token = _prefsLocator.getUserToken();
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    var token = sharedPreferences.getUserToken();
 
     if (options.extra['event'] != null) {
       options.headers['event'] = options.extra['event'];
@@ -33,36 +33,33 @@ class DioInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response != null) {
-      AuthProvider authProvider = getIt.get<AuthProvider>();
-      AuthProvider repository = getIt.get<AuthProvider>();
-
       if (err.response!.data['code'] == 401) {
-        try {
-          var refreshToken = _prefsLocator.getRefreshToken();
-
-          if (refreshToken == null ||
-              err.response!.data['message'] == 'JWT Refresh Token Not Found' ||
-              err.response!.data['message'] == 'Invalid JWT Refresh Token') {
-            return repository.logout();
-            //
-          }
-
-          await repository.refreshToken(refreshToken);
-          return handler.resolve(await _retry(err.requestOptions));
-        } catch (err) {
-          authProvider.logout();
-        }
+        // try {
+        //   final refreshToken = await sharedPreferences.getRefreshToken();
+//
+        //   if (refreshToken == null ||
+        //       err.response!.data['message'] == 'JWT Refresh Token Not Found' ||
+        //       err.response!.data['message'] == 'Invalid JWT Refresh Token') {
+        //  //   return authProvider.logout();
+        //     //
+        //   }
+//
+        //   await authProvider.refreshToken(refreshToken);
+        //   return handler.resolve(await _retry(err.requestOptions));
+        // } catch (err) {
+        //   authProvider.logout();
+        // }
       }
     }
     super.onError(err, handler);
   }
 
-  _retry(RequestOptions requestOptions) {
-    var token = _prefsLocator.getUserToken();
+  _retry(RequestOptions requestOptions) async {
+    var token = sharedPreferences.getUserToken();
 
     if (token != null && requestOptions.extra['noAuth'] != true) {
       requestOptions.headers['Authorization'] =
-          'Bearer ${_prefsLocator.getUserToken()}';
+          'Bearer ${sharedPreferences.getUserToken()}';
     }
     final options = Options(
       method: requestOptions.method,

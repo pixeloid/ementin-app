@@ -14,21 +14,23 @@ mixin HeaderDelegate {
 }
 
 class WHeader extends StatelessWidget with DynamicSize {
-  const WHeader(
-      {Key? key,
-      this.title,
-      this.bgColor,
-      this.isShowBackButton,
-      this.topRight,
-      this.delegate,
-      this.showAuth = true})
-      : super(key: key);
+  const WHeader({
+    Key? key,
+    this.title,
+    this.bgColor,
+    this.isShowBackButton,
+    this.topRight,
+    this.delegate,
+    this.showAuth = true,
+    this.drawerButton,
+  }) : super(key: key);
 
   //#region Properties
   //-------------------
   final String? title;
   final Color? bgColor;
   final bool? isShowBackButton;
+  final bool? drawerButton;
   final HeaderDelegate? delegate;
   final Widget? topRight;
   final bool showAuth;
@@ -84,89 +86,87 @@ class WHeader extends StatelessWidget with DynamicSize {
                           )
                         : null,
                   ),
-                  SizedBox(
-                    width: 32.w,
-                    height: 32.h,
-                    child:
-                        Image.asset('assets/app/icons/ementin_logo_circle.png'),
-                  ),
-                  SizedBox(
-                    width: 120.w,
-                    child: Consumer<EventProvider>(
-                      builder: (context, eventProvider, _) {
-                        return (eventProvider.selectedEvent != null && showAuth)
-                            ? Align(
-                                alignment: Alignment.centerRight,
-                                child: !eventProvider.selectedEvent!.checkedIn
-                                    ? ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize: const Size(10, 26),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 13),
-                                          backgroundColor:
-                                              const Color(0xFFf172ac),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .push(CheckInOverlay());
-                                        },
-                                        child: SizedBox(
-                                          child: Text(
-                                            'Check-in'.toUpperCase(),
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : TextButton(
-                                        onPressed: () {
-                                          Provider.of<AuthProvider>(context,
-                                                  listen: false)
-                                              .logout()
-                                              .then((value) => {
-                                                    AutoRouter.of(context)
-                                                        .navigate(
-                                                      EventProgramRoute(),
-                                                    )
-                                                  });
-                                        },
-                                        child: const Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Icon(
-                                            Icons.logout_outlined,
-                                          ),
-                                        ),
-                                      ),
-                              )
-                            : Container();
-                      },
-                    ),
-                  )
-                ],
-              ),
-              if (title != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title!.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            height: 1.2,
-                            letterSpacing: -.5,
-                            color: Color(0xFF315565),
-                          ),
+                  if (title != null)
+                    Expanded(
+                      child: Text(
+                        title!.toUpperCase(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          height: 1.2,
+                          letterSpacing: -.5,
+                          color: Color(0xFF315565),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+
+                  if (drawerButton != null)
+                    EndDrawerButton(
+                      style: IconButton.styleFrom(iconSize: 24),
+                    )
+                  // SizedBox(
+                  //   width: 32.w,
+                  //   height: 32.h,
+                  //   child:
+                  //       Image.asset('assets/app/icons/ementin_logo_circle.png'),
+                  // ),
+                  //SizedBox(
+                  //  width: 120.w,
+                  //  child: Consumer<EventProvider>(
+                  //    builder: (context, eventProvider, _) {
+                  //      return (eventProvider.selectedEvent != null && showAuth)
+                  //          ? Align(
+                  //              alignment: Alignment.centerRight,
+                  //              child: !eventProvider.selectedEvent!.checkedIn
+                  //                  ? ElevatedButton(
+                  //                      style: ElevatedButton.styleFrom(
+                  //                        minimumSize: const Size(10, 26),
+                  //                        padding: const EdgeInsets.symmetric(
+                  //                            vertical: 0, horizontal: 13),
+                  //                        backgroundColor:
+                  //                            const Color(0xFFf172ac),
+                  //                      ),
+                  //                      onPressed: () {
+                  //                        Navigator.of(context)
+                  //                            .push(CheckInOverlay());
+                  //                      },
+                  //                      child: SizedBox(
+                  //                        child: Text(
+                  //                          'Check-in'.toUpperCase(),
+                  //                          style: const TextStyle(
+                  //                            fontSize: 13,
+                  //                            fontWeight: FontWeight.w600,
+                  //                            color: Colors.white,
+                  //                          ),
+                  //                        ),
+                  //                      ),
+                  //                    )
+                  //                  : TextButton(
+                  //                      onPressed: () {
+                  //                        //Provider.of<AuthProvider>(context,
+                  //                        //        listen: false)
+                  //                        //    .logout()
+                  //                        //    .then((value) => {
+                  //                        //          AutoRouter.of(context)
+                  //                        //              .navigate(
+                  //                        //            EventProgramRoute(),
+                  //                        //          )
+                  //                        //        });
+                  //                      },
+                  //                      child: const Align(
+                  //                        alignment: Alignment.centerRight,
+                  //                        child: Icon(
+                  //                          Icons.logout_outlined,
+                  //                        ),
+                  //                      ),
+                  //                    ),
+                  //            )
+                  //          : Container();
+                  //    },
+                  //  ),
+                  //)
+                ],
+              ),
             ],
           ),
         ),

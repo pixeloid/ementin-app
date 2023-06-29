@@ -2,20 +2,23 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:eventapp/data/repository/event_repository.dart';
+import 'package:eventapp/features/event/infrastructure/event_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../models/event_model.dart';
-import '../utils/other/notifier_safety.dart';
+import '../features/event/domain/event_model.dart';
+import '../utils/states/future_state.codegen.dart';
 
-class EventProvider extends ChangeNotifierSafety {
-  EventProvider(this._eventRepository);
+class EventProvider extends StateNotifier<FutureState<String>> {
+  // EventProvider(this._eventRepository);
 
   late final EventRepository _eventRepository;
 
   List<EventModel> events = [];
 
   int? _selectedEventId;
+
+  EventProvider(super.state);
   List<DateTime> get eventDays =>
       getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
@@ -32,7 +35,7 @@ class EventProvider extends ChangeNotifierSafety {
 
   set selectedEventId(int? id) {
     _selectedEventId = id;
-    notifyListeners();
+    //  notifyListeners();
   }
 
   /// Loading state
@@ -43,9 +46,9 @@ class EventProvider extends ChangeNotifierSafety {
     try {
       events = await _eventRepository.getEvents();
       isLoading = false;
-      notifyListeners();
+      //   notifyListeners();
     } catch (e) {
-      notifyListeners();
+      //  notifyListeners();
       debugPrint(e.toString());
     }
   }
@@ -55,7 +58,7 @@ class EventProvider extends ChangeNotifierSafety {
     isLoading = false;
     events = [];
     _selectedEventId = null;
-    notifyListeners();
+    //  notifyListeners();
   }
 
   getById(String id) {

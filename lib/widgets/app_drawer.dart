@@ -1,16 +1,11 @@
 //import 'package:eventapp/app_define/app_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/auth_provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -45,7 +40,7 @@ class AppDrawer extends StatelessWidget {
           //   },
           // ),
           const Divider(),
-          auth.isAuth
+          true
               ? ListTile(
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text('Logout'),
@@ -55,7 +50,7 @@ class AppDrawer extends StatelessWidget {
 
                     // Navigator.of(context)
                     //     .pushReplacementNamed(UserProductsScreen.routeName);
-                    auth.logout();
+                    //       auth.logout();
                   },
                 )
               : ListTile(

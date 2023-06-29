@@ -2,10 +2,16 @@ import 'dart:async';
 
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
-import 'package:eventapp/services/locator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository(apiService: ref.watch(dioClientProvider));
+});
 
 class AuthRepository {
-  final netWorkLocator = getIt.get<DioClient>();
+  final DioClient _apiService;
+
+  AuthRepository({required DioClient apiService}) : _apiService = apiService;
 
   Future<Map<String, dynamic>> register({
     required String email,
@@ -15,7 +21,7 @@ class AuthRepository {
     Completer<Map<String, dynamic>> completer =
         Completer<Map<String, dynamic>>();
     try {
-      final response = await netWorkLocator.dio
+      final response = await _apiService.dio
           .post('${EndPoints.baseUrl}${EndPoints.register}', data: {
         'email': email,
         'password': password,
@@ -38,7 +44,7 @@ class AuthRepository {
     Completer<Map<String, dynamic>> completer =
         Completer<Map<String, dynamic>>();
     try {
-      final response = await netWorkLocator.dio.post(
+      final response = await _apiService.dio.post(
         '${EndPoints.baseUrl}${EndPoints.login}',
         data: {
           'username': username,
@@ -62,7 +68,7 @@ class AuthRepository {
     Completer<Map<String, dynamic>> completer =
         Completer<Map<String, dynamic>>();
     try {
-      final response = await netWorkLocator.dio.post(
+      final response = await _apiService.dio.post(
         '${EndPoints.baseUrl}${EndPoints.loginWithCode}',
         data: {
           'code': code,
@@ -85,8 +91,8 @@ class AuthRepository {
     Completer<Map<String, dynamic>> completer =
         Completer<Map<String, dynamic>>();
     try {
-      netWorkLocator.dio.options.extra = {'noAuth': true};
-      final response = await netWorkLocator.dio.post(
+      _apiService.dio.options.extra = {'noAuth': true};
+      final response = await _apiService.dio.post(
         '${EndPoints.baseUrl}${EndPoints.refreshToken}',
         data: {
           'refresh_token': refreshToken,

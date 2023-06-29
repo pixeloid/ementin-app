@@ -2,24 +2,46 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
-import 'package:eventapp/services/locator.dart';
+import 'package:eventapp/utils/states/future_state.codegen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../data/repository/auth_repository.dart';
 
-class AuthProvider with ChangeNotifier {
-  Timer? _authTimer;
-  final locator = getIt.get<SharedPreferenceHelper>();
+final isLoggedInProvider = StateProvider<bool>((ref) => false);
 
-  final AuthRepository _authRepository;
+final authProvider = StateNotifierProvider<AuthProvider, FutureState<bool?>>(
+  (ref) {
+    final authRepository = ref.watch(authRepositoryProvider);
+    final sharedPreferences = ref.watch(sharedPreferencesProvider);
+    return AuthProvider(
+      ref,
+      authRepository: authRepository,
+      sharedPreferences: sharedPreferences,
+    );
+  },
+);
+
+class AuthProvider extends StateNotifier<FutureState<bool?>> {
+  Timer? _authTimer;
 
   bool loggingOut = false;
 
-  AuthProvider(this._authRepository);
+  final AuthRepository _authRepository;
+  final SharedPreferenceHelper _sharedPreferences;
+  final Ref _ref;
 
-  bool get isAuth {
-    var token = locator.getUserToken();
+  AuthProvider(
+    this._ref, {
+    required AuthRepository authRepository,
+    required SharedPreferenceHelper sharedPreferences,
+  })  : _sharedPreferences = sharedPreferences,
+        _authRepository = authRepository,
+        super(const FutureState.idle());
+
+  Future<bool> get isAuth async {
+    var token = await _sharedPreferences.getUserToken();
     if (token != null) {
       return !JwtDecoder.isExpired(token);
     }
@@ -33,13 +55,14 @@ class AuthProvider with ChangeNotifier {
       );
       final token = response["token"];
       final refreshToken = response["refresh_token"];
-      await locator.setUserToken(userToken: token).then((value) {
+      await _sharedPreferences.setUserToken(userToken: token).then((value) {
         // _autoLogout();
       });
-      await locator
+      await _sharedPreferences
           .setRefreshToken(refreshToken: refreshToken)
-          .then((value) {});
-      notifyListeners();
+          .then((value) {
+        _ref.read(isLoggedInProvider.notifier).state = true;
+      });
     } catch (error) {
       rethrow;
     }
@@ -54,13 +77,14 @@ class AuthProvider with ChangeNotifier {
       );
       final token = response["token"];
       final refreshToken = response["refresh_token"];
-      await locator.setUserToken(userToken: token).then((value) {
+      await _sharedPreferences.setUserToken(userToken: token).then((value) {
         //_autoLogout();
       });
-      await locator
+      await _sharedPreferences
           .setRefreshToken(refreshToken: refreshToken)
-          .then((value) {});
-      notifyListeners();
+          .then((value) {
+        _ref.read(isLoggedInProvider.notifier).state = true;
+      });
     } catch (error) {
       rethrow;
     }
@@ -73,13 +97,10 @@ class AuthProvider with ChangeNotifier {
       );
       final token = response["token"];
       final refreshToken = response["refresh_token"];
-      await locator.setUserToken(userToken: token).then((value) {
-        //  _autoLogout();
-        notifyListeners();
-      });
-      await locator.setRefreshToken(refreshToken: refreshToken).then((value) {
-        notifyListeners();
-      });
+      await _sharedPreferences.setUserToken(userToken: token).then((value) {});
+      await _sharedPreferences
+          .setRefreshToken(refreshToken: refreshToken)
+          .then((value) {});
       debugPrint('Token updated to: $token');
     } on DioError catch (_) {
       logout();
@@ -94,24 +115,24 @@ class AuthProvider with ChangeNotifier {
     return _authenticate(email, password, 'verifyPassword');
   }
 
-  Future<void> logout() async {
+  void logout() {
     loggingOut = true;
-    notifyListeners();
-    await locator.prefs.clear();
+    _sharedPreferences.resetKeys();
+    state = const FutureState.idle();
+    _ref.invalidate(isLoggedInProvider);
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
     }
     loggingOut = false;
-    notifyListeners();
   }
 
   // ignore: unused_element
-  void _autoLogout() {
+  void _autoLogout() async {
     if (_authTimer != null) {
       _authTimer!.cancel();
     }
-    var token = locator.getUserToken();
+    var token = await _sharedPreferences.getUserToken();
 
     final remaining = token == null
         ? const Duration(seconds: 0)
@@ -119,8 +140,8 @@ class AuthProvider with ChangeNotifier {
     _authTimer = Timer(remaining, logout);
   }
 
-  DateTime? getTokenExpiryDate() {
-    var token = locator.getUserToken();
+  Future<DateTime?> getTokenExpiryDate() async {
+    var token = await _sharedPreferences.getUserToken();
     return token == null ? null : JwtDecoder.getExpirationDate(token);
   }
 }

@@ -1,8 +1,9 @@
-import 'package:eventapp/pages/event/main/widgets/program_item.dart';
-import 'package:eventapp/providers/program_provider.dart';
+import 'package:eventapp/features/program/application/program_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../features/program/widgets/program_item.dart';
 
 class FavouritesPage extends StatelessWidget {
   const FavouritesPage({Key? key}) : super(key: key);
