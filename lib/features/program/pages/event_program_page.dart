@@ -7,14 +7,13 @@ import '../domain/program_item_model.dart';
 import '../widgets/program_list.dart';
 
 class EventProgramPage extends ConsumerWidget {
-  EventProgramPage({
+  const EventProgramPage({
     Key? key,
     ProgramItemModel? selectedProgramItem,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final programList = ref.watch(programProvider.notifier).getProgram();
     return Column(
       children: [
         Expanded(

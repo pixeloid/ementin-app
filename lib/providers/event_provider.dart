@@ -54,28 +54,8 @@ class EventProvider extends StateNotifier<FutureState<String>> {
     }
   }
 
-  @override
-  void resetState() {
-    isLoading = false;
-    events = [];
-    _selectedEventId = null;
-    //  notifyListeners();
-  }
-
   getById(String id) {
     return events.firstWhere((element) => element.iri == id);
-  }
-
-  checkIn(String code) async {
-    try {
-      final result = await _eventRepository.checkIn(selectedEvent!.id, code);
-
-      selectedEvent?.checkedIn = true;
-
-      return result;
-    } catch (_) {
-      rethrow;
-    }
   }
 
   List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {

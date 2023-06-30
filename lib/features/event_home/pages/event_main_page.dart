@@ -27,9 +27,8 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
     // final pollProvider = Provider.of<PollProvider>(context, listen: false);
     // pollProvider.subscribe();
     //  pollProvider.getPollSession();
-    const isLoggedIn = true;
-    const isCheckedIn = true;
-    const hasGallery = true;
+    final isCheckedIn = ref.watch(currentEventProvider)!.checkedIn;
+    const hasGallery = false;
     final currentEvent = ref.watch(currentEventProvider);
     // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
 

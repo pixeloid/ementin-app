@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_theme.dart';
-import 'package:eventapp/features/event/domain/event_model.dart';
 import 'package:eventapp/features/program/application/program_provider.dart';
 import 'package:eventapp/features/program/widgets/author.dart';
 import 'package:flutter/material.dart';

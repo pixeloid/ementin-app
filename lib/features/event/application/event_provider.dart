@@ -1,12 +1,13 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:eventapp/features/event/infrastructure/event_repository.dart';
 import 'package:eventapp/features/event/domain/event_model.dart';
-import 'package:eventapp/features/program/domain/program_item_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/helpers.dart';
 import '../../../utils/extension/app_extension.dart';
+import '../../auth/application/auth_provider.dart';
 
 class EventsNotifier extends StateNotifier<List<EventModel>> {
   final Ref ref;
@@ -17,6 +18,13 @@ class EventsNotifier extends StateNotifier<List<EventModel>> {
       state = value;
     });
   }
+
+  Future<dynamic> checkInAndLogin(int id, String code) async {
+    final checkIn = await ref.read(eventRepositoryProvider).checkIn(id, code);
+    await ref.read(authProvider.notifier).loginWithCode(code);
+
+    return checkIn;
+  }
 }
 
 final eventListProvider =
@@ -24,14 +32,15 @@ final eventListProvider =
   return EventsNotifier(ref: ref);
 });
 
+final currentEventIdProvider = StateProvider<int?>((ref) => null);
+
 class CurrentEventNotifier extends StateNotifier<EventModel?> {
   final Ref ref;
 
-  CurrentEventNotifier({required this.ref}) : super(null);
-
-  void setCurrentEvent(int id) {
-    state = ref.watch(eventListProvider).firstWhere((event) => event.id == id);
-  }
+  CurrentEventNotifier({required this.ref})
+      : super(ref.watch(eventListProvider).firstWhereOrNull(
+              (event) => event.id == ref.watch(currentEventIdProvider),
+            ));
 }
 
 final currentEventProvider =
@@ -45,6 +54,6 @@ final eventDaysListProvider = Provider<List<DateTime>>((ref) {
 
 final currendDayIndexProvider = Provider<int>((ref) => max(
     ref
-        .watch(eventDaysListProvider)
+        .read(eventDaysListProvider)
         .indexWhere((element) => element.isDateEqual(DateTime.now().toUtc())),
     0));

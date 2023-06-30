@@ -1,20 +1,20 @@
 import 'dart:io';
-import 'package:eventapp/providers/auth_provider.dart';
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:eventapp/app_define/app_config.dart';
 
-class CheckInPage extends StatefulWidget {
+import '../features/event/application/event_provider.dart';
+
+class CheckInPage extends ConsumerStatefulWidget {
   const CheckInPage({Key? key}) : super(key: key);
 
   @override
-  State<CheckInPage> createState() => _CheckInPageState();
+  ConsumerState<CheckInPage> createState() => _CheckInPageState();
 }
 
-class _CheckInPageState extends State<CheckInPage> {
+class _CheckInPageState extends ConsumerState<CheckInPage> {
   Barcode? result;
   bool isLoading = false;
   QRViewController? controller;
@@ -41,13 +41,10 @@ class _CheckInPageState extends State<CheckInPage> {
 
   @override
   Widget build(BuildContext context) {
-    final eventProvider = Provider.of<EventProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context);
-
     if (result != null) {
       controller!.pauseCamera();
       controller!.dispose();
-      _checkIn(eventProvider, result!.code ?? '', authProvider, context);
+      _checkIn(result!.code ?? '', context);
     }
     AppConfig.shared.env;
 
@@ -60,8 +57,8 @@ class _CheckInPageState extends State<CheckInPage> {
             )
           : FloatingActionButton.extended(
               onPressed: () async {
-                const code = '8faada266d8013d277e7c413099506f4';
-                _checkIn(eventProvider, code, authProvider, context);
+                const code = '991f256c9e7b2398aa336a04f0a87df9';
+                _checkIn(code, context);
               },
               backgroundColor: Colors.primaries.first,
               label: const Text('Check in'),
@@ -93,43 +90,42 @@ class _CheckInPageState extends State<CheckInPage> {
     );
   }
 
-  Future<void> _checkIn(EventProvider eventProvider, String code,
-      AuthProvider authProvider, BuildContext context) async {
+  Future<void> _checkIn(String code, BuildContext context) async {
     setState(() {
       isLoading = true;
       result = null;
     });
 
     try {
-      final checkIn = await eventProvider.checkIn(code);
+      final currentEvent = ref.watch(currentEventProvider);
+      final checkIn = await ref
+          .watch(eventListProvider.notifier)
+          .checkInAndLogin(currentEvent!.id, code);
 
-      OneSignal.shared
+      await OneSignal.shared
           .setExternalUserId(
               checkIn['eventRegistration']['user']['id'].toString())
           .then((results) {})
           .catchError((error) {});
 
-      await authProvider.loginWithCode(code);
-
       //    router.navigate(const RegistrationDetailsRoute());
     } catch (e) {
+      setState(() {
+        result = null;
+      });
+
       var scaffoldText = const Text('Sikertelen bejelentkezés!');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: scaffoldText,
       ));
-
-      setState(() {
-        isLoading = false;
-        result = null;
-      });
     }
 
     if (mounted) {
-      Navigator.pop(context);
-
       setState(() {
-        isLoading = false;
+        //  isLoading = false;
+        result = null;
       });
+      Navigator.pop(context);
     }
   }
 

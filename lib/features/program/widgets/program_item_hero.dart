@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:provider/provider.dart';
 
+import '../../event/application/event_provider.dart';
 import '../domain/author_model.dart';
 import '../domain/program_item_model.dart';
 import 'author.dart';
@@ -67,7 +66,7 @@ class _ProgramItemHeroState extends ConsumerState<ProgramItemHero> {
     final AuthorModel? author = widget.presentation.people.isNotEmpty
         ? widget.presentation.people.first
         : null;
-    final checkedIn = false;
+    final checkedIn = ref.watch(currentEventProvider)!.checkedIn;
 
     return Material(
       type: MaterialType.transparency,
@@ -204,7 +203,7 @@ class _ProgramItemHeroState extends ConsumerState<ProgramItemHero> {
   }
 }
 
-class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
+class ProgramItemFullHero extends ConsumerWidget with HeaderDelegate {
   final ProgramItemModel presentation;
   final VoidCallback onTap;
   final bool showBody;
@@ -219,8 +218,8 @@ class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final checkedIn = false;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final checkedIn = ref.watch(currentEventProvider)!.checkedIn;
     final List<AuthorModel> authors = presentation.people;
     return Column(
       children: [

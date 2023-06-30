@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/utils/states/future_state.codegen.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../data/repository/auth_repository.dart';
+import '../../../data/repository/auth_repository.dart';
 
-final isLoggedInProvider = StateProvider<bool>((ref) => false);
+final isLoggedInProvider =
+    StateProvider<bool>((ref) => ref.read(authProvider.notifier).isAuth);
 
 final authProvider = StateNotifierProvider<AuthProvider, FutureState<bool?>>(
   (ref) {
@@ -40,8 +39,8 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
         _authRepository = authRepository,
         super(const FutureState.idle());
 
-  Future<bool> get isAuth async {
-    var token = await _sharedPreferences.getUserToken();
+  bool get isAuth {
+    var token = _sharedPreferences.getUserToken();
     if (token != null) {
       return !JwtDecoder.isExpired(token);
     }
@@ -90,23 +89,6 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
     }
   }
 
-  Future<void> refreshToken(String? rfToken) async {
-    try {
-      final response = await _authRepository.refreshToken(
-        refreshToken: rfToken,
-      );
-      final token = response["token"];
-      final refreshToken = response["refresh_token"];
-      await _sharedPreferences.setUserToken(userToken: token).then((value) {});
-      await _sharedPreferences
-          .setRefreshToken(refreshToken: refreshToken)
-          .then((value) {});
-      debugPrint('Token updated to: $token');
-    } on DioError catch (_) {
-      logout();
-    }
-  }
-
   Future<void> signup(String email, String password) async {
     return _authenticate(email, password, 'signupNewUser');
   }
@@ -132,7 +114,7 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
     if (_authTimer != null) {
       _authTimer!.cancel();
     }
-    var token = await _sharedPreferences.getUserToken();
+    var token = _sharedPreferences.getUserToken();
 
     final remaining = token == null
         ? const Duration(seconds: 0)
@@ -141,7 +123,7 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
   }
 
   Future<DateTime?> getTokenExpiryDate() async {
-    var token = await _sharedPreferences.getUserToken();
+    var token = _sharedPreferences.getUserToken();
     return token == null ? null : JwtDecoder.getExpirationDate(token);
   }
 }

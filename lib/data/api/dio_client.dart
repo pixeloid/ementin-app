@@ -7,9 +7,7 @@ class DioClient {
   final Dio _dio = Dio();
   final SharedPreferenceHelper sharedPreferences;
   DioClient(this.sharedPreferences) {
-    _dio.interceptors.add(DioInterceptor(
-      sharedPreferences,
-    ));
+    _dio.interceptors.add(DioInterceptor(sharedPreferences, dio));
   }
 
   Dio get dio => _dio;
@@ -19,4 +17,4 @@ final dioClientProvider = Provider<DioClient>((ref) {
   return DioClient(
     ref.watch(sharedPreferencesProvider),
   );
-});
+}, name: 'dc');

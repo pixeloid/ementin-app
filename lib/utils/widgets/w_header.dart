@@ -1,19 +1,18 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/app_define/app_route.gr.dart';
+import 'package:eventapp/features/auth/application/auth_provider.dart';
 import 'package:eventapp/pages/checkin_page.dart';
-import 'package:eventapp/providers/auth_provider.dart';
-import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/utils/other/dynamic_size.dart';
 import 'package:eventapp/app_define/app_assets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../features/event/application/event_provider.dart';
 
 mixin HeaderDelegate {
   void onBack(BuildContext context);
 }
 
-class WHeader extends StatelessWidget with DynamicSize {
+class WHeader extends ConsumerWidget with DynamicSize {
   const WHeader({
     Key? key,
     this.title,
@@ -38,7 +37,7 @@ class WHeader extends StatelessWidget with DynamicSize {
   //#region BUILD
   //-------------------
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // final authProvider = Provider.of<AuthProvider>(context, listen: false);
     //final tokenExipryDate = authProvider.getTokenExpiryDate();
     //Init dynamic size
@@ -103,68 +102,55 @@ class WHeader extends StatelessWidget with DynamicSize {
                   if (drawerButton != null)
                     EndDrawerButton(
                       style: IconButton.styleFrom(iconSize: 24),
-                    )
+                    ),
                   // SizedBox(
                   //   width: 32.w,
                   //   height: 32.h,
                   //   child:
                   //       Image.asset('assets/app/icons/ementin_logo_circle.png'),
                   // ),
-                  //SizedBox(
-                  //  width: 120.w,
-                  //  child: Consumer<EventProvider>(
-                  //    builder: (context, eventProvider, _) {
-                  //      return (eventProvider.selectedEvent != null && showAuth)
-                  //          ? Align(
-                  //              alignment: Alignment.centerRight,
-                  //              child: !eventProvider.selectedEvent!.checkedIn
-                  //                  ? ElevatedButton(
-                  //                      style: ElevatedButton.styleFrom(
-                  //                        minimumSize: const Size(10, 26),
-                  //                        padding: const EdgeInsets.symmetric(
-                  //                            vertical: 0, horizontal: 13),
-                  //                        backgroundColor:
-                  //                            const Color(0xFFf172ac),
-                  //                      ),
-                  //                      onPressed: () {
-                  //                        Navigator.of(context)
-                  //                            .push(CheckInOverlay());
-                  //                      },
-                  //                      child: SizedBox(
-                  //                        child: Text(
-                  //                          'Check-in'.toUpperCase(),
-                  //                          style: const TextStyle(
-                  //                            fontSize: 13,
-                  //                            fontWeight: FontWeight.w600,
-                  //                            color: Colors.white,
-                  //                          ),
-                  //                        ),
-                  //                      ),
-                  //                    )
-                  //                  : TextButton(
-                  //                      onPressed: () {
-                  //                        //Provider.of<AuthProvider>(context,
-                  //                        //        listen: false)
-                  //                        //    .logout()
-                  //                        //    .then((value) => {
-                  //                        //          AutoRouter.of(context)
-                  //                        //              .navigate(
-                  //                        //            EventProgramRoute(),
-                  //                        //          )
-                  //                        //        });
-                  //                      },
-                  //                      child: const Align(
-                  //                        alignment: Alignment.centerRight,
-                  //                        child: Icon(
-                  //                          Icons.logout_outlined,
-                  //                        ),
-                  //                      ),
-                  //                    ),
-                  //            )
-                  //          : Container();
-                  //    },
-                  //  ),
-                  //)
+                  Text(ref.watch(currentEventProvider) != null
+                      ? ref.watch(currentEventProvider)!.checkedIn.toString()
+                      : ''),
+                  SizedBox(
+                    width: 120.w,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: !ref.watch(isLoggedInProvider)
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(10, 26),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 13),
+                                backgroundColor: const Color(0xFFf172ac),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(CheckInOverlay());
+                              },
+                              child: SizedBox(
+                                child: Text(
+                                  'Check-in'.toUpperCase(),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                ref.read(authProvider.notifier).logout();
+                              },
+                              child: const Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.logout_outlined,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
                 ],
               ),
             ],

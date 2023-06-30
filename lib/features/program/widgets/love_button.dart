@@ -1,7 +1,5 @@
-import 'package:eventapp/features/program/application/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:provider/provider.dart';
 
 import '../../program/domain/program_item_model.dart';
 

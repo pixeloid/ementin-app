@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eventapp/features/auth/application/auth_provider.dart';
 import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:eventapp/features/event/widgets/event_card.dart';
 import 'package:eventapp/pages/base/base_page.dart';
@@ -12,7 +13,10 @@ class EventListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final events = ref.watch(eventListProvider);
-    debugPrint('reloaded');
+    ref.listen(isLoggedInProvider, (bool? prevloggedIn, bool loggedIn) {
+      ref.read(eventListProvider.notifier).getEvents();
+    });
+
     return BasePage(
       child: Scaffold(
         body: Column(

@@ -20,13 +20,13 @@ class EventCard extends ConsumerWidget {
     return Card(
       child: GestureDetector(
         onTap: () {
-          ref.read(currentEventProvider.notifier).setCurrentEvent(event.id);
+          ref.watch(currentEventIdProvider.notifier).state = event.id;
           // eventProvider.selectedEventId = event.id;
           AutoRouter.of(context).push(EventHomeRoute());
         },
         child: Column(
           children: [
-            // Text(ref.watch(currentEventProvider)?.name.toString() ?? 'no'),
+            Text(event.checkedIn.toString()),
             Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(

@@ -40,27 +40,19 @@ class AppDrawer extends StatelessWidget {
           //   },
           // ),
           const Divider(),
-          true
-              ? ListTile(
-                  leading: const Icon(Icons.exit_to_app),
-                  title: const Text('Logout'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacementNamed('/');
 
-                    // Navigator.of(context)
-                    //     .pushReplacementNamed(UserProductsScreen.routeName);
-                    //       auth.logout();
-                  },
-                )
-              : ListTile(
-                  leading: const Icon(Icons.login_outlined),
-                  title: const Text('Login'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/auth');
-                  },
-                ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/');
+
+              // Navigator.of(context)
+              //     .pushReplacementNamed(UserProductsScreen.routeName);
+              //       auth.logout();
+            },
+          )
         ],
       ),
     );
