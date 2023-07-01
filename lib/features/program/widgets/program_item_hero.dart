@@ -187,7 +187,8 @@ class _ProgramItemHeroState extends ConsumerState<ProgramItemHero> {
                                     ),
                                   ],
                                 ),
-                              LoveButton(presentation: widget.presentation),
+                              if (widget.presentation.isFavourite != null)
+                                LoveButton(presentation: widget.presentation),
                             ],
                           ),
                       ],

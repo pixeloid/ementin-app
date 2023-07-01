@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../program/domain/program_item_model.dart';
+import '../application/program_provider.dart';
 
-class LoveButton extends StatelessWidget {
+class LoveButton extends ConsumerWidget {
   const LoveButton({
     Key? key,
     required this.presentation,
@@ -12,19 +15,21 @@ class LoveButton extends StatelessWidget {
   final ProgramItemModel presentation;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
-        icon: Icon(presentation.isLiked != null
+        icon: Icon(presentation.isFavourite == true
             ? PhosphorIcons.heart_fill
             : PhosphorIcons.heart),
         color: Theme.of(context).colorScheme.primary,
 
         // 5
-        onPressed: () {
-          //     Provider.of<ProgramProvider>(context, listen: false)
-          //       .toggleLike(presentation);
-          //   const snackBar = SnackBar(content: Text('Favorite Pressed'));
-          //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        onPressed: () async {
+          try {
+            await ref.read(programProvider.notifier).toggleLike(presentation);
+          } catch (_) {
+            const snackBar = SnackBar(content: Text('Error'));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         });
   }
 }

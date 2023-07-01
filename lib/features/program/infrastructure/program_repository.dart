@@ -1,11 +1,8 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
-import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/features/event/domain/event_model.dart';
-import 'package:eventapp/services/locator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../domain/program_item_model.dart';
@@ -29,24 +26,6 @@ class ProgramRepository {
         .toList();
   }
 
-  Future removeLike(int oldLike) async {
-    final response = await netWorkLocator.dio.delete(
-      '${EndPoints.baseUrl}${EndPoints.presentationFavorite}/$oldLike',
-    );
-    return response.data;
-  }
-
-  Future like(String iri) async {
-    try {
-      final response = await netWorkLocator.dio.post(
-          '${EndPoints.baseUrl}${EndPoints.presentationFavorite}',
-          data: json.encode({'presentation': iri}));
-      return response.data;
-    } on DioError catch (e) {
-      e;
-    }
-  }
-
   Future addRate(value, ProgramItemModel programPresentation) async {
     final response = await netWorkLocator.dio
         .post('${EndPoints.baseUrl}${EndPoints.presentationRate}',
@@ -63,6 +42,13 @@ class ProgramRepository {
         data: json.encode({
           'value': value.round(),
         }));
+    return response.data;
+  }
+
+  toggleFavourite(int id) async {
+    final response = await netWorkLocator.dio.post(
+        '${EndPoints.baseUrl}${EndPoints.presentationToggleFavourite}/$id',
+        data: json.encode({}));
     return response.data;
   }
 }

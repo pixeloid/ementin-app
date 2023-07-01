@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/features/program/pages/event_program_page.dart';
 import 'package:eventapp/features/event_speaker_details_page.dart';

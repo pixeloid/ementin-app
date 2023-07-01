@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'author_model.dart';
@@ -12,13 +14,13 @@ class ProgramItemModel with _$ProgramItemModel {
 
   factory ProgramItemModel({
     required int id,
-    @Default('') String iri,
+    @Default('') @JsonKey(name: '@id') String iri,
     @Default([]) List<ProgramItemModel> children,
     @Default(Duration(minutes: 0)) Duration duration,
     required String title,
     @JsonKey(name: 'from') required DateTime start,
     @JsonKey(name: 'to') required DateTime end,
-    int? isLiked,
+    bool? isFavourite,
     ProgramPresentationRateModel? rate,
     String? type,
     String? body,

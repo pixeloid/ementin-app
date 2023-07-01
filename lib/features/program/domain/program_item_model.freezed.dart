@@ -21,6 +21,7 @@ ProgramItemModel _$ProgramItemModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProgramItemModel {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '@id')
   String get iri => throw _privateConstructorUsedError;
   List<ProgramItemModel> get children => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
@@ -29,7 +30,7 @@ mixin _$ProgramItemModel {
   DateTime get start => throw _privateConstructorUsedError;
   @JsonKey(name: 'to')
   DateTime get end => throw _privateConstructorUsedError;
-  int? get isLiked => throw _privateConstructorUsedError;
+  bool? get isFavourite => throw _privateConstructorUsedError;
   ProgramPresentationRateModel? get rate => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
@@ -53,13 +54,13 @@ abstract class $ProgramItemModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String iri,
+      @JsonKey(name: '@id') String iri,
       List<ProgramItemModel> children,
       Duration duration,
       String title,
       @JsonKey(name: 'from') DateTime start,
       @JsonKey(name: 'to') DateTime end,
-      int? isLiked,
+      bool? isFavourite,
       ProgramPresentationRateModel? rate,
       String? type,
       String? body,
@@ -90,7 +91,7 @@ class _$ProgramItemModelCopyWithImpl<$Res, $Val extends ProgramItemModel>
     Object? title = null,
     Object? start = null,
     Object? end = null,
-    Object? isLiked = freezed,
+    Object? isFavourite = freezed,
     Object? rate = freezed,
     Object? type = freezed,
     Object? body = freezed,
@@ -129,10 +130,10 @@ class _$ProgramItemModelCopyWithImpl<$Res, $Val extends ProgramItemModel>
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      isLiked: freezed == isLiked
-          ? _value.isLiked
-          : isLiked // ignore: cast_nullable_to_non_nullable
-              as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
@@ -179,13 +180,13 @@ abstract class _$$_ProgramItemModelCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      String iri,
+      @JsonKey(name: '@id') String iri,
       List<ProgramItemModel> children,
       Duration duration,
       String title,
       @JsonKey(name: 'from') DateTime start,
       @JsonKey(name: 'to') DateTime end,
-      int? isLiked,
+      bool? isFavourite,
       ProgramPresentationRateModel? rate,
       String? type,
       String? body,
@@ -214,7 +215,7 @@ class __$$_ProgramItemModelCopyWithImpl<$Res>
     Object? title = null,
     Object? start = null,
     Object? end = null,
-    Object? isLiked = freezed,
+    Object? isFavourite = freezed,
     Object? rate = freezed,
     Object? type = freezed,
     Object? body = freezed,
@@ -253,10 +254,10 @@ class __$$_ProgramItemModelCopyWithImpl<$Res>
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      isLiked: freezed == isLiked
-          ? _value.isLiked
-          : isLiked // ignore: cast_nullable_to_non_nullable
-              as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
@@ -299,13 +300,13 @@ class _$_ProgramItemModel extends _ProgramItemModel
     with DiagnosticableTreeMixin {
   _$_ProgramItemModel(
       {required this.id,
-      this.iri = '',
+      @JsonKey(name: '@id') this.iri = '',
       final List<ProgramItemModel> children = const [],
       this.duration = const Duration(minutes: 0),
       required this.title,
       @JsonKey(name: 'from') required this.start,
       @JsonKey(name: 'to') required this.end,
-      this.isLiked,
+      this.isFavourite,
       this.rate,
       this.type,
       this.body,
@@ -324,7 +325,7 @@ class _$_ProgramItemModel extends _ProgramItemModel
   @override
   final int id;
   @override
-  @JsonKey()
+  @JsonKey(name: '@id')
   final String iri;
   final List<ProgramItemModel> _children;
   @override
@@ -347,7 +348,7 @@ class _$_ProgramItemModel extends _ProgramItemModel
   @JsonKey(name: 'to')
   final DateTime end;
   @override
-  final int? isLiked;
+  final bool? isFavourite;
   @override
   final ProgramPresentationRateModel? rate;
   @override
@@ -376,7 +377,7 @@ class _$_ProgramItemModel extends _ProgramItemModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ProgramItemModel(id: $id, iri: $iri, children: $children, duration: $duration, title: $title, start: $start, end: $end, isLiked: $isLiked, rate: $rate, type: $type, body: $body, chairs: $chairs, people: $people, rateValue: $rateValue, isRatable: $isRatable, isTimeHidden: $isTimeHidden)';
+    return 'ProgramItemModel(id: $id, iri: $iri, children: $children, duration: $duration, title: $title, start: $start, end: $end, isFavourite: $isFavourite, rate: $rate, type: $type, body: $body, chairs: $chairs, people: $people, rateValue: $rateValue, isRatable: $isRatable, isTimeHidden: $isTimeHidden)';
   }
 
   @override
@@ -391,7 +392,7 @@ class _$_ProgramItemModel extends _ProgramItemModel
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('start', start))
       ..add(DiagnosticsProperty('end', end))
-      ..add(DiagnosticsProperty('isLiked', isLiked))
+      ..add(DiagnosticsProperty('isFavourite', isFavourite))
       ..add(DiagnosticsProperty('rate', rate))
       ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('body', body))
@@ -415,7 +416,8 @@ class _$_ProgramItemModel extends _ProgramItemModel
             (identical(other.title, title) || other.title == title) &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end) &&
-            (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
             (identical(other.rate, rate) || other.rate == rate) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.body, body) || other.body == body) &&
@@ -440,7 +442,7 @@ class _$_ProgramItemModel extends _ProgramItemModel
       title,
       start,
       end,
-      isLiked,
+      isFavourite,
       rate,
       type,
       body,
@@ -467,13 +469,13 @@ class _$_ProgramItemModel extends _ProgramItemModel
 abstract class _ProgramItemModel extends ProgramItemModel {
   factory _ProgramItemModel(
       {required final int id,
-      final String iri,
+      @JsonKey(name: '@id') final String iri,
       final List<ProgramItemModel> children,
       final Duration duration,
       required final String title,
       @JsonKey(name: 'from') required final DateTime start,
       @JsonKey(name: 'to') required final DateTime end,
-      final int? isLiked,
+      final bool? isFavourite,
       final ProgramPresentationRateModel? rate,
       final String? type,
       final String? body,
@@ -490,6 +492,7 @@ abstract class _ProgramItemModel extends ProgramItemModel {
   @override
   int get id;
   @override
+  @JsonKey(name: '@id')
   String get iri;
   @override
   List<ProgramItemModel> get children;
@@ -504,7 +507,7 @@ abstract class _ProgramItemModel extends ProgramItemModel {
   @JsonKey(name: 'to')
   DateTime get end;
   @override
-  int? get isLiked;
+  bool? get isFavourite;
   @override
   ProgramPresentationRateModel? get rate;
   @override

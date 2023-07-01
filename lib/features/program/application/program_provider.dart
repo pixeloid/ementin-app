@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/features/program/infrastructure/program_repository.dart';
-import 'package:eventapp/features/event/domain/event_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/number_symbols_data.dart';
 import 'package:mercure_client/mercure_client.dart';
 import '../../event/application/event_provider.dart';
 import '../infrastructure/author_repository.dart';
@@ -31,10 +30,10 @@ class ProgramProvider extends ChangeNotifierSafety {
   get favourites {
     var result = [];
     for (var item in programItems) {
-      if (item.isLiked != null) result.add(item);
+      if (item.isFavourite == true) result.add(item);
 
       var prezik = item.children
-          .where((presentation) => presentation.isLiked != null)
+          .where((presentation) => presentation.isFavourite == true)
           .toList();
       for (var prezi in prezik) {
         result.add(prezi);
@@ -92,32 +91,6 @@ class ProgramProvider extends ChangeNotifierSafety {
   void resetState() {
     isLoading = false;
     programItems = [];
-  }
-
-  Future<void> toggleLike(ProgramItemModel presentation) async {
-    var programPresentation = findPresentation(presentation);
-    if (programPresentation == null) return;
-
-    var oldLike = programPresentation.isLiked;
-    //  programPresentation.toggleLike();
-    // TODO: implement togglelike
-    notifyListeners();
-
-    try {
-      if (oldLike != null) {
-        await _programRepository.removeLike(oldLike);
-      } else {
-        final response = await _programRepository.like(programPresentation.iri);
-
-        //  final responseData = json.decode(response);
-
-        programPresentation = programPresentation.copyWith(
-          isLiked: response['id'],
-        );
-      }
-    } catch (error) {
-      error;
-    }
   }
 
   ProgramItemModel? findPresentation(ProgramItemModel programItem) {
@@ -217,23 +190,57 @@ class ProgramNotifier extends StateNotifier<List<ProgramItemModel>> {
     if (event != null) {
       state = await ref.read(programRepositoryProvider).getProgram(event, date);
     }
-    //  speakers = await authorRepository.getSpeakers(event);
+  }
+  //  speakers = await authorRepository.getSpeakers(event);
 //
-    //  speakers = speakers.map((speaker) {
-    //    for (var element in speaker.presentationIris) {
-    //      final programItem = findPresentationByIri(element);
-    //      if (programItem != null) {
-    //        speaker.presentations.add(programItem);
-    //      }
-    //    }
-    //    speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
+  //  speakers = speakers.map((speaker) {
+  //    for (var element in speaker.presentationIris) {
+  //      final programItem = findPresentationByIri(element);
+  //      if (programItem != null) {
+  //        speaker.presentations.add(programItem);
+  //      }
+  //    }
+  //    speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
 //
-    //    return speaker;
-    //  }).toList();
+  //    return speaker;
+  //  }).toList();
 //
-    //  isLoading = false;
-    //  // subscribe();
-    //  notifyListeners();
+  //  isLoading = false;
+  //  // subscribe();
+  //  notifyListeners();
+
+  ProgramItemModel? findPresentation(ProgramItemModel programItem) {
+    ProgramItemModel? item = state.firstWhereOrNull(
+        (ProgramItemModel element) =>
+            element.id == programItem.id && element.type == programItem.type);
+
+    if (item != null) return item;
+    item = state
+        .expand((programItem) => programItem.children)
+        .toList()
+        .firstWhereOrNull((element) =>
+            element.id == programItem.id && element.type == programItem.type);
+
+    return item;
+  }
+
+  Future<void> toggleLike(ProgramItemModel presentation) async {
+    final oldState = state;
+    try {
+      state = state.map((e) {
+        if (e.id == presentation.id) {
+          return e.copyWith(isFavourite: !presentation.isFavourite!);
+        }
+        return e;
+      }).toList();
+
+      await ref
+          .read(programRepositoryProvider)
+          .toggleFavourite(presentation.id);
+    } on DioError catch (_) {
+      state = oldState;
+      throw Exception('Failed like!');
+    }
   }
 }
 

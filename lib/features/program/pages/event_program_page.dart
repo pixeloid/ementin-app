@@ -83,10 +83,10 @@ class EventProgramPage extends ConsumerWidget {
                                   top: BorderSide(
                                       color: Colors.grey, width: 0.5))),
                           child: TabBarView(
-                            children: ref.read(eventDaysListProvider).map(
+                            children: ref.watch(eventDaysListProvider).map(
                               (day) {
                                 return ProgramList(
-                                    ref.read(programOfDayProvider(day)));
+                                    ref.watch(programOfDayProvider(day)));
                               },
                             ).toList(),
                           ),

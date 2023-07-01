@@ -65,12 +65,14 @@ class DioInterceptor extends Interceptor {
 
   Future<void> _refreshToken(String? rfToken) async {
     try {
-      dio.options.extra = {'noAuth': true};
       final response = await dio.post(
         '${EndPoints.baseUrl}${EndPoints.refreshToken}',
         data: {
           'refresh_token': rfToken,
         },
+        options: Options(
+          extra: {'noAuth': true},
+        ),
       );
       if (response.statusCode != 200) {
         throw Exception('Failed to refresh token');
@@ -78,8 +80,10 @@ class DioInterceptor extends Interceptor {
 
       final token = response.data["token"];
       final refreshToken = response.data["refresh_token"];
-      sharedPreferences.setUserToken(userToken: token).then((value) {});
-      sharedPreferences.setRefreshToken(refreshToken: refreshToken);
+      await sharedPreferences.setUserToken(userToken: token).then((value) {});
+      await sharedPreferences
+          .setRefreshToken(refreshToken: refreshToken)
+          .then((value) {});
       debugPrint('Token updated to: $token');
     } on DioError catch (_) {
       sharedPreferences.resetKeys();

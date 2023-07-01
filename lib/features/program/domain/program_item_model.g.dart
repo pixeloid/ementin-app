@@ -9,7 +9,7 @@ part of 'program_item_model.dart';
 _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
     _$_ProgramItemModel(
       id: json['id'] as int,
-      iri: json['iri'] as String? ?? '',
+      iri: json['@id'] as String? ?? '',
       children: (json['children'] as List<dynamic>?)
               ?.map((e) => ProgramItemModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -20,7 +20,7 @@ _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       start: DateTime.parse(json['from'] as String),
       end: DateTime.parse(json['to'] as String),
-      isLiked: json['isLiked'] as int?,
+      isFavourite: json['isFavourite'] as bool?,
       rate: json['rate'] == null
           ? null
           : ProgramPresentationRateModel.fromJson(
@@ -40,13 +40,13 @@ _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_ProgramItemModelToJson(_$_ProgramItemModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'iri': instance.iri,
+      '@id': instance.iri,
       'children': instance.children,
       'duration': instance.duration.inMicroseconds,
       'title': instance.title,
       'from': instance.start.toIso8601String(),
       'to': instance.end.toIso8601String(),
-      'isLiked': instance.isLiked,
+      'isFavourite': instance.isFavourite,
       'rate': instance.rate,
       'type': instance.type,
       'body': instance.body,

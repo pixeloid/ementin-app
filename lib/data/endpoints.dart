@@ -9,7 +9,8 @@ class EndPoints {
   static const String profile = '/users/profile';
   static const String register = '/users/register';
   static const String loginWithCode = '/check-reg-code';
-  static const String presentationFavorite = '/presentation_favorites';
+  static const String presentationToggleFavourite =
+      '/presentation_toggle_favourite';
   static const String presentationRate = '/presentation_rates';
   static const String pollResponse = '/poll_responses';
   static const String refreshToken = '/token/refresh';
