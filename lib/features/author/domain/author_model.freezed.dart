@@ -20,8 +20,9 @@ AuthorModel _$AuthorModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AuthorModel {
-  String? get iri => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '@id')
+  dynamic get iri => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
@@ -44,8 +45,8 @@ abstract class $AuthorModelCopyWith<$Res> {
       _$AuthorModelCopyWithImpl<$Res, AuthorModel>;
   @useResult
   $Res call(
-      {String? iri,
-      int? id,
+      {int? id,
+      @JsonKey(name: '@id') dynamic iri,
       String name,
       String? title,
       String? image,
@@ -68,8 +69,8 @@ class _$AuthorModelCopyWithImpl<$Res, $Val extends AuthorModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? iri = freezed,
     Object? id = freezed,
+    Object? iri = freezed,
     Object? name = null,
     Object? title = freezed,
     Object? image = freezed,
@@ -79,14 +80,14 @@ class _$AuthorModelCopyWithImpl<$Res, $Val extends AuthorModel>
     Object? presentations = null,
   }) {
     return _then(_value.copyWith(
-      iri: freezed == iri
-          ? _value.iri
-          : iri // ignore: cast_nullable_to_non_nullable
-              as String?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      iri: freezed == iri
+          ? _value.iri
+          : iri // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -128,8 +129,8 @@ abstract class _$$_AuthorModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? iri,
-      int? id,
+      {int? id,
+      @JsonKey(name: '@id') dynamic iri,
       String name,
       String? title,
       String? image,
@@ -150,8 +151,8 @@ class __$$_AuthorModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? iri = freezed,
     Object? id = freezed,
+    Object? iri = freezed,
     Object? name = null,
     Object? title = freezed,
     Object? image = freezed,
@@ -161,14 +162,11 @@ class __$$_AuthorModelCopyWithImpl<$Res>
     Object? presentations = null,
   }) {
     return _then(_$_AuthorModel(
-      iri: freezed == iri
-          ? _value.iri
-          : iri // ignore: cast_nullable_to_non_nullable
-              as String?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      iri: freezed == iri ? _value.iri! : iri,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -205,8 +203,8 @@ class __$$_AuthorModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AuthorModel extends _AuthorModel {
   _$_AuthorModel(
-      {this.iri,
-      this.id,
+      {this.id,
+      @JsonKey(name: '@id') this.iri = '',
       required this.name,
       this.title,
       this.image,
@@ -222,9 +220,10 @@ class _$_AuthorModel extends _AuthorModel {
       _$$_AuthorModelFromJson(json);
 
   @override
-  final String? iri;
-  @override
   final int? id;
+  @override
+  @JsonKey(name: '@id')
+  final dynamic iri;
   @override
   final String name;
   @override
@@ -256,7 +255,7 @@ class _$_AuthorModel extends _AuthorModel {
 
   @override
   String toString() {
-    return 'AuthorModel(iri: $iri, id: $id, name: $name, title: $title, image: $image, workplace: $workplace, description: $description, presentationIris: $presentationIris, presentations: $presentations)';
+    return 'AuthorModel(id: $id, iri: $iri, name: $name, title: $title, image: $image, workplace: $workplace, description: $description, presentationIris: $presentationIris, presentations: $presentations)';
   }
 
   @override
@@ -264,8 +263,8 @@ class _$_AuthorModel extends _AuthorModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AuthorModel &&
-            (identical(other.iri, iri) || other.iri == iri) &&
             (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other.iri, iri) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.image, image) || other.image == image) &&
@@ -283,8 +282,8 @@ class _$_AuthorModel extends _AuthorModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      iri,
       id,
+      const DeepCollectionEquality().hash(iri),
       name,
       title,
       image,
@@ -309,8 +308,8 @@ class _$_AuthorModel extends _AuthorModel {
 
 abstract class _AuthorModel extends AuthorModel {
   factory _AuthorModel(
-      {final String? iri,
-      final int? id,
+      {final int? id,
+      @JsonKey(name: '@id') final dynamic iri,
       required final String name,
       final String? title,
       final String? image,
@@ -324,9 +323,10 @@ abstract class _AuthorModel extends AuthorModel {
       _$_AuthorModel.fromJson;
 
   @override
-  String? get iri;
-  @override
   int? get id;
+  @override
+  @JsonKey(name: '@id')
+  dynamic get iri;
   @override
   String get name;
   @override

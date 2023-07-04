@@ -79,6 +79,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   json_serializable: ^6.7.0
   json_annotation: ^4.8.1
+  connectivity: ^3.0.6
 
 
 flutter_intl:

@@ -32,7 +32,7 @@ class FavouritesPage extends StatelessWidget {
               itemCount: favourites.length,
               itemBuilder: (_, i) {
                 return ProgramItem(
-                  presentation: favourites[i],
+                  id: favourites[i],
                   prefix: 'likes-',
                 );
               },

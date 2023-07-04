@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 enum ThemeType {
   ementin,
@@ -173,16 +173,6 @@ class AppTheme {
   }
 }
 
-class AppThemeProvider with ChangeNotifier {
-  AppTheme get theme => AppTheme.fromType(ThemeType.ementin);
-
-  set theme(AppTheme value) {
-    notifyListeners();
-  }
-}
-
-extension AppThemeExt on BuildContext {
-  AppTheme theme() {
-    return watch<AppThemeProvider>().theme;
-  }
-}
+final themeProvider = StateProvider<AppTheme>((ref) {
+  return AppTheme.fromType(ThemeType.ementin);
+});

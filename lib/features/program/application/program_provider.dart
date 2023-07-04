@@ -6,12 +6,12 @@ import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mercure_client/mercure_client.dart';
+import '../../author/domain/author_model.dart';
 import '../../event/application/event_provider.dart';
-import '../infrastructure/author_repository.dart';
+import '../../author/infrastructure/author_repository.dart';
 import '../../../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
 
-import '../domain/author_model.dart';
 import '../domain/program_item_model.dart';
 import '../domain/program_presentation_rate_model.dart';
 
@@ -227,12 +227,8 @@ class ProgramNotifier extends StateNotifier<List<ProgramItemModel>> {
   Future<void> toggleLike(ProgramItemModel presentation) async {
     final oldState = state;
     try {
-      state = state.map((e) {
-        if (e.id == presentation.id) {
-          return e.copyWith(isFavourite: !presentation.isFavourite!);
-        }
-        return e;
-      }).toList();
+      ref.read(programItemProvider(presentation.id).notifier).state =
+          presentation.copyWith(isFavourite: !presentation.isFavourite!);
 
       await ref
           .read(programRepositoryProvider)
@@ -254,4 +250,24 @@ final programOfDayProvider =
       .watch(programProvider)
       .where((element) => DateUtils.isSameDay(day, element.start))
       .toList();
+});
+
+final plainProgramItems = Provider<List<ProgramItemModel>>((ref) {
+  return ref
+      .watch(programProvider)
+      .expand((programItem) => programItem.children)
+      .toList();
+});
+
+final programItemProvider =
+    StateProvider.family<ProgramItemModel?, int>((ref, id) {
+  var result =
+      ref.read(programProvider).firstWhereOrNull((element) => id == element.id);
+
+  result ??= ref
+      .read(plainProgramItems)
+      .firstWhereOrNull((element) => id == element.id);
+  debugPrint('${id.toString()} ${result?.id}');
+
+  return result;
 });

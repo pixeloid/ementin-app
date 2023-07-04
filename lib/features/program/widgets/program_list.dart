@@ -45,6 +45,7 @@ class _ProgramListPageState extends ConsumerState<ProgramList> {
   Widget build(BuildContext context) {
     final EventModel? selectedEvent = ref.watch(currentEventProvider);
     selectedEvent!.ads.shuffle();
+
     final ad = selectedEvent.ads.isNotEmpty ? selectedEvent.ads.first : null;
 
     final isCheckedIn = selectedEvent.checkedIn;
@@ -92,7 +93,7 @@ class _ProgramListPageState extends ConsumerState<ProgramList> {
 
           return item.children.isEmpty
               ? ProgramItem(
-                  presentation: item,
+                  id: item.id,
                 )
               : Container(
                   decoration: BoxDecoration(
@@ -133,28 +134,24 @@ class _ProgramListPageState extends ConsumerState<ProgramList> {
                         ),
                       if (item.children.isNotEmpty)
                         Column(
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 12,
-                                );
-                              },
-                              itemCount: item.children.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (_, i) {
-                                return ProgramItem(
-                                  presentation: item.children[i],
-                                );
-                              },
-                            )
-                          ],
-                        )
+                          children: List.generate(
+                              item.children.length,
+                              (index) => Column(
+                                    children: [
+                                      if (index == 0)
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                      ProgramItem(
+                                        id: item.children[index].id,
+                                      ),
+                                      if (index < item.children.length - 1)
+                                        const SizedBox(
+                                          height: 16,
+                                        )
+                                    ],
+                                  )).toList(),
+                        ),
                     ],
                   ),
                 );

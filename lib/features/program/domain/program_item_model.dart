@@ -1,8 +1,8 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
-import 'author_model.dart';
+import '../../author/domain/author_model.dart';
 import 'program_presentation_rate_model.dart';
 
 part 'program_item_model.freezed.dart';
@@ -16,11 +16,10 @@ class ProgramItemModel with _$ProgramItemModel {
     required int id,
     @Default('') @JsonKey(name: '@id') String iri,
     @Default([]) List<ProgramItemModel> children,
-    @Default(Duration(minutes: 0)) Duration duration,
     required String title,
     @JsonKey(name: 'from') required DateTime start,
     @JsonKey(name: 'to') required DateTime end,
-    bool? isFavourite,
+    @JsonKey(name: 'favourite') bool? isFavourite,
     ProgramPresentationRateModel? rate,
     String? type,
     String? body,
@@ -34,6 +33,9 @@ class ProgramItemModel with _$ProgramItemModel {
   factory ProgramItemModel.fromJson(Map<String, Object?> json) =>
       _$ProgramItemModelFromJson(json);
 
+  get duration => start.isAfter(end)
+      ? const Duration(minutes: 0)
+      : DateTimeRange(start: start, end: end).duration;
   get inProgress {
     final now = DateTime.now();
 

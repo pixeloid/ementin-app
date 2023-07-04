@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/utils/states/future_state.codegen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -97,7 +98,9 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
     return _authenticate(email, password, 'verifyPassword');
   }
 
-  void logout() {
+  void logout({
+    VoidCallback? onSuccess,
+  }) {
     loggingOut = true;
     _sharedPreferences.resetKeys();
     state = const FutureState.idle();
@@ -107,6 +110,9 @@ class AuthProvider extends StateNotifier<FutureState<bool?>> {
       _authTimer = null;
     }
     loggingOut = false;
+    if (onSuccess != null) {
+      onSuccess();
+    }
   }
 
   // ignore: unused_element

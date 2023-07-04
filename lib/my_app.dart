@@ -1,5 +1,6 @@
 import 'package:eventapp/data/key_value_storage_base.dart';
 import 'package:eventapp/providers/locale_provider.dart';
+import 'package:eventapp/providers/network_detector_notifier.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -50,23 +51,25 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     initOneSignal(context);
 
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      builder: (BuildContext context, child) => MaterialApp.router(
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
-        locale: ref.watch(localeProvider),
-        supportedLocales: S.delegate.supportedLocales,
-        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.fromType(ThemeType.ementin).themeData,
-      ),
-    );
+    return (ref.watch(networkAwareProvider) == NetworkStatus.Off)
+        ? const Center(child: Text("No network"))
+        : ScreenUtilInit(
+            designSize: const Size(360, 690),
+            builder: (BuildContext context, child) => MaterialApp.router(
+              routerDelegate: _appRouter.delegate(),
+              routeInformationParser: _appRouter.defaultRouteParser(),
+              locale: ref.watch(localeProvider),
+              supportedLocales: S.delegate.supportedLocales,
+              localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.fromType(ThemeType.ementin).themeData,
+            ),
+          );
   }
 }
 

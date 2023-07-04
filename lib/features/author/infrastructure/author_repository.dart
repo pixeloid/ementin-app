@@ -4,13 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/endpoints.dart';
 import 'package:eventapp/features/event/domain/event_model.dart';
-import 'package:eventapp/services/locator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../data/api/network_exceptions.dart';
 import '../domain/author_model.dart';
 
 class AuthorRepository {
-  final netWorkLocator = getIt.get<DioClient>();
+  final DioClient netWorkLocator;
+
+  AuthorRepository(this.netWorkLocator);
 
   FutureOr<List<AuthorModel>> getSpeakers(EventModel event) async {
     try {
@@ -29,3 +31,7 @@ class AuthorRepository {
     }
   }
 }
+
+final authorRepositoryProvider = Provider<AuthorRepository>((ref) {
+  return AuthorRepository(ref.watch(dioClientProvider));
+});

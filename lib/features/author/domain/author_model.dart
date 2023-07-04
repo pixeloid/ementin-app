@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:eventapp/features/program/domain/program_item_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +11,8 @@ part 'author_model.g.dart';
 class AuthorModel with _$AuthorModel {
   AuthorModel._();
   factory AuthorModel({
-    String? iri,
     int? id,
+    @Default('') @JsonKey(name: '@id') iri,
     required String name,
     String? title,
     String? image,

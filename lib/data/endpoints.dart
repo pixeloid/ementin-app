@@ -16,4 +16,5 @@ class EndPoints {
   static const String refreshToken = '/token/refresh';
   static const String pollSession = '/poll_sessions';
   static const String speakers = '/authors';
+  static const String checkedInUsers = '/checked_in_users';
 }

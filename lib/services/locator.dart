@@ -2,7 +2,7 @@
 
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/repository/auth_repository.dart';
-import 'package:eventapp/features/program/infrastructure/author_repository.dart';
+import 'package:eventapp/features/author/infrastructure/author_repository.dart';
 import 'package:eventapp/features/event/infrastructure/event_repository.dart';
 import 'package:eventapp/data/repository/insta_repository.dart';
 import 'package:eventapp/features/program/infrastructure/program_repository.dart';

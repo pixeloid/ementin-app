@@ -14,13 +14,10 @@ _$_ProgramItemModel _$$_ProgramItemModelFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ProgramItemModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      duration: json['duration'] == null
-          ? const Duration(minutes: 0)
-          : Duration(microseconds: json['duration'] as int),
       title: json['title'] as String,
       start: DateTime.parse(json['from'] as String),
       end: DateTime.parse(json['to'] as String),
-      isFavourite: json['isFavourite'] as bool?,
+      isFavourite: json['favourite'] as bool?,
       rate: json['rate'] == null
           ? null
           : ProgramPresentationRateModel.fromJson(
@@ -42,11 +39,10 @@ Map<String, dynamic> _$$_ProgramItemModelToJson(_$_ProgramItemModel instance) =>
       'id': instance.id,
       '@id': instance.iri,
       'children': instance.children,
-      'duration': instance.duration.inMicroseconds,
       'title': instance.title,
       'from': instance.start.toIso8601String(),
       'to': instance.end.toIso8601String(),
-      'isFavourite': instance.isFavourite,
+      'favourite': instance.isFavourite,
       'rate': instance.rate,
       'type': instance.type,
       'body': instance.body,

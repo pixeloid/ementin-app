@@ -1,18 +1,16 @@
+import 'package:eventapp/features/event/application/event_provider.dart';
 import 'package:eventapp/models/event_registration_model.dart';
-import 'package:eventapp/providers/event_provider.dart';
-import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class RegistrationDetailsPage extends StatelessWidget {
+class RegistrationDetailsPage extends ConsumerWidget {
   const RegistrationDetailsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final eventProvider = Provider.of<EventProvider>(context, listen: true);
-    final reg = eventProvider.selectedEvent!.eventRegistration;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reg = ref.watch(currentEventProvider)!.eventRegistration;
     late Iterable<TicketModel> tickets;
     if (reg != null) {
       tickets =
@@ -21,10 +19,6 @@ class RegistrationDetailsPage extends StatelessWidget {
     return (reg != null)
         ? Column(
             children: [
-              const WHeader(
-                title: 'Regisztráció részletei',
-                isShowBackButton: false,
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(children: [

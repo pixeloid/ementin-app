@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../utils/widgets/w_header.dart';
-import 'program/domain/author_model.dart';
-import 'program/widgets/program_item_hero.dart';
+import '../../../utils/widgets/w_header.dart';
+import '../../program/widgets/program_item_hero.dart';
+import '../domain/author_model.dart';
 
 class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
   final AuthorModel speaker;

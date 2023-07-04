@@ -8,8 +8,8 @@ part of 'author_model.dart';
 
 _$_AuthorModel _$$_AuthorModelFromJson(Map<String, dynamic> json) =>
     _$_AuthorModel(
-      iri: json['iri'] as String?,
       id: json['id'] as int?,
+      iri: json['@id'] ?? '',
       name: json['name'] as String,
       title: json['title'] as String?,
       image: json['image'] as String?,
@@ -24,8 +24,8 @@ _$_AuthorModel _$$_AuthorModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_AuthorModelToJson(_$_AuthorModel instance) =>
     <String, dynamic>{
-      'iri': instance.iri,
       'id': instance.id,
+      '@id': instance.iri,
       'name': instance.name,
       'title': instance.title,
       'image': instance.image,

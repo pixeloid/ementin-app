@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final _cacheLoaderFutureProvider = FutureProvider.autoDispose<void>(
   (ref) async {
     await Future.wait([
-      ref.watch(eventListProvider.notifier).getEvents(),
+      ref.read(eventListProvider.notifier).getEvents(),
     ]);
   },
 );

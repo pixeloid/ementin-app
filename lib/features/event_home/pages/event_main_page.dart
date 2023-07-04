@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/features/event_home/widgets/bottom_nav_item.dart';
 import 'package:eventapp/features/program/application/program_provider.dart';
+import 'package:eventapp/features/user/application/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/widgets/w_header.dart';
 import '../../../widgets/error_response_handler.dart';
+import '../../author/application/speakers_provider.dart';
 import '../../event/application/event_provider.dart';
 
 class EventHomePage extends ConsumerWidget with HeaderDelegate {
@@ -18,6 +20,8 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
     (ref) async {
       await Future.wait([
         ref.watch(programProvider.notifier).getProgram(),
+        ref.watch(speakersProvider.notifier).getAllSpeakers(),
+        ref.watch(checkedInUsersProvider.notifier).getCheckedInUsers(),
       ]);
     },
   );
@@ -29,7 +33,6 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
     //  pollProvider.getPollSession();
     final isCheckedIn = ref.watch(currentEventProvider)!.checkedIn;
     const hasGallery = false;
-    final currentEvent = ref.watch(currentEventProvider);
     // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
 
     final eventPreloadFuture = ref.watch(_eventPreloadFutureProvider);
@@ -38,7 +41,7 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
       body: Column(
         children: [
           WHeader(
-            title: currentEvent!.name,
+            title: isCheckedIn.toString(),
             isShowBackButton: false,
             delegate: this,
             drawerButton: true,
@@ -60,8 +63,9 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
                   AutoTabsScaffold(
                     routes: [
                       EventProgramRoute(),
-                      //EventSpeakersRoute(),
-                      //RegistrationDetailsRoute(),
+                      const EventSpeakersRoute(),
+                      const CheckedInUsersListRoute(),
+                      const RegistrationDetailsRoute(),
                       //FavouritesRoute(),
                       //GalleryRoute(),
                       //SponsorsRoute(),
@@ -93,7 +97,7 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
                                 tabsRouter.setActiveIndex(0);
                               },
                             ),
-                            if (true)
+                            if (isCheckedIn)
                               BottomNavItem(
                                 index: 1,
                                 label: 'Előadók',
@@ -105,20 +109,29 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
                             if (isCheckedIn)
                               BottomNavItem(
                                 index: 2,
-                                label: 'Regisztrációm',
-                                icon: Icons.list_alt_rounded,
+                                label: 'Résztvevők',
+                                icon: Icons.people_alt,
                                 onNavTap: () {
                                   tabsRouter.setActiveIndex(2);
                                 },
                               ),
-                            if (true)
+                            if (isCheckedIn)
                               BottomNavItem(
                                 index: 3,
+                                label: 'Regisztrációm',
+                                icon: Icons.list_alt_rounded,
+                                onNavTap: () {
+                                  tabsRouter.setActiveIndex(3);
+                                },
+                              ),
+                            if (false)
+                              BottomNavItem(
+                                index: 4,
                                 icon: Icons.favorite_outline_sharp,
                                 label: 'Kedvencek',
                                 badgeText: numFavourites.toString(),
                                 onNavTap: () {
-                                  tabsRouter.setActiveIndex(3);
+                                  tabsRouter.setActiveIndex(4);
                                 },
                               ),
                             if (hasGallery)

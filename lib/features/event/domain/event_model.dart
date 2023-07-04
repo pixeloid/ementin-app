@@ -7,7 +7,7 @@ class EventModel {
   final String iri;
   final String name;
   bool checkedIn;
-  final int start;
+  final String start;
   final String end;
   final String? venue;
   final String address;
@@ -56,7 +56,8 @@ class EventModel {
       checkedIn: json['checkedIn'],
       end:
           DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
-      start: DateTime.parse(json['start']).millisecondsSinceEpoch,
+      start: DateFormat('yyyy. MMMM d.', 'hu')
+          .format(DateTime.parse(json['start'])),
       endDate: DateTime.parse(json['end']).toLocal(),
       startDate: DateTime.parse(json['start']).toLocal(),
       venue: json['venue'],

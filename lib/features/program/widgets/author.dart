@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventapp/app_define/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../program/domain/author_model.dart';
+import '../../author/domain/author_model.dart';
 
-class Author extends StatelessWidget {
+class Author extends ConsumerWidget {
   final bool? hideDescription;
 
   const Author({
@@ -27,7 +28,7 @@ class Author extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,7 +76,7 @@ class Author extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 5),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: context.theme().greyWeak),
+                                  color: ref.watch(themeProvider).greyWeak),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 1),
                               child: Text(
