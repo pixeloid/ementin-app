@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 
+import '../../../providers/network_detector_notifier.dart';
 import '../domain/filter_option.dart';
 
 class EventListPage extends ConsumerWidget {
@@ -36,7 +37,7 @@ class EventListPage extends ConsumerWidget {
                 sliverTabBar: SliverTabBar(
                   backgroundColor: Theme.of(context).canvasColor,
                   title: Text(
-                    'Rendezvények'.toUpperCase(),
+                    ref.watch(networkAwareProvider).toString(),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
