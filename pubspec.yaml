@@ -79,7 +79,8 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   json_serializable: ^6.7.0
   json_annotation: ^4.8.1
-  connectivity: ^3.0.6
+  connectivity_plus: ^4.0.1
+  tabbed_sliverlist: ^0.1.0
 
 
 flutter_intl:
@@ -149,6 +150,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
 
 
   fonts:

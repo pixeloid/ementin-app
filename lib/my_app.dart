@@ -51,8 +51,10 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     initOneSignal(context);
 
-    return (ref.watch(networkAwareProvider) == NetworkStatus.Off)
-        ? const Center(child: Text("No network"))
+    return (ref.watch(networkAwareProvider) == NetworkStatus.off)
+        ? const MaterialApp(
+            home: Center(child: Text("No network")),
+          )
         : ScreenUtilInit(
             designSize: const Size(360, 690),
             builder: (BuildContext context, child) => MaterialApp.router(

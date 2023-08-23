@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../features/auth/application/auth_provider.dart';
 
 enum AuthMode { signup, login }
 
@@ -85,23 +82,23 @@ class _AuthCardState extends State<AuthCard> {
   final _passwordController =
       TextEditingController(text: 'kadfes-gaqguq-weCze5');
 
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('An Error Occurred!'),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
+//  void _showErrorDialog(String message) {
+//    showDialog(
+//      context: context,
+//      builder: (ctx) => AlertDialog(
+//        title: const Text('An Error Occurred!'),
+//        content: Text(message),
+//        actions: <Widget>[
+//          TextButton(
+//            child: const Text('Okay'),
+//            onPressed: () {
+//              Navigator.of(ctx).pop();
+//            },
+//          )
+//        ],
+//      ),
+//    );
+//  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
@@ -112,25 +109,25 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      if (_authMode == AuthMode.login) {
-        // Log user in
-        await Provider.of<AuthProvider>(context, listen: false).login(
-          _authData['email'] as String,
-          _authData['password'] as String,
-        );
-      } else {
-        // Sign user up
-        await Provider.of<AuthProvider>(context, listen: false).signup(
-          _authData['email'] as String,
-          _authData['password'] as String,
-        );
-      }
-
-      //Navigator.pushReplacementNamed(context, AppRoute.routeHome);
-    } catch (error) {
-      _showErrorDialog(error.toString());
-    }
+    // try {
+    //   if (_authMode == AuthMode.login) {
+    //     // Log user in
+    //     await Provider.of<AuthProvider>(context, listen: false).login(
+    //       _authData['email'] as String,
+    //       _authData['password'] as String,
+    //     );
+    //   } else {
+    //     // Sign user up
+    //     await Provider.of<AuthProvider>(context, listen: false).signup(
+    //       _authData['email'] as String,
+    //       _authData['password'] as String,
+    //     );
+    //   }
+//
+    //   //Navigator.pushReplacementNamed(context, AppRoute.routeHome);
+    // } catch (error) {
+    //   _showErrorDialog(error.toString());
+    // }
 
     setState(() {
       _isLoading = false;

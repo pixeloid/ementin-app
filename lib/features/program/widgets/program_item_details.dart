@@ -133,7 +133,7 @@ class ProgramItemDetails extends ConsumerWidget with HeaderDelegate {
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       MyRatingBar(
-                          value: presentation.rateValue!.toDouble(),
+                          value: presentation.rateValue?.toDouble() ?? 0,
                           presentation: presentation),
                     ],
                   ),

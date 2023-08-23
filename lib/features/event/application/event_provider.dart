@@ -38,12 +38,12 @@ final eventListProvider =
   return EventsNotifier(ref: ref);
 });
 
-final filteredEventListProvider = Provider<List<EventModel>>((ref) {
-  final filter = ref.watch(selectedEventFilterProvider);
+final filteredEventListProvider =
+    Provider.family<List<EventModel>, FilterOption>((ref, filter) {
   final events = ref.watch(eventListProvider);
   final now = DateTime.now();
   List<EventModel> result = [];
-  switch (filter?.id) {
+  switch (filter.id) {
     case 'past':
       result = events.where((event) => event.endDate.isBefore(now)).toList();
       break;

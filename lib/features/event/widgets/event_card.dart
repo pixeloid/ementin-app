@@ -26,7 +26,7 @@ class EventCard extends ConsumerWidget {
         },
         child: Column(
           children: [
-            Text(event.checkedIn.toString()),
+            // Text(event.checkedIn.toString()),
             Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(

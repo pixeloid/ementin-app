@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-enum NetworkStatus { NotDetermined, On, Off }
+enum NetworkStatus { notDetermined, on, off }
 
 class NetworkDetectorNotifier extends StateNotifier<NetworkStatus> {
   StreamController<ConnectivityResult> controller =
@@ -11,24 +11,31 @@ class NetworkDetectorNotifier extends StateNotifier<NetworkStatus> {
 
   late NetworkStatus lastResult;
 
-  NetworkDetectorNotifier() : super(NetworkStatus.NotDetermined) {
-    lastResult = NetworkStatus.NotDetermined;
+  NetworkDetectorNotifier() : super(NetworkStatus.notDetermined) {
+    lastResult = NetworkStatus.notDetermined;
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       // Use Connectivity() here to gather more info if you need t
-      NetworkStatus newState;
+      NetworkStatus? newState;
       switch (result) {
         case ConnectivityResult.mobile:
         case ConnectivityResult.wifi:
-          newState = NetworkStatus.On;
+          newState = NetworkStatus.on;
           break;
         case ConnectivityResult.none:
-          newState = NetworkStatus.Off;
-          // TODO: Handle this case.
+          newState = NetworkStatus.off;
+          break;
+        case ConnectivityResult.bluetooth:
+          break;
+        case ConnectivityResult.ethernet:
+          break;
+        case ConnectivityResult.vpn:
+          break;
+        case ConnectivityResult.other:
           break;
       }
 
       if (newState != state) {
-        state = newState;
+        state = newState!;
       }
     });
   }

@@ -31,8 +31,9 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
     // final pollProvider = Provider.of<PollProvider>(context, listen: false);
     // pollProvider.subscribe();
     //  pollProvider.getPollSession();
-    final isCheckedIn = ref.watch(currentEventProvider)!.checkedIn;
-    const hasGallery = false;
+    final bool isCheckedIn = ref.watch(currentEventProvider)!.checkedIn;
+    final bool hasGallery =
+        ref.watch(currentEventProvider)!.instaUrl?.isNotEmpty ?? false;
     // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
 
     final eventPreloadFuture = ref.watch(_eventPreloadFutureProvider);
@@ -124,7 +125,7 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
                                   tabsRouter.setActiveIndex(3);
                                 },
                               ),
-                            if (false)
+                            if (isCheckedIn)
                               BottomNavItem(
                                 index: 4,
                                 icon: Icons.favorite_outline_sharp,
@@ -134,7 +135,7 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
                                   tabsRouter.setActiveIndex(4);
                                 },
                               ),
-                            if (hasGallery)
+                            if (hasGallery && isCheckedIn)
                               BottomNavItem(
                                 index: 4,
                                 label: 'Fotók',
@@ -178,7 +179,7 @@ class EventHomePage extends ConsumerWidget with HeaderDelegate {
               ),
               title: const Text('Összes esemény listja'),
               onTap: () {
-                AutoRouter.of(context).replace(const EventListRoute());
+                AutoRouter.of(context).popUntil((route) => route.isFirst);
               },
             ),
             ListTile(

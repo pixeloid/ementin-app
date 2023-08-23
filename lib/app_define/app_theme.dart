@@ -16,6 +16,7 @@ class AppTheme {
     required this.bg2,
     required this.accent1,
     required this.accent1Dark,
+    required this.accent1Muted,
     required this.accent1Darker,
     required this.accent2,
     required this.accent3,
@@ -35,6 +36,7 @@ class AppTheme {
   Color bg2;
   Color accent1;
   Color accent1Dark;
+  Color accent1Muted;
   Color accent1Darker;
   Color accent2;
   Color accent3;
@@ -58,6 +60,7 @@ class AppTheme {
           bg2: const Color(0xffc1dcbc),
           surface: Colors.white,
           accent1: const Color(0xFF2C2B7A),
+          accent1Muted: const Color(0xFF2C2B7A),
           accent1Dark: const Color(0xff00856f),
           accent1Darker: const Color(0xff006b5a),
           accent2: const Color(0xFFf172ac),
@@ -80,6 +83,7 @@ class AppTheme {
           surface: const Color(0xff252525),
           accent1: const Color(0xff00a086),
           accent1Dark: const Color(0xff00caa5),
+          accent1Muted: const Color(0xff00caa5),
           accent1Darker: const Color(0xff00caa5),
           accent2: const Color(0xfff19e46),
           accent3: const Color(0xff5BC91A),
