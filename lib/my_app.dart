@@ -1,3 +1,4 @@
+import 'package:eventapp/app_define/app_route.dart';
 import 'package:eventapp/data/repository/auth_repository.dart';
 import 'package:eventapp/data/repository/poll_repository.dart';
 import 'package:eventapp/data/repository/program_repository.dart';
@@ -16,7 +17,6 @@ import 'package:eventapp/app_define/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'app_define/app_route.gr.dart';
 import 'data/repository/event_repository.dart';
 import 'providers/program_provider.dart';
 
@@ -37,23 +37,32 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> initOneSignal(BuildContext context) async {
     /// Set App Id.
-    await OneSignal.shared.setAppId('37356181-bc89-4053-9944-446bdf13d90a');
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+    OneSignal.initialize('37356181-bc89-4053-9944-446bdf13d90a');
+    OneSignal.Notifications.requestPermission(true);
 
     /// Get the Onesignal userId and update that into the firebase.
     /// So, that it can be used to send Notifications to users later.̥
-    final status = await OneSignal.shared.getDeviceState();
-    final String? osUserID = status?.userId;
-    // ignore: avoid_print
-    debugPrint('Player ID: $osUserID');
-    // We will update this once he logged in and goes to dashboard.
-    ////updateUserProfile(osUserID);
-    // Store it into shared prefs, So that later we can use it.
-    //Preferences.setOnesignalUserId(osUserID);
+    OneSignal.User.pushSubscription.addObserver((state) {
+      debugPrint(state.current.jsonRepresentation());
+    });
 
-    // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    await OneSignal.shared.promptUserForPushNotificationPermission(
-      fallbackToSettings: true,
-    );
+    OneSignal.Notifications.addPermissionObserver((state) {
+      debugPrint("Has permission $state");
+    });
+
+    OneSignal.Notifications.addClickListener((event) {
+      debugPrint('NOTIFICATION CLICK LISTENER CALLED WITH EVENT: $event');
+    });
+    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+      /// preventDefault to not display the notification
+      event.preventDefault();
+
+      /// Do async work
+
+      /// notification.display() to display after preventing default
+      event.notification.display();
+    });
 //
     /// Calls when foreground notification arrives.
     // OneSignal.shared.setNotificationWillShowInForegroundHandler(
@@ -73,8 +82,7 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (BuildContext context, child) => MaterialApp.router(
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
+        routerConfig: _appRouter.config(),
         locale: localeProvider.locale,
         supportedLocales: S.delegate.supportedLocales,
         localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
