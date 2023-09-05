@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 
+@RoutePage()
 class MainPage extends StatelessWidget {
   const MainPage({
     Key? key,

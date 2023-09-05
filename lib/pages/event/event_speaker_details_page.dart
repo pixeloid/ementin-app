@@ -4,6 +4,7 @@ import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
 import 'package:flutter/material.dart';
 import '../../utils/widgets/w_header.dart';
 
+@RoutePage()
 class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
   final AuthorModel speaker;
 

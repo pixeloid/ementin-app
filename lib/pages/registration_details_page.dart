@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_registration_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage()
 class RegistrationDetailsPage extends StatelessWidget {
   const RegistrationDetailsPage({Key? key}) : super(key: key);
 

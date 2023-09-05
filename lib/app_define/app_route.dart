@@ -1,89 +1,79 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/pages/auth/auth_page.dart';
-import 'package:eventapp/pages/checkin_page.dart';
-import 'package:eventapp/pages/event/event_speaker_details_page.dart';
-import 'package:eventapp/pages/event/event_speakers_page.dart';
-import 'package:eventapp/pages/event/main/event_gallery_page.dart';
-import 'package:eventapp/pages/event/main/event_info_page.dart';
-import 'package:eventapp/pages/event/main/event_sponsors_page.dart';
-import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
-import 'package:eventapp/pages/favourites_page.dart';
-import 'package:eventapp/pages/main/main_page.dart';
-import 'package:eventapp/pages/profile_page.dart';
-import 'package:eventapp/pages/registration_details_page.dart';
+import 'package:eventapp/app_define/app_route.gr.dart';
 
-import '../pages/event/main/program_list_page.dart';
-import '../pages/event/event_program_page.dart';
-import '../pages/event_list_page.dart';
+@AutoRouterConfig()
+class AppRouter extends $AppRouter {
+  @override
+  RouteType get defaultRouteType =>
+      const RouteType.material(); //.cupertino, .adaptive ..etc
 
-@MaterialAutoRouter(
-  replaceInRouteName: 'Page,Route',
-  routes: <AutoRoute>[
+  @override
+  final List<AutoRoute> routes = [
     AutoRoute(
       initial: true,
       path: '/events',
-      page: EventListPage,
+      page: EventListRoute.page,
     ),
 
     AutoRoute(
       path: '/main',
-      page: MainPage,
+      page: MainRoute.page,
       children: [
         AutoRoute(
           path: 'event',
-          page: EventProgramPage,
+          page: EventProgramRoute.page,
           children: [
             AutoRoute(
               path: 'info',
-              page: EventInfoPage,
+              page: EventInfoRoute.page,
             ),
             AutoRoute(
               path: 'program',
-              page: ProgramListPage,
+              page: ProgramListRoute.page,
             ),
             AutoRoute(
               path: 'program-details',
-              page: ProgramItemFullHero,
+              page: ProgramItemFullHeroRoute.page,
             ),
           ],
         ),
         AutoRoute(
           path: 'favourtes',
-          page: FavouritesPage,
+          page: FavouritesRoute.page,
         ),
         AutoRoute(
           path: 'speakers',
-          page: EventSpeakersPage,
+          page: EventSpeakersRoute.page,
           children: [
             AutoRoute(
               path: 'speaker-details',
-              page: EventSpeakerDetailsPage,
+              page: EventSpeakerDetailsRoute.page,
             ),
           ],
         ),
         AutoRoute(
           path: 'registration-details',
-          page: RegistrationDetailsPage,
+          page: RegistrationDetailsRoute.page,
         ),
         AutoRoute(
           path: 'profile',
-          page: ProfilePage,
+          page: ProfileRoute.page,
         ),
         AutoRoute(
           path: 'gallery',
-          page: GalleryPage,
+          page: GalleryRoute.page,
         ),
         AutoRoute(
           path: 'auth',
-          page: AuthPage,
+          page: AuthRoute.page,
         ),
         AutoRoute(
           path: 'check-in',
-          page: CheckInPage,
+          page: CheckInRoute.page,
         ),
         AutoRoute(
           path: 'sponsors',
-          page: SponsorsPage,
+          page: SponsorsRoute.page,
         ),
       ],
     ),
@@ -93,7 +83,5 @@ import '../pages/event_list_page.dart';
     //    name: 'SettingsRouter',
     //    page: SettingsPage,
     //  )
-    //]),
-  ],
-)
-class $AppRouter {}
+  ];
+}

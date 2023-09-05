@@ -30,7 +30,7 @@ class ProgramItem extends StatelessWidget {
               ? () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => Scaffold(
-                            body: ProgramItemFullHero(
+                            body: ProgramItemFullHeroPage(
                               presentation: presentation,
                               showBody: true,
                               showLoveButton:

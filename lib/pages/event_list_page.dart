@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/widgets/event_card.dart';
 import 'package:eventapp/providers/event_provider.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class EventListPage extends StatelessWidget {
   const EventListPage({Key? key}) : super(key: key);
   Future<void> _getEvents(BuildContext context) async {

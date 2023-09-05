@@ -205,13 +205,14 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
   }
 }
 
-class ProgramItemFullHero extends StatelessWidget with HeaderDelegate {
+@RoutePage()
+class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
   final ProgramItemModel presentation;
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
 
-  const ProgramItemFullHero({
+  const ProgramItemFullHeroPage({
     Key? key,
     required this.presentation,
     required this.onTap,

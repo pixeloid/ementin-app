@@ -16,7 +16,7 @@ class ProgramRepository {
       EventModel event, DateTime? date) async {
     netWorkLocator.dio.options.extra['event'] = event.domain;
     final response = await netWorkLocator.dio.get(
-      '${EndPoints.baseUrl}${EndPoints.eventProgram}',
+      '${EndPoints.baseUrl}${EndPoints.schedule}',
       queryParameters: {
         if (date != null) 'date': date,
       },

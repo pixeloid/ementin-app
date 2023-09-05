@@ -42,6 +42,8 @@ class Poll extends StatelessWidget {
                 try {
                   await pollProvider.sendResponse();
                 } catch (e) {
+                  if (!context.mounted) return;
+
                   final snackBar = SnackBar(
                     content: Text(e.toString()),
                   );

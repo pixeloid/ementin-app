@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/pages/event/main/event_sponsor_materials_page.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/gallery_provider.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+@RoutePage()
 class SponsorsPage extends StatelessWidget {
   const SponsorsPage({Key? key}) : super(key: key);
 

@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/gallery_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class GalleryPage extends StatelessWidget {
   const GalleryPage({Key? key}) : super(key: key);
 

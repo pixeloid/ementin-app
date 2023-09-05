@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../../providers/event_provider.dart';
 import '../../utils/widgets/w_header.dart';
 
+@RoutePage()
 class EventProgramPage extends StatelessWidget with HeaderDelegate {
   EventProgramPage({
     Key? key,

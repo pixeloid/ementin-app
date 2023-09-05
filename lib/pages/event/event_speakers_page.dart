@@ -11,6 +11,7 @@ import '../../providers/event_provider.dart';
 import '../../utils/widgets/w_header.dart';
 import 'main/widgets/author.dart';
 
+@RoutePage()
 class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
   const EventSpeakersPage({
     Key? key,

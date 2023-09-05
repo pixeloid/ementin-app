@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,6 +6,7 @@ import '../../providers/auth_provider.dart';
 
 enum AuthMode { signup, login }
 
+@RoutePage()
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
 

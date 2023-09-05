@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:eventapp/app_define/app_config.dart';
 
+@RoutePage()
 class CheckInPage extends StatefulWidget {
   const CheckInPage({Key? key}) : super(key: key);
 
@@ -103,16 +105,24 @@ class _CheckInPageState extends State<CheckInPage> {
     try {
       final checkIn = await eventProvider.checkIn(code);
 
-      OneSignal.shared
-          .setExternalUserId(
-              checkIn['eventRegistration']['user']['id'].toString())
+      OneSignal.login(checkIn['eventRegistration']['user']['id'].toString())
           .then((results) {})
           .catchError((error) {});
 
+      // Move this outside of setState
       await authProvider.loginWithCode(code);
 
-      //    router.navigate(const RegistrationDetailsRoute());
+      // The rest of your code remains unchanged
+
+      if (mounted) {
+        Navigator.pop(context);
+
+        setState(() {
+          isLoading = false;
+        });
+      }
     } catch (e) {
+      if (!mounted) return;
       var scaffoldText = const Text('Sikertelen bejelentkezés!');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: scaffoldText,
@@ -121,14 +131,6 @@ class _CheckInPageState extends State<CheckInPage> {
       setState(() {
         isLoading = false;
         result = null;
-      });
-    }
-
-    if (mounted) {
-      Navigator.pop(context);
-
-      setState(() {
-        isLoading = false;
       });
     }
   }

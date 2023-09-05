@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
@@ -13,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'widgets/program_header_simple.dart';
 import 'widgets/program_item.dart';
 
+@RoutePage()
 class ProgramListPage extends StatefulWidget {
   final List<ProgramItemModel> programData;
   const ProgramListPage(this.programData, {Key? key}) : super(key: key);
