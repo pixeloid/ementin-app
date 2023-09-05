@@ -37,7 +37,7 @@ class EventListPage extends ConsumerWidget {
                 sliverTabBar: SliverTabBar(
                   backgroundColor: Theme.of(context).canvasColor,
                   title: Text(
-                    ref.watch(networkAwareProvider).toString(),
+                    ref.watch(connectivityStatusProviders).toString(),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,

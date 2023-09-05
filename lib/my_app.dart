@@ -51,7 +51,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     initOneSignal(context);
 
-    return (ref.watch(networkAwareProvider) == NetworkStatus.off)
+    return (ref.watch(connectivityStatusProviders) ==
+            ConnectivityStatus.isDisonnected)
         ? const MaterialApp(
             home: Center(child: Text("No network")),
           )
