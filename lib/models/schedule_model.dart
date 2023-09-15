@@ -1,4 +1,6 @@
 // This file is "main.dart"
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'schedule_model.freezed.dart';
@@ -13,6 +15,8 @@ class Schedule with _$Schedule {
     @JsonKey(name: "halls") required List<Hall> halls,
     @JsonKey(name: "days") required List<Day> days,
   }) = _Schedule;
+  factory Schedule.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleFromJson(json);
 }
 
 @freezed
@@ -23,6 +27,7 @@ class Day with _$Day {
     @JsonKey(name: "date") required DateTime date,
     @JsonKey(name: "eventGroups") required List<EventGroup> eventGroups,
   }) = _Day;
+  factory Day.fromJson(Map<String, dynamic> json) => _$DayFromJson(json);
 }
 
 @freezed
@@ -32,6 +37,8 @@ class EventGroup with _$EventGroup {
     @JsonKey(name: "@id") required String id,
     @JsonKey(name: "columns") required List<Hall> columns,
   }) = _EventGroup;
+  factory EventGroup.fromJson(Map<String, dynamic> json) =>
+      _$EventGroupFromJson(json);
 }
 
 @freezed
@@ -43,6 +50,7 @@ class Hall with _$Hall {
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "accomodation") Hall? accomodation,
   }) = _Hall;
+  factory Hall.fromJson(Map<String, dynamic> json) => _$HallFromJson(json);
 }
 
 @freezed
@@ -62,6 +70,7 @@ class Event with _$Event {
     @JsonKey(name: "body") String? body,
     @JsonKey(name: "subtitle") String? subtitle,
   }) = _Event;
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 }
 
 @freezed
@@ -73,6 +82,8 @@ class StructuredAuthors with _$StructuredAuthors {
     @JsonKey(name: "names") required List<Name> names,
     @JsonKey(name: "hasMoreAuthors") required bool hasMoreAuthors,
   }) = _StructuredAuthors;
+  factory StructuredAuthors.fromJson(Map<String, dynamic> json) =>
+      _$StructuredAuthorsFromJson(json);
 }
 
 @freezed
@@ -82,6 +93,8 @@ class Institution with _$Institution {
     @JsonKey(name: "institution_id") required int? institutionId,
     @JsonKey(name: "need_fix") required int? needFix,
   }) = _Institution;
+  factory Institution.fromJson(Map<String, dynamic> json) =>
+      _$InstitutionFromJson(json);
 }
 
 @freezed
@@ -94,4 +107,5 @@ class Name with _$Name {
     @JsonKey(name: "indexes") required List<int> indexes,
     @JsonKey(name: "image") required dynamic image,
   }) = _Name;
+  factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
 }

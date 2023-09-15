@@ -4,6 +4,7 @@ import 'package:eventapp/data/repository/program_repository.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/schedule_model.dart';
 import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
@@ -21,6 +22,7 @@ class ProgramProvider extends ChangeNotifierSafety {
   final int minSearchTextLength = 2;
   String searchString = '';
   bool showSearch = false;
+  Schedule? schedule;
 
   get numItems => programItems.length;
 
@@ -87,7 +89,8 @@ class ProgramProvider extends ChangeNotifierSafety {
   /// Get Tickets
   Future<void> getProgram(EventModel event, {DateTime? date}) async {
     isLoading = true;
-    programItems = await _programRepository.getProgram(event, date);
+    schedule = await _programRepository.getProgram(event, date);
+    // programItems =
     speakers = await authorRepository.getSpeakers(event);
 
     speakers = speakers.map((speaker) {

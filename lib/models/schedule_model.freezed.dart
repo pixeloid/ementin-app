@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Schedule _$ScheduleFromJson(Map<String, dynamic> json) {
+  return _Schedule.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Schedule {
   @JsonKey(name: "@context")
@@ -27,6 +31,7 @@ mixin _$Schedule {
   @JsonKey(name: "days")
   List<Day> get days => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ScheduleCopyWith<Schedule> get copyWith =>
       throw _privateConstructorUsedError;
@@ -147,7 +152,7 @@ class __$$_ScheduleCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Schedule implements _Schedule {
   const _$_Schedule(
       {@JsonKey(name: "@context") required this.context,
@@ -157,6 +162,9 @@ class _$_Schedule implements _Schedule {
       @JsonKey(name: "days") required final List<Day> days})
       : _halls = halls,
         _days = days;
+
+  factory _$_Schedule.fromJson(Map<String, dynamic> json) =>
+      _$$_ScheduleFromJson(json);
 
   @override
   @JsonKey(name: "@context")
@@ -202,6 +210,7 @@ class _$_Schedule implements _Schedule {
             const DeepCollectionEquality().equals(other._days, _days));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -216,6 +225,13 @@ class _$_Schedule implements _Schedule {
   @pragma('vm:prefer-inline')
   _$$_ScheduleCopyWith<_$_Schedule> get copyWith =>
       __$$_ScheduleCopyWithImpl<_$_Schedule>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ScheduleToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Schedule implements Schedule {
@@ -225,6 +241,8 @@ abstract class _Schedule implements Schedule {
       @JsonKey(name: "@type") required final String type,
       @JsonKey(name: "halls") required final List<Hall> halls,
       @JsonKey(name: "days") required final List<Day> days}) = _$_Schedule;
+
+  factory _Schedule.fromJson(Map<String, dynamic> json) = _$_Schedule.fromJson;
 
   @override
   @JsonKey(name: "@context")
@@ -247,6 +265,10 @@ abstract class _Schedule implements Schedule {
       throw _privateConstructorUsedError;
 }
 
+Day _$DayFromJson(Map<String, dynamic> json) {
+  return _Day.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Day {
   @JsonKey(name: "@type")
@@ -258,6 +280,7 @@ mixin _$Day {
   @JsonKey(name: "eventGroups")
   List<EventGroup> get eventGroups => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DayCopyWith<Day> get copyWith => throw _privateConstructorUsedError;
 }
@@ -361,7 +384,7 @@ class __$$_DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res, _$_Day>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Day implements _Day {
   const _$_Day(
       {@JsonKey(name: "@type") required this.type,
@@ -370,6 +393,8 @@ class _$_Day implements _Day {
       @JsonKey(name: "eventGroups")
       required final List<EventGroup> eventGroups})
       : _eventGroups = eventGroups;
+
+  factory _$_Day.fromJson(Map<String, dynamic> json) => _$$_DayFromJson(json);
 
   @override
   @JsonKey(name: "@type")
@@ -406,6 +431,7 @@ class _$_Day implements _Day {
                 .equals(other._eventGroups, _eventGroups));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, id, date,
       const DeepCollectionEquality().hash(_eventGroups));
@@ -415,6 +441,13 @@ class _$_Day implements _Day {
   @pragma('vm:prefer-inline')
   _$$_DayCopyWith<_$_Day> get copyWith =>
       __$$_DayCopyWithImpl<_$_Day>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_DayToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Day implements Day {
@@ -424,6 +457,8 @@ abstract class _Day implements Day {
       @JsonKey(name: "date") required final DateTime date,
       @JsonKey(name: "eventGroups")
       required final List<EventGroup> eventGroups}) = _$_Day;
+
+  factory _Day.fromJson(Map<String, dynamic> json) = _$_Day.fromJson;
 
   @override
   @JsonKey(name: "@type")
@@ -442,6 +477,10 @@ abstract class _Day implements Day {
   _$$_DayCopyWith<_$_Day> get copyWith => throw _privateConstructorUsedError;
 }
 
+EventGroup _$EventGroupFromJson(Map<String, dynamic> json) {
+  return _EventGroup.fromJson(json);
+}
+
 /// @nodoc
 mixin _$EventGroup {
   @JsonKey(name: "@type")
@@ -451,6 +490,7 @@ mixin _$EventGroup {
   @JsonKey(name: "columns")
   List<Hall> get columns => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $EventGroupCopyWith<EventGroup> get copyWith =>
       throw _privateConstructorUsedError;
@@ -549,13 +589,16 @@ class __$$_EventGroupCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_EventGroup implements _EventGroup {
   const _$_EventGroup(
       {@JsonKey(name: "@type") required this.type,
       @JsonKey(name: "@id") required this.id,
       @JsonKey(name: "columns") required final List<Hall> columns})
       : _columns = columns;
+
+  factory _$_EventGroup.fromJson(Map<String, dynamic> json) =>
+      _$$_EventGroupFromJson(json);
 
   @override
   @JsonKey(name: "@type")
@@ -587,6 +630,7 @@ class _$_EventGroup implements _EventGroup {
             const DeepCollectionEquality().equals(other._columns, _columns));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, type, id, const DeepCollectionEquality().hash(_columns));
@@ -596,6 +640,13 @@ class _$_EventGroup implements _EventGroup {
   @pragma('vm:prefer-inline')
   _$$_EventGroupCopyWith<_$_EventGroup> get copyWith =>
       __$$_EventGroupCopyWithImpl<_$_EventGroup>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EventGroupToJson(
+      this,
+    );
+  }
 }
 
 abstract class _EventGroup implements EventGroup {
@@ -604,6 +655,9 @@ abstract class _EventGroup implements EventGroup {
           @JsonKey(name: "@id") required final String id,
           @JsonKey(name: "columns") required final List<Hall> columns}) =
       _$_EventGroup;
+
+  factory _EventGroup.fromJson(Map<String, dynamic> json) =
+      _$_EventGroup.fromJson;
 
   @override
   @JsonKey(name: "@type")
@@ -620,6 +674,10 @@ abstract class _EventGroup implements EventGroup {
       throw _privateConstructorUsedError;
 }
 
+Hall _$HallFromJson(Map<String, dynamic> json) {
+  return _Hall.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Hall {
   @JsonKey(name: "@type")
@@ -633,6 +691,7 @@ mixin _$Hall {
   @JsonKey(name: "accomodation")
   Hall? get accomodation => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $HallCopyWith<Hall> get copyWith => throw _privateConstructorUsedError;
 }
@@ -766,7 +825,7 @@ class __$$_HallCopyWithImpl<$Res> extends _$HallCopyWithImpl<$Res, _$_Hall>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Hall implements _Hall {
   const _$_Hall(
       {@JsonKey(name: "@type") required this.type,
@@ -775,6 +834,8 @@ class _$_Hall implements _Hall {
       @JsonKey(name: "name") this.name,
       @JsonKey(name: "accomodation") this.accomodation})
       : _events = events;
+
+  factory _$_Hall.fromJson(Map<String, dynamic> json) => _$$_HallFromJson(json);
 
   @override
   @JsonKey(name: "@type")
@@ -818,6 +879,7 @@ class _$_Hall implements _Hall {
                 other.accomodation == accomodation));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, id,
       const DeepCollectionEquality().hash(_events), name, accomodation);
@@ -827,6 +889,13 @@ class _$_Hall implements _Hall {
   @pragma('vm:prefer-inline')
   _$$_HallCopyWith<_$_Hall> get copyWith =>
       __$$_HallCopyWithImpl<_$_Hall>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_HallToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Hall implements Hall {
@@ -836,6 +905,8 @@ abstract class _Hall implements Hall {
       @JsonKey(name: "events") final List<Event>? events,
       @JsonKey(name: "name") final String? name,
       @JsonKey(name: "accomodation") final Hall? accomodation}) = _$_Hall;
+
+  factory _Hall.fromJson(Map<String, dynamic> json) = _$_Hall.fromJson;
 
   @override
   @JsonKey(name: "@type")
@@ -855,6 +926,10 @@ abstract class _Hall implements Hall {
   @override
   @JsonKey(ignore: true)
   _$$_HallCopyWith<_$_Hall> get copyWith => throw _privateConstructorUsedError;
+}
+
+Event _$EventFromJson(Map<String, dynamic> json) {
+  return _Event.fromJson(json);
 }
 
 /// @nodoc
@@ -887,6 +962,7 @@ mixin _$Event {
   @JsonKey(name: "subtitle")
   String? get subtitle => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $EventCopyWith<Event> get copyWith => throw _privateConstructorUsedError;
 }
@@ -1116,7 +1192,7 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Event implements _Event {
   const _$_Event(
       {@JsonKey(name: "@type") required this.type,
@@ -1133,6 +1209,9 @@ class _$_Event implements _Event {
       @JsonKey(name: "body") this.body,
       @JsonKey(name: "subtitle") this.subtitle})
       : _children = children;
+
+  factory _$_Event.fromJson(Map<String, dynamic> json) =>
+      _$$_EventFromJson(json);
 
   @override
   @JsonKey(name: "@type")
@@ -1210,6 +1289,7 @@ class _$_Event implements _Event {
                 other.subtitle == subtitle));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1232,6 +1312,13 @@ class _$_Event implements _Event {
   @pragma('vm:prefer-inline')
   _$$_EventCopyWith<_$_Event> get copyWith =>
       __$$_EventCopyWithImpl<_$_Event>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EventToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Event implements Event {
@@ -1250,6 +1337,8 @@ abstract class _Event implements Event {
       final StructuredAuthors? structuredAuthors,
       @JsonKey(name: "body") final String? body,
       @JsonKey(name: "subtitle") final String? subtitle}) = _$_Event;
+
+  factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
   @override
   @JsonKey(name: "@type")
@@ -1296,6 +1385,10 @@ abstract class _Event implements Event {
       throw _privateConstructorUsedError;
 }
 
+StructuredAuthors _$StructuredAuthorsFromJson(Map<String, dynamic> json) {
+  return _StructuredAuthors.fromJson(json);
+}
+
 /// @nodoc
 mixin _$StructuredAuthors {
   @JsonKey(name: "@type")
@@ -1309,6 +1402,7 @@ mixin _$StructuredAuthors {
   @JsonKey(name: "hasMoreAuthors")
   bool get hasMoreAuthors => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $StructuredAuthorsCopyWith<StructuredAuthors> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1431,7 +1525,7 @@ class __$$_StructuredAuthorsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_StructuredAuthors implements _StructuredAuthors {
   const _$_StructuredAuthors(
       {@JsonKey(name: "@type") required this.type,
@@ -1442,6 +1536,9 @@ class _$_StructuredAuthors implements _StructuredAuthors {
       @JsonKey(name: "hasMoreAuthors") required this.hasMoreAuthors})
       : _institutions = institutions,
         _names = names;
+
+  factory _$_StructuredAuthors.fromJson(Map<String, dynamic> json) =>
+      _$$_StructuredAuthorsFromJson(json);
 
   @override
   @JsonKey(name: "@type")
@@ -1490,6 +1587,7 @@ class _$_StructuredAuthors implements _StructuredAuthors {
                 other.hasMoreAuthors == hasMoreAuthors));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1505,6 +1603,13 @@ class _$_StructuredAuthors implements _StructuredAuthors {
   _$$_StructuredAuthorsCopyWith<_$_StructuredAuthors> get copyWith =>
       __$$_StructuredAuthorsCopyWithImpl<_$_StructuredAuthors>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_StructuredAuthorsToJson(
+      this,
+    );
+  }
 }
 
 abstract class _StructuredAuthors implements StructuredAuthors {
@@ -1516,6 +1621,9 @@ abstract class _StructuredAuthors implements StructuredAuthors {
       @JsonKey(name: "names") required final List<Name> names,
       @JsonKey(name: "hasMoreAuthors")
       required final bool hasMoreAuthors}) = _$_StructuredAuthors;
+
+  factory _StructuredAuthors.fromJson(Map<String, dynamic> json) =
+      _$_StructuredAuthors.fromJson;
 
   @override
   @JsonKey(name: "@type")
@@ -1538,6 +1646,10 @@ abstract class _StructuredAuthors implements StructuredAuthors {
       throw _privateConstructorUsedError;
 }
 
+Institution _$InstitutionFromJson(Map<String, dynamic> json) {
+  return _Institution.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Institution {
   @JsonKey(name: "name")
@@ -1547,6 +1659,7 @@ mixin _$Institution {
   @JsonKey(name: "need_fix")
   int? get needFix => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $InstitutionCopyWith<Institution> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1645,12 +1758,15 @@ class __$$_InstitutionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Institution implements _Institution {
   const _$_Institution(
       {@JsonKey(name: "name") required this.name,
       @JsonKey(name: "institution_id") required this.institutionId,
       @JsonKey(name: "need_fix") required this.needFix});
+
+  factory _$_Institution.fromJson(Map<String, dynamic> json) =>
+      _$$_InstitutionFromJson(json);
 
   @override
   @JsonKey(name: "name")
@@ -1678,6 +1794,7 @@ class _$_Institution implements _Institution {
             (identical(other.needFix, needFix) || other.needFix == needFix));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, institutionId, needFix);
 
@@ -1686,6 +1803,13 @@ class _$_Institution implements _Institution {
   @pragma('vm:prefer-inline')
   _$$_InstitutionCopyWith<_$_Institution> get copyWith =>
       __$$_InstitutionCopyWithImpl<_$_Institution>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_InstitutionToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Institution implements Institution {
@@ -1693,6 +1817,9 @@ abstract class _Institution implements Institution {
       {@JsonKey(name: "name") required final String name,
       @JsonKey(name: "institution_id") required final int? institutionId,
       @JsonKey(name: "need_fix") required final int? needFix}) = _$_Institution;
+
+  factory _Institution.fromJson(Map<String, dynamic> json) =
+      _$_Institution.fromJson;
 
   @override
   @JsonKey(name: "name")
@@ -1707,6 +1834,10 @@ abstract class _Institution implements Institution {
   @JsonKey(ignore: true)
   _$$_InstitutionCopyWith<_$_Institution> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+Name _$NameFromJson(Map<String, dynamic> json) {
+  return _Name.fromJson(json);
 }
 
 /// @nodoc
@@ -1724,6 +1855,7 @@ mixin _$Name {
   @JsonKey(name: "image")
   dynamic get image => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $NameCopyWith<Name> get copyWith => throw _privateConstructorUsedError;
 }
@@ -1852,7 +1984,7 @@ class __$$_NameCopyWithImpl<$Res> extends _$NameCopyWithImpl<$Res, _$_Name>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Name implements _Name {
   const _$_Name(
       {@JsonKey(name: "orig") required final List<dynamic> orig,
@@ -1863,6 +1995,8 @@ class _$_Name implements _Name {
       @JsonKey(name: "image") required this.image})
       : _orig = orig,
         _indexes = indexes;
+
+  factory _$_Name.fromJson(Map<String, dynamic> json) => _$$_NameFromJson(json);
 
   final List<dynamic> _orig;
   @override
@@ -1915,6 +2049,7 @@ class _$_Name implements _Name {
             const DeepCollectionEquality().equals(other.image, image));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1930,6 +2065,13 @@ class _$_Name implements _Name {
   @pragma('vm:prefer-inline')
   _$$_NameCopyWith<_$_Name> get copyWith =>
       __$$_NameCopyWithImpl<_$_Name>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_NameToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Name implements Name {
@@ -1940,6 +2082,8 @@ abstract class _Name implements Name {
       @JsonKey(name: "profession") required final dynamic profession,
       @JsonKey(name: "indexes") required final List<int> indexes,
       @JsonKey(name: "image") required final dynamic image}) = _$_Name;
+
+  factory _Name.fromJson(Map<String, dynamic> json) = _$_Name.fromJson;
 
   @override
   @JsonKey(name: "orig")
