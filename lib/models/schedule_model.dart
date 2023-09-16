@@ -64,8 +64,8 @@ class ScheduleEvent with _$ScheduleEvent {
     @JsonKey(name: "id") required int eventId,
     @JsonKey(name: "class") required String eventClass,
     @JsonKey(name: "title") required String title,
-    @JsonKey(name: "start") required DateTime start,
-    @JsonKey(name: "end") required DateTime end,
+    @JsonKey(name: "start") required DateTime originalStart,
+    @JsonKey(name: "end") required DateTime originalEnd,
     @JsonKey(name: "children") required List<ScheduleEvent> children,
     @JsonKey(name: "favourite") int? favourite,
     @JsonKey(name: "isTimeHidden") required bool isTimeHidden,
@@ -80,6 +80,8 @@ class ScheduleEvent with _$ScheduleEvent {
   factory ScheduleEvent.fromJson(Map<String, dynamic> json) =>
       _$ScheduleEventFromJson(json);
   get duration => end.difference(start);
+  get start => originalStart.toLocal();
+  get end => originalEnd.toLocal();
 }
 
 @freezed

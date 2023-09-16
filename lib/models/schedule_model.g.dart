@@ -85,8 +85,8 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       eventId: json['id'] as int,
       eventClass: json['class'] as String,
       title: json['title'] as String,
-      start: DateTime.parse(json['start'] as String),
-      end: DateTime.parse(json['end'] as String),
+      originalStart: DateTime.parse(json['start'] as String),
+      originalEnd: DateTime.parse(json['end'] as String),
       children: (json['children'] as List<dynamic>)
           .map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -112,8 +112,8 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'id': instance.eventId,
       'class': instance.eventClass,
       'title': instance.title,
-      'start': instance.start.toIso8601String(),
-      'end': instance.end.toIso8601String(),
+      'start': instance.originalStart.toIso8601String(),
+      'end': instance.originalEnd.toIso8601String(),
       'children': instance.children,
       'favourite': instance.favourite,
       'isTimeHidden': instance.isTimeHidden,

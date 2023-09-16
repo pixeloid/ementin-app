@@ -945,9 +945,9 @@ mixin _$ScheduleEvent {
   @JsonKey(name: "title")
   String get title => throw _privateConstructorUsedError;
   @JsonKey(name: "start")
-  DateTime get start => throw _privateConstructorUsedError;
+  DateTime get originalStart => throw _privateConstructorUsedError;
   @JsonKey(name: "end")
-  DateTime get end => throw _privateConstructorUsedError;
+  DateTime get originalEnd => throw _privateConstructorUsedError;
   @JsonKey(name: "children")
   List<ScheduleEvent> get children => throw _privateConstructorUsedError;
   @JsonKey(name: "favourite")
@@ -988,8 +988,8 @@ abstract class $ScheduleEventCopyWith<$Res> {
       @JsonKey(name: "id") int eventId,
       @JsonKey(name: "class") String eventClass,
       @JsonKey(name: "title") String title,
-      @JsonKey(name: "start") DateTime start,
-      @JsonKey(name: "end") DateTime end,
+      @JsonKey(name: "start") DateTime originalStart,
+      @JsonKey(name: "end") DateTime originalEnd,
       @JsonKey(name: "children") List<ScheduleEvent> children,
       @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
@@ -1022,8 +1022,8 @@ class _$ScheduleEventCopyWithImpl<$Res, $Val extends ScheduleEvent>
     Object? eventId = null,
     Object? eventClass = null,
     Object? title = null,
-    Object? start = null,
-    Object? end = null,
+    Object? originalStart = null,
+    Object? originalEnd = null,
     Object? children = null,
     Object? favourite = freezed,
     Object? isTimeHidden = null,
@@ -1056,13 +1056,13 @@ class _$ScheduleEventCopyWithImpl<$Res, $Val extends ScheduleEvent>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      originalStart: null == originalStart
+          ? _value.originalStart
+          : originalStart // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      originalEnd: null == originalEnd
+          ? _value.originalEnd
+          : originalEnd // ignore: cast_nullable_to_non_nullable
               as DateTime,
       children: null == children
           ? _value.children
@@ -1132,8 +1132,8 @@ abstract class _$$_EventCopyWith<$Res> implements $ScheduleEventCopyWith<$Res> {
       @JsonKey(name: "id") int eventId,
       @JsonKey(name: "class") String eventClass,
       @JsonKey(name: "title") String title,
-      @JsonKey(name: "start") DateTime start,
-      @JsonKey(name: "end") DateTime end,
+      @JsonKey(name: "start") DateTime originalStart,
+      @JsonKey(name: "end") DateTime originalEnd,
       @JsonKey(name: "children") List<ScheduleEvent> children,
       @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
@@ -1164,8 +1164,8 @@ class __$$_EventCopyWithImpl<$Res>
     Object? eventId = null,
     Object? eventClass = null,
     Object? title = null,
-    Object? start = null,
-    Object? end = null,
+    Object? originalStart = null,
+    Object? originalEnd = null,
     Object? children = null,
     Object? favourite = freezed,
     Object? isTimeHidden = null,
@@ -1198,13 +1198,13 @@ class __$$_EventCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      originalStart: null == originalStart
+          ? _value.originalStart
+          : originalStart // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      originalEnd: null == originalEnd
+          ? _value.originalEnd
+          : originalEnd // ignore: cast_nullable_to_non_nullable
               as DateTime,
       children: null == children
           ? _value._children
@@ -1259,8 +1259,8 @@ class _$_Event extends _Event {
       @JsonKey(name: "id") required this.eventId,
       @JsonKey(name: "class") required this.eventClass,
       @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "start") required this.start,
-      @JsonKey(name: "end") required this.end,
+      @JsonKey(name: "start") required this.originalStart,
+      @JsonKey(name: "end") required this.originalEnd,
       @JsonKey(name: "children") required final List<ScheduleEvent> children,
       @JsonKey(name: "favourite") this.favourite,
       @JsonKey(name: "isTimeHidden") required this.isTimeHidden,
@@ -1295,10 +1295,10 @@ class _$_Event extends _Event {
   final String title;
   @override
   @JsonKey(name: "start")
-  final DateTime start;
+  final DateTime originalStart;
   @override
   @JsonKey(name: "end")
-  final DateTime end;
+  final DateTime originalEnd;
   final List<ScheduleEvent> _children;
   @override
   @JsonKey(name: "children")
@@ -1346,7 +1346,7 @@ class _$_Event extends _Event {
 
   @override
   String toString() {
-    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, start: $start, end: $end, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, rate: $rate)';
+    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, originalStart: $originalStart, originalEnd: $originalEnd, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, rate: $rate)';
   }
 
   @override
@@ -1360,8 +1360,10 @@ class _$_Event extends _Event {
             (identical(other.eventClass, eventClass) ||
                 other.eventClass == eventClass) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.start, start) || other.start == start) &&
-            (identical(other.end, end) || other.end == end) &&
+            (identical(other.originalStart, originalStart) ||
+                other.originalStart == originalStart) &&
+            (identical(other.originalEnd, originalEnd) ||
+                other.originalEnd == originalEnd) &&
             const DeepCollectionEquality().equals(other._children, _children) &&
             (identical(other.favourite, favourite) ||
                 other.favourite == favourite) &&
@@ -1388,8 +1390,8 @@ class _$_Event extends _Event {
       eventId,
       eventClass,
       title,
-      start,
-      end,
+      originalStart,
+      originalEnd,
       const DeepCollectionEquality().hash(_children),
       favourite,
       isTimeHidden,
@@ -1422,8 +1424,8 @@ abstract class _Event extends ScheduleEvent {
       @JsonKey(name: "id") required final int eventId,
       @JsonKey(name: "class") required final String eventClass,
       @JsonKey(name: "title") required final String title,
-      @JsonKey(name: "start") required final DateTime start,
-      @JsonKey(name: "end") required final DateTime end,
+      @JsonKey(name: "start") required final DateTime originalStart,
+      @JsonKey(name: "end") required final DateTime originalEnd,
       @JsonKey(name: "children") required final List<ScheduleEvent> children,
       @JsonKey(name: "favourite") final int? favourite,
       @JsonKey(name: "isTimeHidden") required final bool isTimeHidden,
@@ -1456,10 +1458,10 @@ abstract class _Event extends ScheduleEvent {
   String get title;
   @override
   @JsonKey(name: "start")
-  DateTime get start;
+  DateTime get originalStart;
   @override
   @JsonKey(name: "end")
-  DateTime get end;
+  DateTime get originalEnd;
   @override
   @JsonKey(name: "children")
   List<ScheduleEvent> get children;

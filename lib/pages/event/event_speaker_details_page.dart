@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
 import 'package:flutter/material.dart';
 import '../../models/author/author.dart';

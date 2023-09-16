@@ -3,7 +3,6 @@ import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
-import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

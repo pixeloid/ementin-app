@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_theme.dart';
-import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/pages/event/event_speaker_details_page.dart';
 import 'package:eventapp/providers/program_provider.dart';

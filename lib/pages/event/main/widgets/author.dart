@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eventapp/app_define/app_theme.dart';
 import 'package:eventapp/models/author/author.dart';
 import 'package:flutter/material.dart';
 
