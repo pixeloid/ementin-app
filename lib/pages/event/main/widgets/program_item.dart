@@ -1,4 +1,4 @@
-import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/schedule_model.dart';
 import 'package:flutter/material.dart';
 
 import 'program_item_hero.dart';
@@ -14,14 +14,14 @@ class ProgramItem extends StatelessWidget {
     this.showDayName = false,
   }) : super(key: key);
 
-  final ProgramItemModel presentation;
+  final ScheduleEvent presentation;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ProgramItemHero(
-          presentation: presentation,
+          event: presentation,
           showDayName: showDayName,
           showBody: false,
           prefix: prefix,

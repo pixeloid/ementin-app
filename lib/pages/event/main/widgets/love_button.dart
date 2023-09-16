@@ -1,4 +1,4 @@
-import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/schedule_model.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -10,12 +10,12 @@ class LoveButton extends StatelessWidget {
     required this.presentation,
   }) : super(key: key);
 
-  final ProgramItemModel presentation;
+  final ScheduleEvent presentation;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: Icon(presentation.isLiked != null
+        icon: Icon(presentation.favourite! > 0
             ? PhosphorIcons.heart_fill
             : PhosphorIcons.heart),
         color: Theme.of(context).colorScheme.primary,

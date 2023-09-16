@@ -1,4 +1,4 @@
-import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/schedule_model.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class MyRatingBar extends StatelessWidget {
   final double value;
-  final ProgramItemModel presentation;
+  final ScheduleEvent presentation;
 
   const MyRatingBar({
     Key? key,

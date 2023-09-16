@@ -7,6 +7,7 @@ import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:provider/provider.dart';
+import '../../models/author/author.dart';
 import '../../providers/event_provider.dart';
 import '../../utils/widgets/w_header.dart';
 import 'main/widgets/author.dart';
@@ -21,9 +22,9 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context, listen: true);
 
-    final speakers = Provider.of<ProgramProvider>(context, listen: false)
-        .speakers
-        .where((element) => element.presentations.isNotEmpty)
+    final authors = Provider.of<ProgramProvider>(context, listen: false)
+        .authors
+        .where((element) => element.presentations?.isNotEmpty == true)
         .toList();
 
     final programProvider =
@@ -54,10 +55,10 @@ class EventSpeakersPage extends StatelessWidget with HeaderDelegate {
                         height: 8,
                       );
                     },
-                    itemCount: speakers.length,
+                    itemCount: authors.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return SpeakerWidget(speaker: speakers[index]);
+                      return SpeakerWidget(speaker: authors[index]);
                     },
                   ),
                 ),
@@ -81,7 +82,7 @@ class SpeakerWidget extends StatelessWidget {
     required this.speaker,
   });
 
-  final AuthorModel speaker;
+  final Author speaker;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,7 @@ class SpeakerWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => EventSpeakerDetailsPage(
-                  speaker: speaker,
+                  author: speaker,
                 )));
       },
       child: Container(
@@ -110,11 +111,11 @@ class SpeakerWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Author(
+            AuthorWidget(
               author: speaker,
               hideDescription: false,
             ),
-            if (speaker.presentations.isNotEmpty)
+            if (speaker.presentations!.isNotEmpty)
               const Icon(PhosphorIcons.arrow_right_thin)
           ],
         ),

@@ -25,14 +25,17 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
 
   @override
   Widget build(BuildContext context) {
-    final eventProvider = Provider.of<EventProvider>(context, listen: false);
+    final selectedEvent =
+        Provider.of<EventProvider>(context, listen: false).selectedEvent;
 
-    Provider.of<ProgramProvider>(context, listen: false)
-        .getProgram(eventProvider.selectedEvent as EventModel);
+    final programProvider =
+        Provider.of<ProgramProvider>(context, listen: false);
+
+    programProvider.getProgram(selectedEvent as EventModel);
     return Column(
       children: [
         WHeader(
-          title: eventProvider.selectedEvent!.name,
+          title: selectedEvent.name,
           isShowBackButton: true,
           delegate: this,
         ),
@@ -46,7 +49,7 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                     )
                   : Column(
                       children: [
-                        Selector<ProgramProvider, bool>(
+                        /*  Selector<ProgramProvider, bool>(
                           builder: (context, showSearch, child) => showSearch
                               ? ProgramSearch()
                               : TextButton(
@@ -57,81 +60,80 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                                   child: const Text('Keresés'),
                                 ),
                           selector: (_, provider) => provider.showSearch,
-                        ),
+                        ), 
                         if (Provider.of<ProgramProvider>(context, listen: true)
                             .filteredList
                             .isEmpty)
-                          Expanded(
-                            child: DefaultTabController(
-                              length: eventProvider.eventDays.length,
-                              initialIndex: eventProvider.currentDayIndex,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Container(
+                            */
+                        Expanded(
+                          child: DefaultTabController(
+                            length: programProvider.schedule!.days.length,
+                            initialIndex: 0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFFE5EAF0)),
+                                  child: TabBar(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    unselectedLabelColor: Colors.black54,
+                                    isScrollable: true,
+                                    indicatorWeight: 1,
+                                    labelPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 0),
+                                    labelColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    indicator: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: Colors.white,
+                                        shape: BoxShape.rectangle),
+                                    labelStyle: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.bold,
+                                      height: 0,
+                                      fontSize: 14,
+                                    ),
+                                    tabs: programProvider.schedule!.days
+                                        .map((day) {
+                                      return Tab(
+                                        height: 30,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(DateFormat('EEEE', 'hu')
+                                              .format(day.date)
+                                              .toUpperCase()),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
                                     decoration: const BoxDecoration(
-                                        color: Color(0xFFE5EAF0)),
-                                    child: TabBar(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      unselectedLabelColor: Colors.black54,
-                                      isScrollable: true,
-                                      indicatorWeight: 1,
-                                      labelPadding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 0),
-                                      labelColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      indicator: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                          color: Colors.white,
-                                          shape: BoxShape.rectangle),
-                                      labelStyle: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.bold,
-                                        height: 0,
-                                        fontSize: 14,
-                                      ),
-                                      tabs: eventProvider.eventDays.map((day) {
-                                        return Tab(
-                                          height: 30,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(DateFormat('EEEE', 'hu')
-                                                .format(day)
-                                                .toUpperCase()),
-                                          ),
-                                        );
-                                      }).toList(),
+                                        border: Border(
+                                            top: BorderSide(
+                                                color: Colors.grey,
+                                                width: 0.5))),
+                                    child: TabBarView(
+                                      children:
+                                          programProvider.schedule!.days.map(
+                                        (day) {
+                                          return Consumer<ProgramProvider>(
+                                            builder: (ctx, programProvider, _) {
+                                              return ProgramListPage(day);
+                                            },
+                                          );
+                                        },
+                                      ).toList(),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          border: Border(
-                                              top: BorderSide(
-                                                  color: Colors.grey,
-                                                  width: 0.5))),
-                                      child: TabBarView(
-                                        children: eventProvider.eventDays.map(
-                                          (day) {
-                                            return Consumer<ProgramProvider>(
-                                              builder:
-                                                  (ctx, programProvider, _) {
-                                                return ProgramListPage(
-                                                    programProvider
-                                                        .getProgramForDay(day));
-                                              },
-                                            );
-                                          },
-                                        ).toList(),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
+                        ),
                       ],
                     ),
             ),
@@ -192,7 +194,7 @@ class ProgramSearch extends StatelessWidget {
                     .changeSearchString(value);
               },
             ),
-            if (programProvider.filteredList.isNotEmpty)
+            /*  if (programProvider.filteredList.isNotEmpty)
               SizedBox(
                 height: 300,
                 child: ListView.separated(
@@ -202,7 +204,7 @@ class ProgramSearch extends StatelessWidget {
                   ),
                   itemBuilder: (BuildContext context, int index) =>
                       ProgramItemHero(
-                    presentation: programProvider.filteredList[index],
+                    event: programProvider.filteredList[index],
                     showDayName: true,
                     onTap: () {},
                     showBody: false,
@@ -211,7 +213,7 @@ class ProgramSearch extends StatelessWidget {
                   ),
                   itemCount: programProvider.filteredList.length,
                 ),
-              )
+              ) */
           ],
         ),
       ),

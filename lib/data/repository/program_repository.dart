@@ -8,12 +8,13 @@ import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/services/locator.dart';
 
+import '../../models/schedule_model.dart';
+
 class ProgramRepository {
   final netWorkLocator = getIt.get<DioClient>();
   final sharedPrefLocator = getIt.get<SharedPreferenceHelper>();
 
-  Future<List<ProgramItemModel>> getProgram(
-      EventModel event, DateTime? date) async {
+  Future<Schedule> getProgram(EventModel event, DateTime? date) async {
     netWorkLocator.dio.options.extra['event'] = event.domain;
     final response = await netWorkLocator.dio.get(
       '${EndPoints.baseUrl}${EndPoints.schedule}',
@@ -21,9 +22,7 @@ class ProgramRepository {
         if (date != null) 'date': date,
       },
     );
-    return response.data['hydra:member']
-        .map<ProgramItemModel>((e) => ProgramItemModel.fromJson(e))
-        .toList();
+    return Schedule.fromJson(response.data);
   }
 
   Future removeLike(int oldLike) async {
@@ -44,19 +43,20 @@ class ProgramRepository {
     }
   }
 
-  Future addRate(value, ProgramItemModel programPresentation) async {
+  Future addRate(value, ScheduleEvent programPresentation) async {
     final response = await netWorkLocator.dio
         .post('${EndPoints.baseUrl}${EndPoints.presentationRate}',
             data: json.encode({
-              'presentation': programPresentation.iri,
+              'presentation': programPresentation.id,
               'value': value.round(),
             }));
     return response.data;
   }
 
-  Future updateRate(value, ProgramItemModel programPresentation) async {
+//Todo: fix
+  Future updateRate(value, ScheduleEvent programPresentation) async {
     final response = await netWorkLocator.dio.patch(
-        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${programPresentation.rate!.id}',
+        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${programPresentation.rate}',
         data: json.encode({
           'value': value.round(),
         }));
