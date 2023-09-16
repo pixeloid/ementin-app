@@ -685,7 +685,7 @@ mixin _$Hall {
   @JsonKey(name: "@id")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "events")
-  List<Event>? get events => throw _privateConstructorUsedError;
+  List<ScheduleEvent>? get events => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "accomodation")
@@ -704,7 +704,7 @@ abstract class $HallCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "@type") String type,
       @JsonKey(name: "@id") String id,
-      @JsonKey(name: "events") List<Event>? events,
+      @JsonKey(name: "events") List<ScheduleEvent>? events,
       @JsonKey(name: "name") String? name,
       @JsonKey(name: "accomodation") Hall? accomodation});
 
@@ -742,7 +742,7 @@ class _$HallCopyWithImpl<$Res, $Val extends Hall>
       events: freezed == events
           ? _value.events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<Event>?,
+              as List<ScheduleEvent>?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -776,7 +776,7 @@ abstract class _$$_HallCopyWith<$Res> implements $HallCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "@type") String type,
       @JsonKey(name: "@id") String id,
-      @JsonKey(name: "events") List<Event>? events,
+      @JsonKey(name: "events") List<ScheduleEvent>? events,
       @JsonKey(name: "name") String? name,
       @JsonKey(name: "accomodation") Hall? accomodation});
 
@@ -811,7 +811,7 @@ class __$$_HallCopyWithImpl<$Res> extends _$HallCopyWithImpl<$Res, _$_Hall>
       events: freezed == events
           ? _value._events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<Event>?,
+              as List<ScheduleEvent>?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -830,7 +830,7 @@ class _$_Hall implements _Hall {
   const _$_Hall(
       {@JsonKey(name: "@type") required this.type,
       @JsonKey(name: "@id") required this.id,
-      @JsonKey(name: "events") final List<Event>? events,
+      @JsonKey(name: "events") final List<ScheduleEvent>? events,
       @JsonKey(name: "name") this.name,
       @JsonKey(name: "accomodation") this.accomodation})
       : _events = events;
@@ -843,10 +843,10 @@ class _$_Hall implements _Hall {
   @override
   @JsonKey(name: "@id")
   final String id;
-  final List<Event>? _events;
+  final List<ScheduleEvent>? _events;
   @override
   @JsonKey(name: "events")
-  List<Event>? get events {
+  List<ScheduleEvent>? get events {
     final value = _events;
     if (value == null) return null;
     if (_events is EqualUnmodifiableListView) return _events;
@@ -902,7 +902,7 @@ abstract class _Hall implements Hall {
   const factory _Hall(
       {@JsonKey(name: "@type") required final String type,
       @JsonKey(name: "@id") required final String id,
-      @JsonKey(name: "events") final List<Event>? events,
+      @JsonKey(name: "events") final List<ScheduleEvent>? events,
       @JsonKey(name: "name") final String? name,
       @JsonKey(name: "accomodation") final Hall? accomodation}) = _$_Hall;
 
@@ -916,7 +916,7 @@ abstract class _Hall implements Hall {
   String get id;
   @override
   @JsonKey(name: "events")
-  List<Event>? get events;
+  List<ScheduleEvent>? get events;
   @override
   @JsonKey(name: "name")
   String? get name;
@@ -928,12 +928,12 @@ abstract class _Hall implements Hall {
   _$$_HallCopyWith<_$_Hall> get copyWith => throw _privateConstructorUsedError;
 }
 
-Event _$EventFromJson(Map<String, dynamic> json) {
+ScheduleEvent _$ScheduleEventFromJson(Map<String, dynamic> json) {
   return _Event.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Event {
+mixin _$ScheduleEvent {
   @JsonKey(name: "@type")
   String get type => throw _privateConstructorUsedError;
   @JsonKey(name: "@id")
@@ -949,11 +949,13 @@ mixin _$Event {
   @JsonKey(name: "end")
   DateTime get end => throw _privateConstructorUsedError;
   @JsonKey(name: "children")
-  List<Event> get children => throw _privateConstructorUsedError;
+  List<ScheduleEvent> get children => throw _privateConstructorUsedError;
   @JsonKey(name: "favourite")
-  bool? get favourite => throw _privateConstructorUsedError;
+  int? get favourite => throw _privateConstructorUsedError;
   @JsonKey(name: "isTimeHidden")
   bool get isTimeHidden => throw _privateConstructorUsedError;
+  @JsonKey(name: "isRatable")
+  bool get isRatable => throw _privateConstructorUsedError;
   @JsonKey(name: "structuredAuthors")
   StructuredAuthors? get structuredAuthors =>
       throw _privateConstructorUsedError;
@@ -961,16 +963,24 @@ mixin _$Event {
   String? get body => throw _privateConstructorUsedError;
   @JsonKey(name: "subtitle")
   String? get subtitle => throw _privateConstructorUsedError;
+  @JsonKey(name: "chairs")
+  String? get chairs => throw _privateConstructorUsedError;
+  @JsonKey(name: "authors")
+  List<Author>? get authors => throw _privateConstructorUsedError;
+  @JsonKey(name: "rate")
+  double? get rate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $EventCopyWith<Event> get copyWith => throw _privateConstructorUsedError;
+  $ScheduleEventCopyWith<ScheduleEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EventCopyWith<$Res> {
-  factory $EventCopyWith(Event value, $Res Function(Event) then) =
-      _$EventCopyWithImpl<$Res, Event>;
+abstract class $ScheduleEventCopyWith<$Res> {
+  factory $ScheduleEventCopyWith(
+          ScheduleEvent value, $Res Function(ScheduleEvent) then) =
+      _$ScheduleEventCopyWithImpl<$Res, ScheduleEvent>;
   @useResult
   $Res call(
       {@JsonKey(name: "@type") String type,
@@ -980,20 +990,24 @@ abstract class $EventCopyWith<$Res> {
       @JsonKey(name: "title") String title,
       @JsonKey(name: "start") DateTime start,
       @JsonKey(name: "end") DateTime end,
-      @JsonKey(name: "children") List<Event> children,
-      @JsonKey(name: "favourite") bool? favourite,
+      @JsonKey(name: "children") List<ScheduleEvent> children,
+      @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
+      @JsonKey(name: "isRatable") bool isRatable,
       @JsonKey(name: "structuredAuthors") StructuredAuthors? structuredAuthors,
       @JsonKey(name: "body") String? body,
-      @JsonKey(name: "subtitle") String? subtitle});
+      @JsonKey(name: "subtitle") String? subtitle,
+      @JsonKey(name: "chairs") String? chairs,
+      @JsonKey(name: "authors") List<Author>? authors,
+      @JsonKey(name: "rate") double? rate});
 
   $StructuredAuthorsCopyWith<$Res>? get structuredAuthors;
 }
 
 /// @nodoc
-class _$EventCopyWithImpl<$Res, $Val extends Event>
-    implements $EventCopyWith<$Res> {
-  _$EventCopyWithImpl(this._value, this._then);
+class _$ScheduleEventCopyWithImpl<$Res, $Val extends ScheduleEvent>
+    implements $ScheduleEventCopyWith<$Res> {
+  _$ScheduleEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1013,9 +1027,13 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? children = null,
     Object? favourite = freezed,
     Object? isTimeHidden = null,
+    Object? isRatable = null,
     Object? structuredAuthors = freezed,
     Object? body = freezed,
     Object? subtitle = freezed,
+    Object? chairs = freezed,
+    Object? authors = freezed,
+    Object? rate = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -1049,14 +1067,18 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
       children: null == children
           ? _value.children
           : children // ignore: cast_nullable_to_non_nullable
-              as List<Event>,
+              as List<ScheduleEvent>,
       favourite: freezed == favourite
           ? _value.favourite
           : favourite // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       isTimeHidden: null == isTimeHidden
           ? _value.isTimeHidden
           : isTimeHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRatable: null == isRatable
+          ? _value.isRatable
+          : isRatable // ignore: cast_nullable_to_non_nullable
               as bool,
       structuredAuthors: freezed == structuredAuthors
           ? _value.structuredAuthors
@@ -1070,6 +1092,18 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.subtitle
           : subtitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      chairs: freezed == chairs
+          ? _value.chairs
+          : chairs // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authors: freezed == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<Author>?,
+      rate: freezed == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -1087,7 +1121,7 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
 }
 
 /// @nodoc
-abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
+abstract class _$$_EventCopyWith<$Res> implements $ScheduleEventCopyWith<$Res> {
   factory _$$_EventCopyWith(_$_Event value, $Res Function(_$_Event) then) =
       __$$_EventCopyWithImpl<$Res>;
   @override
@@ -1100,19 +1134,24 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       @JsonKey(name: "title") String title,
       @JsonKey(name: "start") DateTime start,
       @JsonKey(name: "end") DateTime end,
-      @JsonKey(name: "children") List<Event> children,
-      @JsonKey(name: "favourite") bool? favourite,
+      @JsonKey(name: "children") List<ScheduleEvent> children,
+      @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
+      @JsonKey(name: "isRatable") bool isRatable,
       @JsonKey(name: "structuredAuthors") StructuredAuthors? structuredAuthors,
       @JsonKey(name: "body") String? body,
-      @JsonKey(name: "subtitle") String? subtitle});
+      @JsonKey(name: "subtitle") String? subtitle,
+      @JsonKey(name: "chairs") String? chairs,
+      @JsonKey(name: "authors") List<Author>? authors,
+      @JsonKey(name: "rate") double? rate});
 
   @override
   $StructuredAuthorsCopyWith<$Res>? get structuredAuthors;
 }
 
 /// @nodoc
-class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
+class __$$_EventCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$_Event>
     implements _$$_EventCopyWith<$Res> {
   __$$_EventCopyWithImpl(_$_Event _value, $Res Function(_$_Event) _then)
       : super(_value, _then);
@@ -1130,9 +1169,13 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? children = null,
     Object? favourite = freezed,
     Object? isTimeHidden = null,
+    Object? isRatable = null,
     Object? structuredAuthors = freezed,
     Object? body = freezed,
     Object? subtitle = freezed,
+    Object? chairs = freezed,
+    Object? authors = freezed,
+    Object? rate = freezed,
   }) {
     return _then(_$_Event(
       type: null == type
@@ -1166,14 +1209,18 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
       children: null == children
           ? _value._children
           : children // ignore: cast_nullable_to_non_nullable
-              as List<Event>,
+              as List<ScheduleEvent>,
       favourite: freezed == favourite
           ? _value.favourite
           : favourite // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       isTimeHidden: null == isTimeHidden
           ? _value.isTimeHidden
           : isTimeHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRatable: null == isRatable
+          ? _value.isRatable
+          : isRatable // ignore: cast_nullable_to_non_nullable
               as bool,
       structuredAuthors: freezed == structuredAuthors
           ? _value.structuredAuthors
@@ -1187,13 +1234,25 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.subtitle
           : subtitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      chairs: freezed == chairs
+          ? _value.chairs
+          : chairs // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authors: freezed == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<Author>?,
+      rate: freezed == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_Event implements _Event {
+class _$_Event extends _Event {
   const _$_Event(
       {@JsonKey(name: "@type") required this.type,
       @JsonKey(name: "@id") required this.id,
@@ -1202,13 +1261,19 @@ class _$_Event implements _Event {
       @JsonKey(name: "title") required this.title,
       @JsonKey(name: "start") required this.start,
       @JsonKey(name: "end") required this.end,
-      @JsonKey(name: "children") required final List<Event> children,
+      @JsonKey(name: "children") required final List<ScheduleEvent> children,
       @JsonKey(name: "favourite") this.favourite,
       @JsonKey(name: "isTimeHidden") required this.isTimeHidden,
+      @JsonKey(name: "isRatable") required this.isRatable,
       @JsonKey(name: "structuredAuthors") this.structuredAuthors,
       @JsonKey(name: "body") this.body,
-      @JsonKey(name: "subtitle") this.subtitle})
-      : _children = children;
+      @JsonKey(name: "subtitle") this.subtitle,
+      @JsonKey(name: "chairs") this.chairs,
+      @JsonKey(name: "authors") final List<Author>? authors,
+      @JsonKey(name: "rate") required this.rate})
+      : _children = children,
+        _authors = authors,
+        super._();
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -1234,10 +1299,10 @@ class _$_Event implements _Event {
   @override
   @JsonKey(name: "end")
   final DateTime end;
-  final List<Event> _children;
+  final List<ScheduleEvent> _children;
   @override
   @JsonKey(name: "children")
-  List<Event> get children {
+  List<ScheduleEvent> get children {
     if (_children is EqualUnmodifiableListView) return _children;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_children);
@@ -1245,10 +1310,13 @@ class _$_Event implements _Event {
 
   @override
   @JsonKey(name: "favourite")
-  final bool? favourite;
+  final int? favourite;
   @override
   @JsonKey(name: "isTimeHidden")
   final bool isTimeHidden;
+  @override
+  @JsonKey(name: "isRatable")
+  final bool isRatable;
   @override
   @JsonKey(name: "structuredAuthors")
   final StructuredAuthors? structuredAuthors;
@@ -1258,10 +1326,27 @@ class _$_Event implements _Event {
   @override
   @JsonKey(name: "subtitle")
   final String? subtitle;
+  @override
+  @JsonKey(name: "chairs")
+  final String? chairs;
+  final List<Author>? _authors;
+  @override
+  @JsonKey(name: "authors")
+  List<Author>? get authors {
+    final value = _authors;
+    if (value == null) return null;
+    if (_authors is EqualUnmodifiableListView) return _authors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: "rate")
+  final double? rate;
 
   @override
   String toString() {
-    return 'Event(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, start: $start, end: $end, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle)';
+    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, start: $start, end: $end, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, rate: $rate)';
   }
 
   @override
@@ -1282,11 +1367,16 @@ class _$_Event implements _Event {
                 other.favourite == favourite) &&
             (identical(other.isTimeHidden, isTimeHidden) ||
                 other.isTimeHidden == isTimeHidden) &&
+            (identical(other.isRatable, isRatable) ||
+                other.isRatable == isRatable) &&
             (identical(other.structuredAuthors, structuredAuthors) ||
                 other.structuredAuthors == structuredAuthors) &&
             (identical(other.body, body) || other.body == body) &&
             (identical(other.subtitle, subtitle) ||
-                other.subtitle == subtitle));
+                other.subtitle == subtitle) &&
+            (identical(other.chairs, chairs) || other.chairs == chairs) &&
+            const DeepCollectionEquality().equals(other._authors, _authors) &&
+            (identical(other.rate, rate) || other.rate == rate));
   }
 
   @JsonKey(ignore: true)
@@ -1303,9 +1393,13 @@ class _$_Event implements _Event {
       const DeepCollectionEquality().hash(_children),
       favourite,
       isTimeHidden,
+      isRatable,
       structuredAuthors,
       body,
-      subtitle);
+      subtitle,
+      chairs,
+      const DeepCollectionEquality().hash(_authors),
+      rate);
 
   @JsonKey(ignore: true)
   @override
@@ -1321,7 +1415,7 @@ class _$_Event implements _Event {
   }
 }
 
-abstract class _Event implements Event {
+abstract class _Event extends ScheduleEvent {
   const factory _Event(
       {@JsonKey(name: "@type") required final String type,
       @JsonKey(name: "@id") required final String id,
@@ -1330,13 +1424,18 @@ abstract class _Event implements Event {
       @JsonKey(name: "title") required final String title,
       @JsonKey(name: "start") required final DateTime start,
       @JsonKey(name: "end") required final DateTime end,
-      @JsonKey(name: "children") required final List<Event> children,
-      @JsonKey(name: "favourite") final bool? favourite,
+      @JsonKey(name: "children") required final List<ScheduleEvent> children,
+      @JsonKey(name: "favourite") final int? favourite,
       @JsonKey(name: "isTimeHidden") required final bool isTimeHidden,
+      @JsonKey(name: "isRatable") required final bool isRatable,
       @JsonKey(name: "structuredAuthors")
       final StructuredAuthors? structuredAuthors,
       @JsonKey(name: "body") final String? body,
-      @JsonKey(name: "subtitle") final String? subtitle}) = _$_Event;
+      @JsonKey(name: "subtitle") final String? subtitle,
+      @JsonKey(name: "chairs") final String? chairs,
+      @JsonKey(name: "authors") final List<Author>? authors,
+      @JsonKey(name: "rate") required final double? rate}) = _$_Event;
+  const _Event._() : super._();
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -1363,13 +1462,16 @@ abstract class _Event implements Event {
   DateTime get end;
   @override
   @JsonKey(name: "children")
-  List<Event> get children;
+  List<ScheduleEvent> get children;
   @override
   @JsonKey(name: "favourite")
-  bool? get favourite;
+  int? get favourite;
   @override
   @JsonKey(name: "isTimeHidden")
   bool get isTimeHidden;
+  @override
+  @JsonKey(name: "isRatable")
+  bool get isRatable;
   @override
   @JsonKey(name: "structuredAuthors")
   StructuredAuthors? get structuredAuthors;
@@ -1379,6 +1481,15 @@ abstract class _Event implements Event {
   @override
   @JsonKey(name: "subtitle")
   String? get subtitle;
+  @override
+  @JsonKey(name: "chairs")
+  String? get chairs;
+  @override
+  @JsonKey(name: "authors")
+  List<Author>? get authors;
+  @override
+  @JsonKey(name: "rate")
+  double? get rate;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>
@@ -1653,7 +1764,7 @@ Institution _$InstitutionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Institution {
   @JsonKey(name: "name")
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "institution_id")
   int? get institutionId => throw _privateConstructorUsedError;
   @JsonKey(name: "need_fix")
@@ -1672,7 +1783,7 @@ abstract class $InstitutionCopyWith<$Res> {
       _$InstitutionCopyWithImpl<$Res, Institution>;
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String name,
+      {@JsonKey(name: "name") String? name,
       @JsonKey(name: "institution_id") int? institutionId,
       @JsonKey(name: "need_fix") int? needFix});
 }
@@ -1690,15 +1801,15 @@ class _$InstitutionCopyWithImpl<$Res, $Val extends Institution>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? name = freezed,
     Object? institutionId = freezed,
     Object? needFix = freezed,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       institutionId: freezed == institutionId
           ? _value.institutionId
           : institutionId // ignore: cast_nullable_to_non_nullable
@@ -1720,7 +1831,7 @@ abstract class _$$_InstitutionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String name,
+      {@JsonKey(name: "name") String? name,
       @JsonKey(name: "institution_id") int? institutionId,
       @JsonKey(name: "need_fix") int? needFix});
 }
@@ -1736,15 +1847,15 @@ class __$$_InstitutionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? name = freezed,
     Object? institutionId = freezed,
     Object? needFix = freezed,
   }) {
     return _then(_$_Institution(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       institutionId: freezed == institutionId
           ? _value.institutionId
           : institutionId // ignore: cast_nullable_to_non_nullable
@@ -1770,7 +1881,7 @@ class _$_Institution implements _Institution {
 
   @override
   @JsonKey(name: "name")
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: "institution_id")
   final int? institutionId;
@@ -1814,7 +1925,7 @@ class _$_Institution implements _Institution {
 
 abstract class _Institution implements Institution {
   const factory _Institution(
-      {@JsonKey(name: "name") required final String name,
+      {@JsonKey(name: "name") required final String? name,
       @JsonKey(name: "institution_id") required final int? institutionId,
       @JsonKey(name: "need_fix") required final int? needFix}) = _$_Institution;
 
@@ -1823,7 +1934,7 @@ abstract class _Institution implements Institution {
 
   @override
   @JsonKey(name: "name")
-  String get name;
+  String? get name;
   @override
   @JsonKey(name: "institution_id")
   int? get institutionId;

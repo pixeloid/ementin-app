@@ -215,7 +215,7 @@ class EventCard extends StatelessWidget {
                                                   Expanded(
                                                     child: Container(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 0,
                                                           vertical: 0),
                                                       child: Column(
@@ -274,7 +274,7 @@ class EventCard extends StatelessWidget {
                                                   Expanded(
                                                     child: Container(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 0,
                                                           vertical: 0),
                                                       child: Column(

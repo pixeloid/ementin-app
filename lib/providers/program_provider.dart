@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/repository/program_repository.dart';
-import 'package:eventapp/models/author_model.dart';
+import 'package:eventapp/models/author/author.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/models/schedule_model.dart';
@@ -9,7 +9,6 @@ import 'package:eventapp/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
 import '../data/repository/author_repository.dart';
-import '../models/program_presentation_rate_model.dart';
 import '../utils/other/notifier_safety.dart';
 import 'package:collection/collection.dart';
 
@@ -18,7 +17,7 @@ class ProgramProvider extends ChangeNotifierSafety {
   final AuthorRepository authorRepository = getIt<AuthorRepository>();
 
   List<ProgramItemModel> programItems = [];
-  List<AuthorModel> speakers = [];
+  List<Author> authors = [];
   final int minSearchTextLength = 2;
   String searchString = '';
   bool showSearch = false;
@@ -91,19 +90,19 @@ class ProgramProvider extends ChangeNotifierSafety {
     isLoading = true;
     schedule = await _programRepository.getProgram(event, date);
     // programItems =
-    speakers = await authorRepository.getSpeakers(event);
+    authors = await authorRepository.getSpeakers(event);
 
-    speakers = speakers.map((speaker) {
-      for (var element in speaker.presentationIris) {
+/*     authors = authors.map((author) {
+      for (var element in author.presentations!) {
         final programItem = findPresentationByIri(element);
         if (programItem != null) {
-          speaker.presentations.add(programItem);
+          author.presentations.add(programItem);
         }
       }
-      speaker.presentations.sort((a, b) => a.start.compareTo(b.start));
+      author.presentations.sort((a, b) => a.start.compareTo(b.start));
 
-      return speaker;
-    }).toList();
+      return author;
+    }).toList(); */
 
     isLoading = false;
     // subscribe();
@@ -116,23 +115,21 @@ class ProgramProvider extends ChangeNotifierSafety {
     programItems = [];
   }
 
-  Future<void> toggleLike(ProgramItemModel presentation) async {
-    var programPresentation = findPresentation(presentation);
-    if (programPresentation == null) return;
-
-    var oldLike = programPresentation.isLiked;
-    programPresentation.toggleLike();
+  Future<void> toggleLike(ScheduleEvent presentation) async {
+    var oldLike = presentation.favourite;
+    presentation = presentation.copyWith(
+        favourite: presentation.favourite != null ? null : -1);
     notifyListeners();
 
     try {
       if (oldLike != null) {
         await _programRepository.removeLike(oldLike);
       } else {
-        final response = await _programRepository.like(programPresentation.iri);
+        final response = await _programRepository.like(presentation.id);
 
         //  final responseData = json.decode(response);
 
-        programPresentation.isLiked = response['id'];
+        presentation = presentation.copyWith(favourite: response['id']);
       }
     } catch (error) {
       error;
@@ -167,17 +164,12 @@ class ProgramProvider extends ChangeNotifierSafety {
     return item;
   }
 
-  rate(ProgramItemModel program, double val) async {
-    var programPresentation = findPresentation(program);
-
-    if (programPresentation == null) return null;
-
-    final prevRate = programPresentation.rateValue;
-
+  rate(ScheduleEvent programPresentation, double val) async {
+/* 
+    final prevRate = programPresentation.rate;
     try {
-      programPresentation.rateValue = val;
+      programPresentation = programPresentation.copyWith(rate: val);
       notifyListeners();
-
       final rateJson = (programPresentation.rate == null)
           ? await _programRepository.addRate(val, programPresentation)
           : await _programRepository.updateRate(val, programPresentation);
@@ -185,7 +177,7 @@ class ProgramProvider extends ChangeNotifierSafety {
           ProgramPresentationRateModel.fromJson(rateJson);
     } catch (error) {
       programPresentation.rateValue = prevRate;
-    }
+    } */
   }
 
   List<ProgramItemModel> getProgramForDay(DateTime day) {

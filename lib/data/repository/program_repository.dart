@@ -22,7 +22,7 @@ class ProgramRepository {
         if (date != null) 'date': date,
       },
     );
-    return Schedule.fromJson(response.data['hydra:member']);
+    return Schedule.fromJson(response.data);
   }
 
   Future removeLike(int oldLike) async {
@@ -43,19 +43,20 @@ class ProgramRepository {
     }
   }
 
-  Future addRate(value, ProgramItemModel programPresentation) async {
+  Future addRate(value, ScheduleEvent programPresentation) async {
     final response = await netWorkLocator.dio
         .post('${EndPoints.baseUrl}${EndPoints.presentationRate}',
             data: json.encode({
-              'presentation': programPresentation.iri,
+              'presentation': programPresentation.id,
               'value': value.round(),
             }));
     return response.data;
   }
 
-  Future updateRate(value, ProgramItemModel programPresentation) async {
+//Todo: fix
+  Future updateRate(value, ScheduleEvent programPresentation) async {
     final response = await netWorkLocator.dio.patch(
-        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${programPresentation.rate!.id}',
+        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${programPresentation.rate}',
         data: json.encode({
           'value': value.round(),
         }));

@@ -9,8 +9,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i16;
-import 'package:eventapp/models/author_model.dart' as _i19;
+import 'package:eventapp/models/author/author.dart' as _i19;
 import 'package:eventapp/models/program_item_model.dart' as _i18;
+import 'package:eventapp/models/schedule_model.dart' as _i20;
 import 'package:eventapp/pages/auth/auth_page.dart' as _i1;
 import 'package:eventapp/pages/checkin_page.dart' as _i2;
 import 'package:eventapp/pages/event/event_program_page.dart' as _i5;
@@ -75,7 +76,7 @@ abstract class $AppRouter extends _i16.RootStackRouter {
         routeData: routeData,
         child: _i6.EventSpeakerDetailsPage(
           key: args.key,
-          speaker: args.speaker,
+          author: args.author,
         ),
       );
     },
@@ -127,7 +128,7 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i13.ProgramListPage(
-          args.programData,
+          args.scheduleDay,
           key: args.key,
         ),
       );
@@ -247,13 +248,13 @@ class EventSpeakerDetailsRoute
     extends _i16.PageRouteInfo<EventSpeakerDetailsRouteArgs> {
   EventSpeakerDetailsRoute({
     _i17.Key? key,
-    required _i19.AuthorModel speaker,
+    required _i19.Author author,
     List<_i16.PageRouteInfo>? children,
   }) : super(
           EventSpeakerDetailsRoute.name,
           args: EventSpeakerDetailsRouteArgs(
             key: key,
-            speaker: speaker,
+            author: author,
           ),
           initialChildren: children,
         );
@@ -267,16 +268,16 @@ class EventSpeakerDetailsRoute
 class EventSpeakerDetailsRouteArgs {
   const EventSpeakerDetailsRouteArgs({
     this.key,
-    required this.speaker,
+    required this.author,
   });
 
   final _i17.Key? key;
 
-  final _i19.AuthorModel speaker;
+  final _i19.Author author;
 
   @override
   String toString() {
-    return 'EventSpeakerDetailsRouteArgs{key: $key, speaker: $speaker}';
+    return 'EventSpeakerDetailsRouteArgs{key: $key, author: $author}';
   }
 }
 
@@ -356,7 +357,7 @@ class ProgramItemFullHeroRoute
     extends _i16.PageRouteInfo<ProgramItemFullHeroRouteArgs> {
   ProgramItemFullHeroRoute({
     _i17.Key? key,
-    required _i18.ProgramItemModel presentation,
+    required _i20.ScheduleEvent presentation,
     required void Function() onTap,
     required bool showBody,
     required bool showLoveButton,
@@ -390,7 +391,7 @@ class ProgramItemFullHeroRouteArgs {
 
   final _i17.Key? key;
 
-  final _i18.ProgramItemModel presentation;
+  final _i20.ScheduleEvent presentation;
 
   final void Function() onTap;
 
@@ -408,13 +409,13 @@ class ProgramItemFullHeroRouteArgs {
 /// [_i13.ProgramListPage]
 class ProgramListRoute extends _i16.PageRouteInfo<ProgramListRouteArgs> {
   ProgramListRoute({
-    required List<_i18.ProgramItemModel> programData,
+    required _i20.Day scheduleDay,
     _i17.Key? key,
     List<_i16.PageRouteInfo>? children,
   }) : super(
           ProgramListRoute.name,
           args: ProgramListRouteArgs(
-            programData: programData,
+            scheduleDay: scheduleDay,
             key: key,
           ),
           initialChildren: children,
@@ -428,17 +429,17 @@ class ProgramListRoute extends _i16.PageRouteInfo<ProgramListRouteArgs> {
 
 class ProgramListRouteArgs {
   const ProgramListRouteArgs({
-    required this.programData,
+    required this.scheduleDay,
     this.key,
   });
 
-  final List<_i18.ProgramItemModel> programData;
+  final _i20.Day scheduleDay;
 
   final _i17.Key? key;
 
   @override
   String toString() {
-    return 'ProgramListRouteArgs{programData: $programData, key: $key}';
+    return 'ProgramListRouteArgs{scheduleDay: $scheduleDay, key: $key}';
   }
 }
 

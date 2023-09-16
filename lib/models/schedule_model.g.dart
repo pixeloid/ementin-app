@@ -63,7 +63,7 @@ _$_Hall _$$_HallFromJson(Map<String, dynamic> json) => _$_Hall(
       type: json['@type'] as String,
       id: json['@id'] as String,
       events: (json['events'] as List<dynamic>?)
-          ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       accomodation: json['accomodation'] == null
@@ -88,16 +88,22 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
       children: (json['children'] as List<dynamic>)
-          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      favourite: json['favourite'] as bool?,
+      favourite: json['favourite'] as int?,
       isTimeHidden: json['isTimeHidden'] as bool,
+      isRatable: json['isRatable'] as bool,
       structuredAuthors: json['structuredAuthors'] == null
           ? null
           : StructuredAuthors.fromJson(
               json['structuredAuthors'] as Map<String, dynamic>),
       body: json['body'] as String?,
       subtitle: json['subtitle'] as String?,
+      chairs: json['chairs'] as String?,
+      authors: (json['authors'] as List<dynamic>?)
+          ?.map((e) => Author.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rate: (json['rate'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -111,9 +117,13 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'children': instance.children,
       'favourite': instance.favourite,
       'isTimeHidden': instance.isTimeHidden,
+      'isRatable': instance.isRatable,
       'structuredAuthors': instance.structuredAuthors,
       'body': instance.body,
       'subtitle': instance.subtitle,
+      'chairs': instance.chairs,
+      'authors': instance.authors,
+      'rate': instance.rate,
     };
 
 _$_StructuredAuthors _$$_StructuredAuthorsFromJson(Map<String, dynamic> json) =>
@@ -141,7 +151,7 @@ Map<String, dynamic> _$$_StructuredAuthorsToJson(
 
 _$_Institution _$$_InstitutionFromJson(Map<String, dynamic> json) =>
     _$_Institution(
-      name: json['name'] as String,
+      name: json['name'] as String?,
       institutionId: json['institution_id'] as int?,
       needFix: json['need_fix'] as int?,
     );

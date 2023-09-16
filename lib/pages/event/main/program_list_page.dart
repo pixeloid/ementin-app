@@ -1,8 +1,8 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_model.dart';
-import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/schedule_model.dart';
+import 'package:eventapp/pages/event/main/widgets/program_header_simple.dart';
+import 'package:eventapp/pages/event/main/widgets/program_item.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -11,13 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'widgets/program_header_simple.dart';
-import 'widgets/program_item.dart';
-
 @RoutePage()
 class ProgramListPage extends StatefulWidget {
-  final List<ProgramItemModel> programData;
-  const ProgramListPage(this.programData, {Key? key}) : super(key: key);
+  final Day scheduleDay;
+  const ProgramListPage(this.scheduleDay, {Key? key}) : super(key: key);
 
   @override
   State<ProgramListPage> createState() => _ProgramListPageState();
@@ -27,7 +24,7 @@ class _ProgramListPageState extends State<ProgramListPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      var inProgressIndex = widget.programData.indexWhere((element) {
+/*       var inProgressIndex = widget.scheduleDay.indexWhere((element) {
         final now = DateTime.now();
         return element.start.isBefore(now) && element.end.isAfter(now);
       });
@@ -41,6 +38,7 @@ class _ProgramListPageState extends State<ProgramListPage> {
             : 0;
         scrollToIndex(inProgressIndex);
       }
+ */
     });
     super.initState();
   }
@@ -57,8 +55,8 @@ class _ProgramListPageState extends State<ProgramListPage> {
     final isCheckedIn =
         Provider.of<EventProvider>(context).selectedEvent?.checkedIn;
 
-    final count =
-        widget.programData.length + (isCheckedIn! && ad != null ? 1 : 0);
+    final count = widget.scheduleDay.eventGroups.length +
+        (isCheckedIn! && ad != null ? 1 : 0);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(color: Color(0xFFFcFcFc)),
@@ -95,76 +93,111 @@ class _ProgramListPageState extends State<ProgramListPage> {
               ),
             );
           }
-          var item =
-              widget.programData[i - (isCheckedIn && ad != null ? 1 : 0)];
 
-          return item.children.isEmpty
-              ? ProgramItem(
-                  presentation: item,
-                )
-              : Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                    ),
-                    color: const Color.fromRGBO(255, 255, 255, 1),
-                    border: Border.all(
-                      color: const Color.fromRGBO(243, 244, 246, 1),
-                      width: 1,
-                    ),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ProgramHeaderSimple(
-                        time: !item.isTimeHidden
-                            ? '${DateFormat('Hm').format(item.start).toString()}-${DateFormat('Hm').format(item.end).toString()}'
-                            : null,
-                        title: item.title,
-                      ),
-                      if (item.chairs != null)
-                        Text(
-                          item.chairs.toString(),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            color: Color(0xFF554577),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            height: 1.2,
-                          ),
-                        ),
-                      if (item.children.isNotEmpty)
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 12,
-                                );
-                              },
-                              itemCount: item.children.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (_, i) {
-                                return ProgramItem(
-                                  presentation: item.children[i],
-                                );
-                              },
+          return Column(
+              children: widget.scheduleDay.eventGroups
+                  .map((group) => Column(
+                        children: group.columns
+                            .map(
+                              (column) => Column(
+                                children: column.events!
+                                    .map(
+                                      (event) => event.children.isEmpty
+                                          ? ProgramItem(
+                                              presentation: event,
+                                            )
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(8),
+                                                  topRight: Radius.circular(8),
+                                                  bottomLeft:
+                                                      Radius.circular(8),
+                                                  bottomRight:
+                                                      Radius.circular(8),
+                                                ),
+                                                color: const Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                border: Border.all(
+                                                  color: const Color.fromRGBO(
+                                                      243, 244, 246, 1),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 16),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ProgramHeaderSimple(
+                                                    time: !event.isTimeHidden
+                                                        ? '${DateFormat('Hm').format(event.start).toString()}-${DateFormat('Hm').format(event.end).toString()}'
+                                                        : null,
+                                                    title: event.title,
+                                                  ),
+                                                  if (event.chairs != null)
+                                                    Text(
+                                                      event.chairs.toString(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFF554577),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.2,
+                                                      ),
+                                                    ),
+                                                  if (event.children.isNotEmpty)
+                                                    Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 8,
+                                                        ),
+                                                        ListView.separated(
+                                                          separatorBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return const SizedBox(
+                                                              height: 12,
+                                                            );
+                                                          },
+                                                          itemCount: event
+                                                              .children.length,
+                                                          physics:
+                                                              const NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          itemBuilder: (_, i) {
+                                                            return ProgramItem(
+                                                              presentation: event
+                                                                  .children[i],
+                                                            );
+                                                          },
+                                                        )
+                                                      ],
+                                                    )
+                                                ],
+                                              ),
+                                            ),
+                                    )
+                                    .toList(),
+                              ),
                             )
-                          ],
-                        )
-                    ],
-                  ));
+                            .toList(),
+                      ))
+                  .toList());
+
+/*           var item =
+              widget.scheduleDay[i - (isCheckedIn && ad != null ? 1 : 0)];
+
+          */
         },
       ),
     );

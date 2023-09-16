@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/models/author_model.dart';
-import 'package:eventapp/models/program_item_model.dart';
+import 'package:eventapp/models/author/author.dart';
+import 'package:eventapp/models/schedule_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ import 'love_button.dart';
 import 'my_rating_bar.dart';
 
 class ProgramItemHero extends StatefulWidget {
-  final ProgramItemModel presentation;
+  final ScheduleEvent event;
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
@@ -27,7 +27,7 @@ class ProgramItemHero extends StatefulWidget {
 
   const ProgramItemHero({
     Key? key,
-    required this.presentation,
+    required this.event,
     required this.onTap,
     required this.showBody,
     required this.showLoveButton,
@@ -50,8 +50,8 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
       final DateTime now = DateTime.now();
-      final remaining = widget.presentation.end.difference(now).inSeconds;
-      final length = widget.presentation.duration.inSeconds;
+      final remaining = widget.event.end.difference(now).inSeconds;
+      final length = widget.event.duration.inSeconds;
       if (mounted && remaining < length && remaining > 0) {
         setState(() {
           percentProgress = (100 - (100 / length * remaining)).round();
@@ -63,8 +63,8 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthorModel? author = widget.presentation.people.isNotEmpty
-        ? widget.presentation.people.first
+    final author = widget.event.authors?.isNotEmpty == true
+        ? widget.event.authors!.first
         : null;
     final checkedIn = Provider.of<EventProvider>(context, listen: false)
         .selectedEvent!
@@ -85,7 +85,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
             color: inProgress
                 ? const Color.fromARGB(69, 241, 114, 171)
                 : const Color(0xFFF4F6FA),
-            border: widget.presentation.body != null
+            border: widget.event.body != null
                 ? Border.all(
                     color: const Color.fromARGB(255, 227, 227, 227),
                     width: 1,
@@ -118,9 +118,9 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (!widget.presentation.isTimeHidden)
+                        if (!widget.event.isTimeHidden)
                           Text(
-                            "${DateFormat('Hm').format(widget.presentation.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(widget.presentation.start) : ''}",
+                            "${DateFormat('Hm').format(widget.event.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(widget.event.start) : ''}",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -128,10 +128,10 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                               height: 1.2,
                             ),
                           ),
-                        if (widget.presentation.duration.inMinutes < 120 &&
-                            !widget.presentation.isTimeHidden)
+                        if (widget.event.duration.inMinutes < 120 &&
+                            !widget.event.isTimeHidden)
                           Text(
-                            "${widget.presentation.duration.inMinutes} perc",
+                            "${widget.event.duration.inMinutes} perc",
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -144,7 +144,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     Row(children: [
                       Flexible(
                         child: Text(
-                          widget.presentation.title,
+                          widget.event.title,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
                           style: const TextStyle(
@@ -162,7 +162,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                     Row(
                       children: [
                         if (author != null && !widget.hideAuthor)
-                          Author(
+                          AuthorWidget(
                             author: author,
                             hideDescription: true,
                           ),
@@ -170,7 +170,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              if (widget.presentation.rateValue != 0)
+                              if (widget.event.rate != 0)
                                 Row(
                                   children: [
                                     Icon(
@@ -179,7 +179,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                                           Theme.of(context).colorScheme.primary,
                                     ),
                                     Text(
-                                      widget.presentation.rateValue.toString(),
+                                      widget.event.rate.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context)
@@ -189,7 +189,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                                     ),
                                   ],
                                 ),
-                              LoveButton(presentation: widget.presentation),
+                              LoveButton(presentation: widget.event),
                             ],
                           ),
                       ],
@@ -207,7 +207,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
 @RoutePage()
 class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
-  final ProgramItemModel presentation;
+  final ScheduleEvent presentation;
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
@@ -225,7 +225,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
     final checkedIn = Provider.of<EventProvider>(context, listen: false)
         .selectedEvent!
         .checkedIn;
-    final List<AuthorModel> authors = presentation.people;
+    final List<Author>? authors = presentation.authors;
     return Column(
       children: [
         WHeader(
@@ -289,13 +289,13 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               ),
                             ]),
                             const SizedBox(height: 8),
-                            if (authors.isNotEmpty)
+                            if (authors!.isNotEmpty)
                               Wrap(
                                   spacing: 6.0,
                                   runSpacing: 6.0,
                                   children: authors
                                       .toList()
-                                      .map((e) => Author(
+                                      .map((e) => AuthorWidget(
                                             author: e,
                                             hideDescription: false,
                                           ))
@@ -330,7 +330,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       MyRatingBar(
-                          value: presentation.rateValue,
+                          value: presentation.rate!.toDouble(),
                           presentation: presentation),
                     ],
                   ),

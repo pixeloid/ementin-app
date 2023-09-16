@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventapp/app_define/app_theme.dart';
-import 'package:eventapp/models/author_model.dart';
+import 'package:eventapp/models/author/author.dart';
 import 'package:flutter/material.dart';
 
-class Author extends StatelessWidget {
+class AuthorWidget extends StatelessWidget {
   final bool? hideDescription;
 
-  const Author({
+  const AuthorWidget({
     Key? key,
     required this.author,
     required this.hideDescription,
   }) : super(key: key);
 
-  final AuthorModel author;
+  final Author author;
 
   String getInitials(name) {
     List<String> names = name.split(" ");
@@ -68,8 +68,8 @@ class Author extends StatelessWidget {
                     height: 1.2,
                   ),
                 ),
-                Row(
-                  children: author.presentationDays
+                /*   Row(
+                  children: author.presentationDays!
                       .map((day) => Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: Container(
@@ -88,17 +88,23 @@ class Author extends StatelessWidget {
                             ),
                           ))
                       .toList(),
-                ),
-                if (author.workplace != null)
-                  Text(
-                    author.workplace ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      height: 1.2,
-                    ),
+                ), */
+                if (author.workplaces != null)
+                  Column(
+                    children: author.workplaces!
+                        .map(
+                          (workplace) => Text(
+                            workplace.name ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              height: 1.2,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 if (author.description != null && !hideDescription!)
                   Container(

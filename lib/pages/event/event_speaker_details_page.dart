@@ -2,15 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/author_model.dart';
 import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart';
 import 'package:flutter/material.dart';
+import '../../models/author/author.dart';
 import '../../utils/widgets/w_header.dart';
 
 @RoutePage()
 class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
-  final AuthorModel speaker;
+  final Author author;
 
   EventSpeakerDetailsPage({
     Key? key,
-    required this.speaker,
+    required this.author,
   }) : super(key: key);
 
   @override
@@ -19,14 +20,14 @@ class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
       body: Column(
         children: <Widget>[
           WHeader(
-            title: speaker.name,
+            title: author.name,
             isShowBackButton: true,
             delegate: this,
           ),
           Column(
-            children: speaker.presentations
+            children: author.presentations!
                 .map((programItem) => ProgramItemHero(
-                    presentation: programItem,
+                    event: programItem,
                     showDayName: true,
                     onTap: () {},
                     showBody: false,

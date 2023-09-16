@@ -1,6 +1,7 @@
 // This file is "main.dart"
 // ignore_for_file: invalid_annotation_target
 
+import 'package:eventapp/models/author/author.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'schedule_model.freezed.dart';
@@ -46,7 +47,7 @@ class Hall with _$Hall {
   const factory Hall({
     @JsonKey(name: "@type") required String type,
     @JsonKey(name: "@id") required String id,
-    @JsonKey(name: "events") List<Event>? events,
+    @JsonKey(name: "events") List<ScheduleEvent>? events,
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "accomodation") Hall? accomodation,
   }) = _Hall;
@@ -54,8 +55,10 @@ class Hall with _$Hall {
 }
 
 @freezed
-class Event with _$Event {
-  const factory Event({
+class ScheduleEvent with _$ScheduleEvent {
+  const ScheduleEvent._();
+
+  const factory ScheduleEvent({
     @JsonKey(name: "@type") required String type,
     @JsonKey(name: "@id") required String id,
     @JsonKey(name: "id") required int eventId,
@@ -63,14 +66,20 @@ class Event with _$Event {
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "start") required DateTime start,
     @JsonKey(name: "end") required DateTime end,
-    @JsonKey(name: "children") required List<Event> children,
-    @JsonKey(name: "favourite") bool? favourite,
+    @JsonKey(name: "children") required List<ScheduleEvent> children,
+    @JsonKey(name: "favourite") int? favourite,
     @JsonKey(name: "isTimeHidden") required bool isTimeHidden,
+    @JsonKey(name: "isRatable") required bool isRatable,
     @JsonKey(name: "structuredAuthors") StructuredAuthors? structuredAuthors,
     @JsonKey(name: "body") String? body,
     @JsonKey(name: "subtitle") String? subtitle,
+    @JsonKey(name: "chairs") String? chairs,
+    @JsonKey(name: "authors") List<Author>? authors,
+    @JsonKey(name: "rate") required double? rate,
   }) = _Event;
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+  factory ScheduleEvent.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleEventFromJson(json);
+  get duration => end.difference(start);
 }
 
 @freezed
@@ -89,7 +98,7 @@ class StructuredAuthors with _$StructuredAuthors {
 @freezed
 class Institution with _$Institution {
   const factory Institution({
-    @JsonKey(name: "name") required String name,
+    @JsonKey(name: "name") required String? name,
     @JsonKey(name: "institution_id") required int? institutionId,
     @JsonKey(name: "need_fix") required int? needFix,
   }) = _Institution;
