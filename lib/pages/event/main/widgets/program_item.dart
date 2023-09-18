@@ -1,7 +1,5 @@
 import 'package:eventapp/models/schedule_model.dart';
-import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'program_item_hero.dart';
 

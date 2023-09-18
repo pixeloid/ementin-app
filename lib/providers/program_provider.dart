@@ -42,6 +42,7 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   void _flattenSchedule() {
+    flatEvents = [];
     for (final day in schedule!.days) {
       for (final eventGroup in day.eventGroups) {
         for (final hall in eventGroup.columns) {
@@ -136,9 +137,9 @@ class ProgramProvider extends ChangeNotifierSafety {
     var index = flatEvents.indexWhere(
       (event) => event.id == id,
     );
-
     if (!index.isNegative) {
       final event = flatEvents[index];
+      final prev = event.favourite;
 
       flatEvents[index] =
           event.copyWith(favourite: event.favourite != 0 ? 0 : 1);
@@ -149,7 +150,9 @@ class ProgramProvider extends ChangeNotifierSafety {
         await _programRepository.toggleFavourite(event.eventId);
         debugPrint('OK');
       } catch (error) {
-        error;
+        flatEvents[index] = event.copyWith(favourite: prev);
+
+        notifyListeners();
       }
     }
   }

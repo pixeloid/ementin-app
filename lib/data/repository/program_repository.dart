@@ -32,15 +32,11 @@ class ProgramRepository {
   }
 
   Future toggleFavourite(int id) async {
-    try {
-      final response = await netWorkLocator.dio.patch(
-        '${EndPoints.baseUrl}${EndPoints.toggleLike}/$id',
-        data: [],
-      );
-      return ScheduleEvent.fromJson(response.data);
-    } on DioError catch (e) {
-      e;
-    }
+    final response = await netWorkLocator.dio.patch(
+      '${EndPoints.baseUrl}${EndPoints.toggleLike}/$id',
+      data: [],
+    );
+    return ScheduleEvent.fromJson(response.data);
   }
 
   Future addRate(value, ScheduleEvent programPresentation) async {
