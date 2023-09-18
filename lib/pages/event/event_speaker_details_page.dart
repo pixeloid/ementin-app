@@ -26,7 +26,7 @@ class EventSpeakerDetailsPage extends StatelessWidget with HeaderDelegate {
           Column(
             children: author.presentations!
                 .map((programItem) => ProgramItemHero(
-                    event: programItem,
+                    scheduleEvent: programItem,
                     showDayName: true,
                     onTap: () {},
                     showBody: false,

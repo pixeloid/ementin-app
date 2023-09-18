@@ -20,7 +20,7 @@ class ScheduleEventWidget extends StatelessWidget {
     return Column(
       children: [
         ProgramItemHero(
-          event: scheduleEvent,
+          scheduleEvent: scheduleEvent,
           showDayName: showDayName,
           showBody: false,
           prefix: prefix,

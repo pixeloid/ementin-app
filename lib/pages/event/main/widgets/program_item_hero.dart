@@ -18,7 +18,7 @@ import 'love_button.dart';
 import 'my_rating_bar.dart';
 
 class ProgramItemHero extends StatefulWidget {
-  final ScheduleEvent event;
+  final ScheduleEvent scheduleEvent;
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
@@ -28,7 +28,7 @@ class ProgramItemHero extends StatefulWidget {
 
   const ProgramItemHero({
     Key? key,
-    required this.event,
+    required this.scheduleEvent,
     required this.onTap,
     required this.showBody,
     required this.showLoveButton,
@@ -51,8 +51,8 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
       final DateTime now = DateTime.now();
-      final remaining = widget.event.end.difference(now).inSeconds;
-      final length = widget.event.duration.inSeconds;
+      final remaining = widget.scheduleEvent.end.difference(now).inSeconds;
+      final length = widget.scheduleEvent.duration.inSeconds;
       if (mounted && remaining < length && remaining > 0) {
         setState(() {
           percentProgress = (100 - (100 / length * remaining)).round();
@@ -67,7 +67,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
     final programProvider =
         Provider.of<ProgramProvider>(context, listen: false);
     final scheduleEventIndexInFlatList = programProvider.flatEvents
-        .indexWhere((element) => element.id == widget.event.id);
+        .indexWhere((element) => element.id == widget.scheduleEvent.id);
 
     return Selector<ProgramProvider, ScheduleEvent?>(
       selector: (context, programProvider) =>
@@ -77,14 +77,14 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
         final author =
             event.authors?.isNotEmpty == true ? event.authors!.first : null;
-        final checkedIn = Provider.of<EventProvider>(context, listen: false)
+        final checkedIn = Provider.of<EventProvider>(context, listen: true)
             .selectedEvent!
             .checkedIn;
 
         return Material(
           type: MaterialType.transparency,
           child: GestureDetector(
-            onTap: widget.onTap,
+            onTap: checkedIn ? widget.onTap : null,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -96,7 +96,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                 color: inProgress
                     ? const Color.fromARGB(69, 241, 114, 171)
                     : const Color(0xFFF4F6FA),
-                border: event.body != null
+                border: event.body != null && checkedIn
                     ? Border.all(
                         color: const Color.fromARGB(255, 227, 227, 227),
                         width: 1,
@@ -154,7 +154,8 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                                       height: 1.2,
                                     ),
                                   ),
-                                LoveButton(presentation: event),
+                                if (checkedIn && widget.showLoveButton)
+                                  LoveButton(presentation: event),
                               ],
                             )
                           ],
@@ -321,13 +322,21 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                                           ))
                                       .toList()),
                             const SizedBox(height: 16),
-                            Html(data: presentation.body, style: {
-                              "body": Style(
-                                  padding: EdgeInsets.zero,
-                                  fontSize: FontSize.larger,
-                                  lineHeight: LineHeight.em(1.4),
-                                  fontWeight: FontWeight.w500)
-                            }),
+                            Html(
+                              data: presentation.body,
+                              style: {
+                                "body": Style(
+                                    padding: EdgeInsets.zero,
+                                    fontSize: FontSize.larger,
+                                    lineHeight: LineHeight.em(1.4),
+                                    fontWeight: FontWeight.w500),
+                                "p": Style(
+                                    padding: EdgeInsets.zero,
+                                    fontSize: FontSize.larger,
+                                    lineHeight: LineHeight.em(1.4),
+                                    fontWeight: FontWeight.w500)
+                              },
+                            ),
                           ],
                         ),
                       ),
