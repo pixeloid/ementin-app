@@ -4,6 +4,7 @@ import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
 import 'package:eventapp/providers/program_provider.dart';
+import 'package:eventapp/utils/extension/datetime_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -67,7 +68,14 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                         Expanded(
                           child: DefaultTabController(
                             length: programProvider.schedule!.days.length,
-                            initialIndex: 0,
+                            initialIndex: programProvider.schedule?.days
+                                        .indexWhere((day) => day.date.isToday())
+                                        .isNegative ==
+                                    true
+                                ? 0
+                                : programProvider.schedule?.days.indexWhere(
+                                        (day) => day.date.isToday()) ??
+                                    0,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
@@ -119,11 +127,7 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                                       children:
                                           programProvider.schedule!.days.map(
                                         (day) {
-                                          return Consumer<ProgramProvider>(
-                                            builder: (ctx, programProvider, _) {
-                                              return ProgramListPage(day);
-                                            },
-                                          );
+                                          return ScheduleEventList(day);
                                         },
                                       ).toList(),
                                     ),

@@ -276,7 +276,7 @@ mixin _$Day {
   @JsonKey(name: "@id")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "date")
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime get origDate => throw _privateConstructorUsedError;
   @JsonKey(name: "eventGroups")
   List<EventGroup> get eventGroups => throw _privateConstructorUsedError;
 
@@ -293,7 +293,7 @@ abstract class $DayCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "@type") String type,
       @JsonKey(name: "@id") String id,
-      @JsonKey(name: "date") DateTime date,
+      @JsonKey(name: "date") DateTime origDate,
       @JsonKey(name: "eventGroups") List<EventGroup> eventGroups});
 }
 
@@ -311,7 +311,7 @@ class _$DayCopyWithImpl<$Res, $Val extends Day> implements $DayCopyWith<$Res> {
   $Res call({
     Object? type = null,
     Object? id = null,
-    Object? date = null,
+    Object? origDate = null,
     Object? eventGroups = null,
   }) {
     return _then(_value.copyWith(
@@ -323,9 +323,9 @@ class _$DayCopyWithImpl<$Res, $Val extends Day> implements $DayCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      origDate: null == origDate
+          ? _value.origDate
+          : origDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       eventGroups: null == eventGroups
           ? _value.eventGroups
@@ -344,7 +344,7 @@ abstract class _$$_DayCopyWith<$Res> implements $DayCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "@type") String type,
       @JsonKey(name: "@id") String id,
-      @JsonKey(name: "date") DateTime date,
+      @JsonKey(name: "date") DateTime origDate,
       @JsonKey(name: "eventGroups") List<EventGroup> eventGroups});
 }
 
@@ -359,7 +359,7 @@ class __$$_DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res, _$_Day>
   $Res call({
     Object? type = null,
     Object? id = null,
-    Object? date = null,
+    Object? origDate = null,
     Object? eventGroups = null,
   }) {
     return _then(_$_Day(
@@ -371,9 +371,9 @@ class __$$_DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res, _$_Day>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      origDate: null == origDate
+          ? _value.origDate
+          : origDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       eventGroups: null == eventGroups
           ? _value._eventGroups
@@ -385,14 +385,15 @@ class __$$_DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res, _$_Day>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Day implements _Day {
+class _$_Day extends _Day {
   const _$_Day(
       {@JsonKey(name: "@type") required this.type,
       @JsonKey(name: "@id") required this.id,
-      @JsonKey(name: "date") required this.date,
+      @JsonKey(name: "date") required this.origDate,
       @JsonKey(name: "eventGroups")
       required final List<EventGroup> eventGroups})
-      : _eventGroups = eventGroups;
+      : _eventGroups = eventGroups,
+        super._();
 
   factory _$_Day.fromJson(Map<String, dynamic> json) => _$$_DayFromJson(json);
 
@@ -404,7 +405,7 @@ class _$_Day implements _Day {
   final String id;
   @override
   @JsonKey(name: "date")
-  final DateTime date;
+  final DateTime origDate;
   final List<EventGroup> _eventGroups;
   @override
   @JsonKey(name: "eventGroups")
@@ -416,7 +417,7 @@ class _$_Day implements _Day {
 
   @override
   String toString() {
-    return 'Day(type: $type, id: $id, date: $date, eventGroups: $eventGroups)';
+    return 'Day(type: $type, id: $id, origDate: $origDate, eventGroups: $eventGroups)';
   }
 
   @override
@@ -426,14 +427,15 @@ class _$_Day implements _Day {
             other is _$_Day &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.date, date) || other.date == date) &&
+            (identical(other.origDate, origDate) ||
+                other.origDate == origDate) &&
             const DeepCollectionEquality()
                 .equals(other._eventGroups, _eventGroups));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, id, date,
+  int get hashCode => Object.hash(runtimeType, type, id, origDate,
       const DeepCollectionEquality().hash(_eventGroups));
 
   @JsonKey(ignore: true)
@@ -450,13 +452,14 @@ class _$_Day implements _Day {
   }
 }
 
-abstract class _Day implements Day {
+abstract class _Day extends Day {
   const factory _Day(
       {@JsonKey(name: "@type") required final String type,
       @JsonKey(name: "@id") required final String id,
-      @JsonKey(name: "date") required final DateTime date,
+      @JsonKey(name: "date") required final DateTime origDate,
       @JsonKey(name: "eventGroups")
       required final List<EventGroup> eventGroups}) = _$_Day;
+  const _Day._() : super._();
 
   factory _Day.fromJson(Map<String, dynamic> json) = _$_Day.fromJson;
 
@@ -468,7 +471,7 @@ abstract class _Day implements Day {
   String get id;
   @override
   @JsonKey(name: "date")
-  DateTime get date;
+  DateTime get origDate;
   @override
   @JsonKey(name: "eventGroups")
   List<EventGroup> get eventGroups;
@@ -948,7 +951,7 @@ mixin _$ScheduleEvent {
   DateTime get originalStart => throw _privateConstructorUsedError;
   @JsonKey(name: "end")
   DateTime get originalEnd => throw _privateConstructorUsedError;
-  @JsonKey(name: "children")
+  @JsonKey(name: "children", defaultValue: [])
   List<ScheduleEvent> get children => throw _privateConstructorUsedError;
   @JsonKey(name: "favourite")
   int? get favourite => throw _privateConstructorUsedError;
@@ -990,7 +993,7 @@ abstract class $ScheduleEventCopyWith<$Res> {
       @JsonKey(name: "title") String title,
       @JsonKey(name: "start") DateTime originalStart,
       @JsonKey(name: "end") DateTime originalEnd,
-      @JsonKey(name: "children") List<ScheduleEvent> children,
+      @JsonKey(name: "children", defaultValue: []) List<ScheduleEvent> children,
       @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
       @JsonKey(name: "isRatable") bool isRatable,
@@ -1134,7 +1137,7 @@ abstract class _$$_EventCopyWith<$Res> implements $ScheduleEventCopyWith<$Res> {
       @JsonKey(name: "title") String title,
       @JsonKey(name: "start") DateTime originalStart,
       @JsonKey(name: "end") DateTime originalEnd,
-      @JsonKey(name: "children") List<ScheduleEvent> children,
+      @JsonKey(name: "children", defaultValue: []) List<ScheduleEvent> children,
       @JsonKey(name: "favourite") int? favourite,
       @JsonKey(name: "isTimeHidden") bool isTimeHidden,
       @JsonKey(name: "isRatable") bool isRatable,
@@ -1261,7 +1264,8 @@ class _$_Event extends _Event {
       @JsonKey(name: "title") required this.title,
       @JsonKey(name: "start") required this.originalStart,
       @JsonKey(name: "end") required this.originalEnd,
-      @JsonKey(name: "children") required final List<ScheduleEvent> children,
+      @JsonKey(name: "children", defaultValue: [])
+      required final List<ScheduleEvent> children,
       @JsonKey(name: "favourite") this.favourite,
       @JsonKey(name: "isTimeHidden") required this.isTimeHidden,
       @JsonKey(name: "isRatable") required this.isRatable,
@@ -1301,7 +1305,7 @@ class _$_Event extends _Event {
   final DateTime originalEnd;
   final List<ScheduleEvent> _children;
   @override
-  @JsonKey(name: "children")
+  @JsonKey(name: "children", defaultValue: [])
   List<ScheduleEvent> get children {
     if (_children is EqualUnmodifiableListView) return _children;
     // ignore: implicit_dynamic_type
@@ -1426,7 +1430,8 @@ abstract class _Event extends ScheduleEvent {
       @JsonKey(name: "title") required final String title,
       @JsonKey(name: "start") required final DateTime originalStart,
       @JsonKey(name: "end") required final DateTime originalEnd,
-      @JsonKey(name: "children") required final List<ScheduleEvent> children,
+      @JsonKey(name: "children", defaultValue: [])
+      required final List<ScheduleEvent> children,
       @JsonKey(name: "favourite") final int? favourite,
       @JsonKey(name: "isTimeHidden") required final bool isTimeHidden,
       @JsonKey(name: "isRatable") required final bool isRatable,
@@ -1463,7 +1468,7 @@ abstract class _Event extends ScheduleEvent {
   @JsonKey(name: "end")
   DateTime get originalEnd;
   @override
-  @JsonKey(name: "children")
+  @JsonKey(name: "children", defaultValue: [])
   List<ScheduleEvent> get children;
   @override
   @JsonKey(name: "favourite")

@@ -22,13 +22,17 @@ class Schedule with _$Schedule {
 
 @freezed
 class Day with _$Day {
+  const Day._();
+
   const factory Day({
     @JsonKey(name: "@type") required String type,
     @JsonKey(name: "@id") required String id,
-    @JsonKey(name: "date") required DateTime date,
+    @JsonKey(name: "date") required DateTime origDate,
     @JsonKey(name: "eventGroups") required List<EventGroup> eventGroups,
   }) = _Day;
   factory Day.fromJson(Map<String, dynamic> json) => _$DayFromJson(json);
+
+  DateTime get date => origDate.toLocal();
 }
 
 @freezed
@@ -66,7 +70,8 @@ class ScheduleEvent with _$ScheduleEvent {
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "start") required DateTime originalStart,
     @JsonKey(name: "end") required DateTime originalEnd,
-    @JsonKey(name: "children") required List<ScheduleEvent> children,
+    @JsonKey(name: "children", defaultValue: [])
+    required List<ScheduleEvent> children,
     @JsonKey(name: "favourite") int? favourite,
     @JsonKey(name: "isTimeHidden") required bool isTimeHidden,
     @JsonKey(name: "isRatable") required bool isRatable,

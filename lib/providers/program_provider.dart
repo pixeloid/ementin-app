@@ -22,22 +22,38 @@ class ProgramProvider extends ChangeNotifierSafety {
   String searchString = '';
   bool showSearch = false;
   Schedule? schedule;
+  List<ScheduleEvent> flatEvents = [];
 
   get numItems => programItems.length;
 
   get favourites {
     var result = [];
-    for (var item in programItems) {
-      if (item.isLiked != null) result.add(item);
+    for (var item in flatEvents) {
+      if (item.favourite == 1) result.add(item);
 
       var prezik = item.children
-          .where((presentation) => presentation.isLiked != null)
+          .where((presentation) => presentation.favourite == 1)
           .toList();
       for (var prezi in prezik) {
         result.add(prezi);
       }
     }
     return result;
+  }
+
+  void _flattenSchedule() {
+    for (final day in schedule!.days) {
+      for (final eventGroup in day.eventGroups) {
+        for (final hall in eventGroup.columns) {
+          for (final event in hall.events ?? []) {
+            flatEvents.add(event);
+            if (event.children.isNotEmpty) {
+              flatEvents.addAll(event.children);
+            }
+          }
+        }
+      }
+    }
   }
 
   /// Loading state
@@ -91,6 +107,7 @@ class ProgramProvider extends ChangeNotifierSafety {
     schedule = await _programRepository.getProgram(event, date);
     // programItems =
     authors = await authorRepository.getSpeakers(event);
+    _flattenSchedule();
 
 /*     authors = authors.map((author) {
       for (var element in author.presentations!) {
@@ -115,24 +132,25 @@ class ProgramProvider extends ChangeNotifierSafety {
     programItems = [];
   }
 
-  Future<void> toggleLike(ScheduleEvent presentation) async {
-    var oldLike = presentation.favourite;
-    presentation = presentation.copyWith(
-        favourite: presentation.favourite != null ? null : -1);
-    notifyListeners();
+  void toggleFavoriteStatus(String id) async {
+    var index = flatEvents.indexWhere(
+      (event) => event.id == id,
+    );
 
-    try {
-      if (oldLike != null) {
-        await _programRepository.removeLike(oldLike);
-      } else {
-        final response = await _programRepository.like(presentation.id);
+    if (!index.isNegative) {
+      final event = flatEvents[index];
 
-        //  final responseData = json.decode(response);
+      flatEvents[index] =
+          event.copyWith(favourite: event.favourite != 0 ? 0 : 1);
 
-        presentation = presentation.copyWith(favourite: response['id']);
+      notifyListeners();
+
+      try {
+        await _programRepository.toggleFavourite(event.eventId);
+        debugPrint('OK');
+      } catch (error) {
+        error;
       }
-    } catch (error) {
-      error;
     }
   }
 
@@ -151,15 +169,9 @@ class ProgramProvider extends ChangeNotifierSafety {
     return item;
   }
 
-  ProgramItemModel? findPresentationByIri(String iri) {
-    ProgramItemModel? item = programItems
-        .firstWhereOrNull((ProgramItemModel element) => element.iri == iri);
-
-    if (item != null) return item;
-    item = programItems
-        .expand((programItem) => programItem.children)
-        .toList()
-        .firstWhereOrNull((element) => element.iri == iri);
+  ScheduleEvent? findPresentationByIri(String iri) {
+    ScheduleEvent? item = flatEvents
+        .firstWhereOrNull((ScheduleEvent element) => element.id == iri);
 
     return item;
   }

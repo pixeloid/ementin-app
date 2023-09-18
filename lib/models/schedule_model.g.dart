@@ -30,7 +30,7 @@ Map<String, dynamic> _$$_ScheduleToJson(_$_Schedule instance) =>
 _$_Day _$$_DayFromJson(Map<String, dynamic> json) => _$_Day(
       type: json['@type'] as String,
       id: json['@id'] as String,
-      date: DateTime.parse(json['date'] as String),
+      origDate: DateTime.parse(json['date'] as String),
       eventGroups: (json['eventGroups'] as List<dynamic>)
           .map((e) => EventGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39,7 +39,7 @@ _$_Day _$$_DayFromJson(Map<String, dynamic> json) => _$_Day(
 Map<String, dynamic> _$$_DayToJson(_$_Day instance) => <String, dynamic>{
       '@type': instance.type,
       '@id': instance.id,
-      'date': instance.date.toIso8601String(),
+      'date': instance.origDate.toIso8601String(),
       'eventGroups': instance.eventGroups,
     };
 
@@ -87,9 +87,10 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       title: json['title'] as String,
       originalStart: DateTime.parse(json['start'] as String),
       originalEnd: DateTime.parse(json['end'] as String),
-      children: (json['children'] as List<dynamic>)
-          .map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      children: (json['children'] as List<dynamic>?)
+              ?.map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       favourite: json['favourite'] as int?,
       isTimeHidden: json['isTimeHidden'] as bool,
       isRatable: json['isRatable'] as bool,

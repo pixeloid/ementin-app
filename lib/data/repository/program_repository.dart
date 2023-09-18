@@ -26,17 +26,18 @@ class ProgramRepository {
 
   Future removeLike(int oldLike) async {
     final response = await netWorkLocator.dio.delete(
-      '${EndPoints.baseUrl}${EndPoints.presentationFavorite}/$oldLike',
+      '${EndPoints.baseUrl}${EndPoints.toggleLike}/$oldLike',
     );
     return response.data;
   }
 
-  Future like(String iri) async {
+  Future toggleFavourite(int id) async {
     try {
-      final response = await netWorkLocator.dio.post(
-          '${EndPoints.baseUrl}${EndPoints.presentationFavorite}',
-          data: json.encode({'presentation': iri}));
-      return response.data;
+      final response = await netWorkLocator.dio.patch(
+        '${EndPoints.baseUrl}${EndPoints.toggleLike}/$id',
+        data: [],
+      );
+      return ScheduleEvent.fromJson(response.data);
     } on DioError catch (e) {
       e;
     }

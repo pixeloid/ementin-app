@@ -32,9 +32,10 @@ class FavouritesPage extends StatelessWidget {
               },
               itemCount: favourites.length,
               itemBuilder: (_, i) {
-                return ProgramItem(
-                  presentation: favourites[i],
+                return ScheduleEventWidget(
+                  scheduleEvent: favourites[i],
                   prefix: 'likes-',
+                  showDayName: true,
                 );
               },
             ),

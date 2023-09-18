@@ -20,14 +20,14 @@ import 'package:eventapp/pages/event/event_speakers_page.dart' as _i7;
 import 'package:eventapp/pages/event/main/event_gallery_page.dart' as _i9;
 import 'package:eventapp/pages/event/main/event_info_page.dart' as _i3;
 import 'package:eventapp/pages/event/main/event_sponsors_page.dart' as _i15;
-import 'package:eventapp/pages/event/main/program_list_page.dart' as _i13;
+import 'package:eventapp/pages/event/main/program_list_page.dart' as _i14;
 import 'package:eventapp/pages/event/main/widgets/program_item_hero.dart'
     as _i12;
 import 'package:eventapp/pages/event_list_page.dart' as _i4;
 import 'package:eventapp/pages/favourites_page.dart' as _i8;
 import 'package:eventapp/pages/main/main_page.dart' as _i10;
 import 'package:eventapp/pages/profile_page.dart' as _i11;
-import 'package:eventapp/pages/registration_details_page.dart' as _i14;
+import 'package:eventapp/pages/registration_details_page.dart' as _i13;
 import 'package:flutter/material.dart' as _i17;
 
 abstract class $AppRouter extends _i16.RootStackRouter {
@@ -120,23 +120,24 @@ abstract class $AppRouter extends _i16.RootStackRouter {
           onTap: args.onTap,
           showBody: args.showBody,
           showLoveButton: args.showLoveButton,
-        ),
-      );
-    },
-    ProgramListRoute.name: (routeData) {
-      final args = routeData.argsAs<ProgramListRouteArgs>();
-      return _i16.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i13.ProgramListPage(
-          args.scheduleDay,
-          key: args.key,
+          showDayName: args.showDayName,
         ),
       );
     },
     RegistrationDetailsRoute.name: (routeData) {
       return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i14.RegistrationDetailsPage(),
+        child: const _i13.RegistrationDetailsPage(),
+      );
+    },
+    ScheduleEventList.name: (routeData) {
+      final args = routeData.argsAs<ScheduleEventListArgs>();
+      return _i16.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i14.ScheduleEventList(
+          args.scheduleDay,
+          key: args.key,
+        ),
       );
     },
     SponsorsRoute.name: (routeData) {
@@ -361,6 +362,7 @@ class ProgramItemFullHeroRoute
     required void Function() onTap,
     required bool showBody,
     required bool showLoveButton,
+    bool showDayName = false,
     List<_i16.PageRouteInfo>? children,
   }) : super(
           ProgramItemFullHeroRoute.name,
@@ -370,6 +372,7 @@ class ProgramItemFullHeroRoute
             onTap: onTap,
             showBody: showBody,
             showLoveButton: showLoveButton,
+            showDayName: showDayName,
           ),
           initialChildren: children,
         );
@@ -387,6 +390,7 @@ class ProgramItemFullHeroRouteArgs {
     required this.onTap,
     required this.showBody,
     required this.showLoveButton,
+    this.showDayName = false,
   });
 
   final _i17.Key? key;
@@ -399,52 +403,16 @@ class ProgramItemFullHeroRouteArgs {
 
   final bool showLoveButton;
 
+  final bool showDayName;
+
   @override
   String toString() {
-    return 'ProgramItemFullHeroRouteArgs{key: $key, presentation: $presentation, onTap: $onTap, showBody: $showBody, showLoveButton: $showLoveButton}';
+    return 'ProgramItemFullHeroRouteArgs{key: $key, presentation: $presentation, onTap: $onTap, showBody: $showBody, showLoveButton: $showLoveButton, showDayName: $showDayName}';
   }
 }
 
 /// generated route for
-/// [_i13.ProgramListPage]
-class ProgramListRoute extends _i16.PageRouteInfo<ProgramListRouteArgs> {
-  ProgramListRoute({
-    required _i20.Day scheduleDay,
-    _i17.Key? key,
-    List<_i16.PageRouteInfo>? children,
-  }) : super(
-          ProgramListRoute.name,
-          args: ProgramListRouteArgs(
-            scheduleDay: scheduleDay,
-            key: key,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'ProgramListRoute';
-
-  static const _i16.PageInfo<ProgramListRouteArgs> page =
-      _i16.PageInfo<ProgramListRouteArgs>(name);
-}
-
-class ProgramListRouteArgs {
-  const ProgramListRouteArgs({
-    required this.scheduleDay,
-    this.key,
-  });
-
-  final _i20.Day scheduleDay;
-
-  final _i17.Key? key;
-
-  @override
-  String toString() {
-    return 'ProgramListRouteArgs{scheduleDay: $scheduleDay, key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i14.RegistrationDetailsPage]
+/// [_i13.RegistrationDetailsPage]
 class RegistrationDetailsRoute extends _i16.PageRouteInfo<void> {
   const RegistrationDetailsRoute({List<_i16.PageRouteInfo>? children})
       : super(
@@ -455,6 +423,44 @@ class RegistrationDetailsRoute extends _i16.PageRouteInfo<void> {
   static const String name = 'RegistrationDetailsRoute';
 
   static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i14.ScheduleEventList]
+class ScheduleEventList extends _i16.PageRouteInfo<ScheduleEventListArgs> {
+  ScheduleEventList({
+    required _i20.Day scheduleDay,
+    _i17.Key? key,
+    List<_i16.PageRouteInfo>? children,
+  }) : super(
+          ScheduleEventList.name,
+          args: ScheduleEventListArgs(
+            scheduleDay: scheduleDay,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ScheduleEventList';
+
+  static const _i16.PageInfo<ScheduleEventListArgs> page =
+      _i16.PageInfo<ScheduleEventListArgs>(name);
+}
+
+class ScheduleEventListArgs {
+  const ScheduleEventListArgs({
+    required this.scheduleDay,
+    this.key,
+  });
+
+  final _i20.Day scheduleDay;
+
+  final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'ScheduleEventListArgs{scheduleDay: $scheduleDay, key: $key}';
+  }
 }
 
 /// generated route for

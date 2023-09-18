@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/schedule_model.dart';
@@ -12,22 +14,26 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
-class ProgramListPage extends StatefulWidget {
+class ScheduleEventList extends StatefulWidget {
   final Day scheduleDay;
-  const ProgramListPage(this.scheduleDay, {Key? key}) : super(key: key);
+  const ScheduleEventList(this.scheduleDay, {Key? key}) : super(key: key);
 
   @override
-  State<ProgramListPage> createState() => _ProgramListPageState();
+  State<ScheduleEventList> createState() => _ScheduleEventListState();
 }
 
-class _ProgramListPageState extends State<ProgramListPage> {
+class _ScheduleEventListState extends State<ScheduleEventList> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-/*       var inProgressIndex = widget.scheduleDay.indexWhere((element) {
-        final now = DateTime.now();
-        return element.start.isBefore(now) && element.end.isAfter(now);
-      });
+      final now = DateTime.now();
+      var inProgressIndex = widget.scheduleDay.eventGroups.indexWhere((group) =>
+          group.columns
+              .where((column) => column.events!
+                  .where((event) =>
+                      event.start.isBefore(now) && event.end.isAfter(now))
+                  .isNotEmpty)
+              .isNotEmpty);
       inProgressIndex = max(inProgressIndex, 0);
       if (inProgressIndex > 0) {
         inProgressIndex += Provider.of<EventProvider>(context, listen: false)
@@ -38,7 +44,6 @@ class _ProgramListPageState extends State<ProgramListPage> {
             : 0;
         scrollToIndex(inProgressIndex);
       }
- */
     });
     super.initState();
   }
@@ -95,104 +100,97 @@ class _ProgramListPageState extends State<ProgramListPage> {
           }
 
           return Column(
-              children: widget.scheduleDay.eventGroups
-                  .map((group) => Column(
-                        children: group.columns
-                            .map(
-                              (column) => Column(
-                                children: column.events!
-                                    .map(
-                                      (event) => event.children.isEmpty
-                                          ? ProgramItem(
-                                              presentation: event,
-                                            )
-                                          : Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(8),
-                                                  topRight: Radius.circular(8),
-                                                  bottomLeft:
-                                                      Radius.circular(8),
-                                                  bottomRight:
-                                                      Radius.circular(8),
-                                                ),
-                                                color: const Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                                border: Border.all(
-                                                  color: const Color.fromRGBO(
-                                                      243, 244, 246, 1),
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 16),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ProgramHeaderSimple(
-                                                    time: !event.isTimeHidden
-                                                        ? '${DateFormat('Hm').format(event.start).toString()}-${DateFormat('Hm').format(event.end).toString()}'
-                                                        : null,
-                                                    title: event.title,
-                                                  ),
-                                                  if (event.chairs != null)
-                                                    Text(
-                                                      event.chairs.toString(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF554577),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.2,
-                                                      ),
-                                                    ),
-                                                  if (event.children.isNotEmpty)
-                                                    Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                          height: 8,
-                                                        ),
-                                                        ListView.separated(
-                                                          separatorBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  int index) {
-                                                            return const SizedBox(
-                                                              height: 12,
-                                                            );
-                                                          },
-                                                          itemCount: event
-                                                              .children.length,
-                                                          physics:
-                                                              const NeverScrollableScrollPhysics(),
-                                                          shrinkWrap: true,
-                                                          itemBuilder: (_, i) {
-                                                            return ProgramItem(
-                                                              presentation: event
-                                                                  .children[i],
-                                                            );
-                                                          },
-                                                        )
-                                                      ],
-                                                    )
-                                                ],
-                                              ),
+            children: widget.scheduleDay.eventGroups
+                .expand((group) => group.columns)
+                .toList()
+                .map(
+                  (column) => Column(children: [
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (column.name != null) Text(column.name.toString()),
+                    ...column.events!
+                        .map(
+                          (event) => event.children.isEmpty
+                              ? ScheduleEventWidget(
+                                  scheduleEvent: event,
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8),
+                                      bottomRight: Radius.circular(8),
+                                    ),
+                                    color:
+                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    border: Border.all(
+                                      color: const Color.fromRGBO(
+                                          243, 244, 246, 1),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ProgramHeaderSimple(
+                                        time: !event.isTimeHidden
+                                            ? '${DateFormat('Hm').format(event.start).toString()}-${DateFormat('Hm').format(event.end).toString()}'
+                                            : null,
+                                        title: event.title,
+                                      ),
+                                      if (event.chairs != null)
+                                        Text(
+                                          event.chairs.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                            color: Color(0xFF554577),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                          ),
+                                        ),
+                                      if (event.children.isNotEmpty)
+                                        Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 8,
                                             ),
-                                    )
-                                    .toList(),
-                              ),
-                            )
-                            .toList(),
-                      ))
-                  .toList());
+                                            ListView.separated(
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return const SizedBox(
+                                                  height: 12,
+                                                );
+                                              },
+                                              itemCount: event.children.length,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemBuilder: (_, i) {
+                                                return ScheduleEventWidget(
+                                                  scheduleEvent:
+                                                      event.children[i],
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        )
+                                    ],
+                                  ),
+                                ),
+                        )
+                        .toList(),
+                  ]),
+                )
+                .toList(),
+          );
 
 /*           var item =
               widget.scheduleDay[i - (isCheckedIn && ad != null ? 1 : 0)];

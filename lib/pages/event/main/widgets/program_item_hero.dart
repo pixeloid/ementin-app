@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/author/author.dart';
 import 'package:eventapp/models/schedule_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -63,144 +64,163 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
 
   @override
   Widget build(BuildContext context) {
-    final author = widget.event.authors?.isNotEmpty == true
-        ? widget.event.authors!.first
-        : null;
-    final checkedIn = Provider.of<EventProvider>(context, listen: false)
-        .selectedEvent!
-        .checkedIn;
+    final programProvider =
+        Provider.of<ProgramProvider>(context, listen: false);
+    final scheduleEventIndexInFlatList = programProvider.flatEvents
+        .indexWhere((element) => element.id == widget.event.id);
 
-    return Material(
-      type: MaterialType.transparency,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8),
-            ),
-            color: inProgress
-                ? const Color.fromARGB(69, 241, 114, 171)
-                : const Color(0xFFF4F6FA),
-            border: widget.event.body != null
-                ? Border.all(
-                    color: const Color.fromARGB(255, 227, 227, 227),
-                    width: 1,
-                  )
-                : null,
-          ),
-          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-          child: Column(
-            children: [
-              if (inProgress)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    LinearPercentIndicator(
-                      lineHeight: 8.0,
-                      percent: (percentProgress / 100).toDouble(),
-                      barRadius: const Radius.circular(5.0),
-                      backgroundColor: const Color.fromARGB(255, 222, 222, 222),
-                      progressColor: const Color.fromARGB(255, 241, 114, 171),
-                    ),
-                  ],
+    return Selector<ProgramProvider, ScheduleEvent?>(
+      selector: (context, programProvider) =>
+          programProvider.flatEvents[scheduleEventIndexInFlatList],
+      builder: (context, favourite, _) {
+        final event = programProvider.flatEvents[scheduleEventIndexInFlatList];
+
+        final author =
+            event.authors?.isNotEmpty == true ? event.authors!.first : null;
+        final checkedIn = Provider.of<EventProvider>(context, listen: false)
+            .selectedEvent!
+            .checkedIn;
+
+        return Material(
+          type: MaterialType.transparency,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
                 ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if (!widget.event.isTimeHidden)
-                          Text(
-                            "${DateFormat('Hm').format(widget.event.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(widget.event.start) : ''}",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF2C2B7A),
-                              height: 1.2,
-                            ),
-                          ),
-                        if (widget.event.duration.inMinutes < 120 &&
-                            !widget.event.isTimeHidden)
-                          Text(
-                            "${widget.event.duration.inMinutes} perc",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFABAAB5),
-                              height: 1.2,
-                            ),
-                          ),
-                      ],
-                    ),
-                    Row(children: [
-                      Flexible(
-                        child: Text(
-                          widget.event.title,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF1F2937),
-                            height: 1.2,
-                          ),
-                        ),
-                      ),
-                    ]),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: [
-                        if (author != null && !widget.hideAuthor)
-                          AuthorWidget(
-                            author: author,
-                            hideDescription: true,
-                          ),
-                        if (checkedIn)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              if (widget.event.rate != 0)
-                                Row(
-                                  children: [
-                                    Icon(
-                                      PhosphorIcons.star_fill,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                    Text(
-                                      widget.event.rate.toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              LoveButton(presentation: widget.event),
-                            ],
-                          ),
-                      ],
-                    )
-                  ],
-                ),
+                color: inProgress
+                    ? const Color.fromARGB(69, 241, 114, 171)
+                    : const Color(0xFFF4F6FA),
+                border: event.body != null
+                    ? Border.all(
+                        color: const Color.fromARGB(255, 227, 227, 227),
+                        width: 1,
+                      )
+                    : null,
               ),
-            ],
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: Column(
+                children: [
+                  if (inProgress)
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        LinearPercentIndicator(
+                          lineHeight: 8.0,
+                          percent: (percentProgress / 100).toDouble(),
+                          barRadius: const Radius.circular(5.0),
+                          backgroundColor:
+                              const Color.fromARGB(255, 222, 222, 222),
+                          progressColor:
+                              const Color.fromARGB(255, 241, 114, 171),
+                        ),
+                      ],
+                    ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (!event.isTimeHidden)
+                              Text(
+                                "${DateFormat('Hm').format(event.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(event.start) : ''}",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF2C2B7A),
+                                  height: 1.2,
+                                ),
+                              ),
+                            Row(
+                              children: [
+                                if (event.duration.inMinutes < 120 &&
+                                    !event.isTimeHidden)
+                                  Text(
+                                    "${event.duration.inMinutes} perc",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFFABAAB5),
+                                      height: 1.2,
+                                    ),
+                                  ),
+                                LoveButton(presentation: event),
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(children: [
+                          Flexible(
+                            child: Text(
+                              event.title,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 4,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1F2937),
+                                height: 1.2,
+                              ),
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Row(
+                          children: [
+                            if (author != null && !widget.hideAuthor)
+                              AuthorWidget(
+                                author: author,
+                                hideDescription: true,
+                              ),
+                            if (checkedIn)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if (event.isRatable)
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          PhosphorIcons.star_fill,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        Text(
+                                          event.rate.toString(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -211,6 +231,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
   final VoidCallback onTap;
   final bool showBody;
   final bool showLoveButton;
+  final bool showDayName;
 
   const ProgramItemFullHeroPage({
     Key? key,
@@ -218,6 +239,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
     required this.onTap,
     required this.showBody,
     required this.showLoveButton,
+    this.showDayName = false,
   }) : super(key: key);
 
   @override
@@ -250,9 +272,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               children: [
                                 if (!presentation.isTimeHidden)
                                   Text(
-                                    DateFormat('Hm')
-                                        .format(presentation.start)
-                                        .toString(),
+                                    "${DateFormat('Hm').format(presentation.start).toString()} ${DateFormat('MM', 'hu').format(presentation.start).toString()}",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,

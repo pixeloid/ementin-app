@@ -23,7 +23,7 @@ class LoveButton extends StatelessWidget {
         // 5
         onPressed: () {
           Provider.of<ProgramProvider>(context, listen: false)
-              .toggleLike(presentation);
+              .toggleFavoriteStatus(presentation.id);
           //   const snackBar = SnackBar(content: Text('Favorite Pressed'));
           //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });

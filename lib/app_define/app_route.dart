@@ -29,7 +29,7 @@ class AppRouter extends $AppRouter {
             ),
             AutoRoute(
               path: 'program',
-              page: ProgramListRoute.page,
+              page: ScheduleEventList.page,
             ),
             AutoRoute(
               path: 'program-details',
