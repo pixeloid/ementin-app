@@ -30,13 +30,6 @@ class ProgramProvider extends ChangeNotifierSafety {
     var result = [];
     for (var item in flatEvents) {
       if (item.favourite == 1) result.add(item);
-
-      var prezik = item.children
-          .where((presentation) => presentation.favourite == 1)
-          .toList();
-      for (var prezi in prezik) {
-        result.add(prezi);
-      }
     }
     return result;
   }
