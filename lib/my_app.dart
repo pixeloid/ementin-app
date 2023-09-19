@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initOneSignal(BuildContext context) async {
     /// Set App Id.
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-    OneSignal.initialize('37356181-bc89-4053-9944-446bdf13d90a');
+    OneSignal.initialize('a1df801f-0c58-4110-9909-9d917e90f9d8');
     OneSignal.Notifications.requestPermission(true);
 
     /// Get the Onesignal userId and update that into the firebase.

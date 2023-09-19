@@ -10,8 +10,6 @@
 		<string>applinks:*.ementin.hu</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
-	<array>
-		<string>group.com.pixeloid.eventapp.onesignal</string>
-	</array>
+	<array/>
 </dict>
 </plist>
