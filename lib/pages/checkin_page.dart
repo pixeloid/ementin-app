@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ class _CheckInPageState extends State<CheckInPage> {
             )
           : FloatingActionButton.extended(
               onPressed: () async {
-                const code = '1e7c5fcd55bd62bd3f42f2cc24f991ff';
+                const code = '49ecf23746e31981d4bc9888fa317ad6';
                 _checkIn(eventProvider, code, authProvider, context);
               },
               backgroundColor: Colors.primaries.first,
@@ -115,6 +116,7 @@ class _CheckInPageState extends State<CheckInPage> {
       // The rest of your code remains unchanged
 
       if (mounted) {
+        AutoRouter.of(context).navigate(EventProgramRoute());
         Navigator.pop(context);
 
         setState(() {

@@ -27,7 +27,7 @@ class MainPage extends StatelessWidget {
     final isLoggedIn = authProvider.isAuth;
     final isCheckedIn = eventProvider.selectedEvent?.checkedIn;
     final hasGallery = eventProvider.selectedEvent?.instaUrl != null;
-    // final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
+    final hasSponsors = eventProvider.selectedEvent?.sponsorCategories != null;
     return ChangeNotifierProvider<GalleryProvider>(
       create: (_) => GalleryProvider(),
       child: Consumer<PollProvider>(
@@ -73,7 +73,7 @@ class MainPage extends StatelessWidget {
                             tabsRouter.setActiveIndex(0);
                           },
                         ),
-                        if (true)
+                        if (false)
                           BottomNavItem(
                             index: 1,
                             label: 'Előadók',
@@ -110,15 +110,15 @@ class MainPage extends StatelessWidget {
                               tabsRouter.setActiveIndex(4);
                             },
                           ),
-                        //  if (hasSponsors)
-                        //    BottomNavItem(
-                        //      index: 5,
-                        //      label: 'Támogatók',
-                        //      icon: Icons.factory,
-                        //      onNavTap: () {
-                        //        tabsRouter.setActiveIndex(5);
-                        //      },
-                        //    ),
+                        if (hasSponsors)
+                          BottomNavItem(
+                            index: 5,
+                            label: 'Támogatók',
+                            icon: Icons.factory,
+                            onNavTap: () {
+                              tabsRouter.setActiveIndex(5);
+                            },
+                          ),
                       ],
                     ),
                   );
