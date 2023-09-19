@@ -1,5 +1,7 @@
 import 'package:eventapp/models/schedule_model.dart';
+import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'program_item_hero.dart';
 
@@ -17,6 +19,10 @@ class ScheduleEventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final checkedIn = Provider.of<EventProvider>(context, listen: true)
+        .selectedEvent!
+        .checkedIn;
+
     return Column(
       children: [
         ProgramItemHero(
@@ -32,8 +38,7 @@ class ScheduleEventWidget extends StatelessWidget {
                             body: ProgramItemFullHeroPage(
                               presentation: scheduleEvent,
                               showBody: true,
-                              showLoveButton:
-                                  scheduleEvent.type == 'Presentation',
+                              showLoveButton: checkedIn,
                               onTap: () {
                                 Navigator.of(context).pop();
                               },

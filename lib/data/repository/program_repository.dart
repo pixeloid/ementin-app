@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:eventapp/data/api/dio_client.dart';
 import 'package:eventapp/data/api/shared_preference_helper.dart';
 import 'package:eventapp/data/endpoints.dart';
@@ -49,13 +48,12 @@ class ProgramRepository {
     return response.data;
   }
 
-//Todo: fix
-  Future updateRate(value, ScheduleEvent programPresentation) async {
+  Future rate(value, ScheduleEvent scheduleEvent) async {
     final response = await netWorkLocator.dio.patch(
-        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${programPresentation.rate}',
+        '${EndPoints.baseUrl}${EndPoints.presentationRate}/${scheduleEvent.eventId}',
         data: json.encode({
           'value': value.round(),
         }));
-    return response.data;
+    return ScheduleEvent.fromJson(response.data);
   }
 }

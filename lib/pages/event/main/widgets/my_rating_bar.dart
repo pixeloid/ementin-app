@@ -7,12 +7,12 @@ import 'package:provider/provider.dart';
 
 class MyRatingBar extends StatelessWidget {
   final double value;
-  final ScheduleEvent presentation;
+  final ScheduleEvent scheduleEvent;
 
   const MyRatingBar({
     Key? key,
     required this.value,
-    required this.presentation,
+    required this.scheduleEvent,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class MyRatingBar extends StatelessWidget {
       itemCount: 5,
       onRatingUpdate: (val) =>
           Provider.of<ProgramProvider>(context, listen: false)
-              .rate(presentation, val),
+              .rate(scheduleEvent.id, val),
       ratingWidget: RatingWidget(
         full: const Icon(
           PhosphorIcons.star_fill,

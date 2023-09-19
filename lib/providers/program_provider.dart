@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/data/repository/program_repository.dart';
 import 'package:eventapp/models/author/author.dart';
@@ -138,11 +139,11 @@ class ProgramProvider extends ChangeNotifierSafety {
           event.copyWith(favourite: event.favourite != 0 ? 0 : 1);
 
       notifyListeners();
-
+//todo: handle error
       try {
         await _programRepository.toggleFavourite(event.eventId);
         debugPrint('OK');
-      } catch (error) {
+      } on DioError catch (_) {
         flatEvents[index] = event.copyWith(favourite: prev);
 
         notifyListeners();
@@ -172,20 +173,28 @@ class ProgramProvider extends ChangeNotifierSafety {
     return item;
   }
 
-  rate(ScheduleEvent programPresentation, double val) async {
-/* 
-    final prevRate = programPresentation.rate;
-    try {
-      programPresentation = programPresentation.copyWith(rate: val);
+  rate(String id, double val) async {
+    var index = flatEvents.indexWhere(
+      (event) => event.id == id,
+    );
+    if (!index.isNegative) {
+      final event = flatEvents[index];
+      final prevRate = event.rate;
+
+      flatEvents[index] = event.copyWith(rate: val);
+
       notifyListeners();
-      final rateJson = (programPresentation.rate == null)
-          ? await _programRepository.addRate(val, programPresentation)
-          : await _programRepository.updateRate(val, programPresentation);
-      programPresentation.rate =
-          ProgramPresentationRateModel.fromJson(rateJson);
-    } catch (error) {
-      programPresentation.rateValue = prevRate;
-    } */
+      debugPrint('OK');
+
+//todo: handle error
+      try {
+        await _programRepository.rate(val, event);
+      } on DioError catch (_) {
+        flatEvents[index] = event.copyWith(rate: prevRate);
+
+        notifyListeners();
+      }
+    }
   }
 
   List<ProgramItemModel> getProgramForDay(DateTime day) {

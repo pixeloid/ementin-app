@@ -189,7 +189,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  if (event.isRatable)
+                                  if (event.isRatable && event.rate != null)
                                     Row(
                                       children: [
                                         Icon(
@@ -273,7 +273,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               children: [
                                 if (!presentation.isTimeHidden)
                                   Text(
-                                    "${DateFormat('Hm').format(presentation.start).toString()} ${DateFormat('MM', 'hu').format(presentation.start).toString()}",
+                                    "${DateFormat('Hm').format(presentation.start).toString()} (${DateFormat('EEEE', 'hu').format(presentation.start).toString()})",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -344,25 +344,33 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                   ),
                 ),
               if (checkedIn && presentation.isRatable)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 8, bottom: 32),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 1.5, color: Colors.black12),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Értékelésem:'.toUpperCase(),
-                        style: const TextStyle(fontWeight: FontWeight.w700),
+                Consumer<ProgramProvider>(
+                  builder: (BuildContext context, programProvider, _) {
+                    final index = programProvider.flatEvents
+                        .indexWhere((element) => element.id == presentation.id);
+                    final eventInFlatList = programProvider.flatEvents[index];
+                    debugPrint(eventInFlatList.rate.toString());
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(top: 8, bottom: 32),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(width: 1.5, color: Colors.black12),
+                        ),
                       ),
-                      MyRatingBar(
-                          value: presentation.rate!.toDouble(),
-                          presentation: presentation),
-                    ],
-                  ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Értékelésem:'.toUpperCase(),
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          MyRatingBar(
+                              value: eventInFlatList.rate?.toDouble() ?? 0,
+                              scheduleEvent: eventInFlatList),
+                        ],
+                      ),
+                    );
+                  },
                 )
             ],
           ),
