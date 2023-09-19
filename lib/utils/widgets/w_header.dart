@@ -1,5 +1,3 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:eventapp/app_define/app_route.gr.dart';
 import 'package:eventapp/pages/checkin_page.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/event_provider.dart';
@@ -125,13 +123,7 @@ class WHeader extends StatelessWidget with DynamicSize {
                                         onPressed: () {
                                           Provider.of<AuthProvider>(context,
                                                   listen: false)
-                                              .logout()
-                                              .then((value) => {
-                                                    AutoRouter.of(context)
-                                                        .navigate(
-                                                      EventProgramRoute(),
-                                                    )
-                                                  });
+                                              .logout();
                                         },
                                         child: const Align(
                                           alignment: Alignment.centerRight,

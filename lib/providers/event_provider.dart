@@ -15,12 +15,11 @@ class EventProvider extends ChangeNotifierSafety {
 
   List<EventModel> events = [];
 
-  int? _selectedEventId;
   List<DateTime> get eventDays =>
       getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
   EventModel? get selectedEvent {
-    return events.firstWhereOrNull((event) => event.id == _selectedEventId);
+    return events.firstWhereOrNull((event) => event.id == 38);
   }
 
   get currentDayIndex => max(
@@ -29,11 +28,6 @@ class EventProvider extends ChangeNotifierSafety {
       0);
 
   int get currentSectionIndex => 0;
-
-  set selectedEventId(int? id) {
-    _selectedEventId = id;
-    notifyListeners();
-  }
 
   /// Loading state
   bool isLoading = false;
@@ -44,6 +38,7 @@ class EventProvider extends ChangeNotifierSafety {
       events = await _eventRepository.getEvents();
       isLoading = false;
       notifyListeners();
+      return true;
     } catch (e) {
       notifyListeners();
       debugPrint(e.toString());
@@ -54,7 +49,6 @@ class EventProvider extends ChangeNotifierSafety {
   void resetState() {
     isLoading = false;
     events = [];
-    _selectedEventId = null;
     notifyListeners();
   }
 

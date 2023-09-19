@@ -10,13 +10,13 @@ class AppRouter extends $AppRouter {
   @override
   final List<AutoRoute> routes = [
     AutoRoute(
-      initial: true,
       path: '/events',
       page: EventListRoute.page,
     ),
 
     AutoRoute(
       path: '/main',
+      initial: true,
       page: MainRoute.page,
       children: [
         AutoRoute(

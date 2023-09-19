@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/app_define/app_theme.dart';
-import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/program_item_model.dart';
 import 'package:eventapp/pages/event/main/program_list_page.dart';
+import 'package:eventapp/providers/auth_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/utils/extension/datetime_extension.dart';
 import 'package:flutter/material.dart';
@@ -25,125 +25,148 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
 
   @override
   Widget build(BuildContext context) {
+    final programProvider =
+        Provider.of<ProgramProvider>(context, listen: false);
     final selectedEvent =
         Provider.of<EventProvider>(context, listen: false).selectedEvent;
 
-    final programProvider =
-        Provider.of<ProgramProvider>(context, listen: false);
-
-    programProvider.getProgram(selectedEvent as EventModel);
-    return Column(
-      children: [
-        WHeader(
-          title: selectedEvent.name,
-          isShowBackButton: true,
-          delegate: this,
-        ),
-        Builder(builder: (context) {
-          return Expanded(
-            child: Selector<ProgramProvider, bool>(
-              selector: (_, provider) => provider.isLoading,
-              builder: (context, isLoading, child) => isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
-                      children: [
-                        /*  Selector<ProgramProvider, bool>(
-                          builder: (context, showSearch, child) => showSearch
-                              ? ProgramSearch()
-                              : TextButton(
-                                  onPressed: () => Provider.of<ProgramProvider>(
-                                          context,
-                                          listen: false)
-                                      .toggleSearch(),
-                                  child: const Text('Keresés'),
-                                ),
-                          selector: (_, provider) => provider.showSearch,
-                        ), 
-                        if (Provider.of<ProgramProvider>(context, listen: true)
-                            .filteredList
-                            .isEmpty)
-                            */
-                        Expanded(
-                          child: DefaultTabController(
-                            length: programProvider.schedule!.days.length,
-                            initialIndex: programProvider.schedule?.days
-                                        .indexWhere((day) => day.date.isToday())
-                                        .isNegative ==
-                                    true
-                                ? 0
-                                : programProvider.schedule?.days.indexWhere(
-                                        (day) => day.date.isToday()) ??
-                                    0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Container(
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xFFE5EAF0)),
-                                  child: TabBar(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                    unselectedLabelColor: Colors.black54,
-                                    isScrollable: true,
-                                    indicatorWeight: 1,
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 0),
-                                    labelColor:
-                                        Theme.of(context).colorScheme.primary,
-                                    indicator: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.white,
-                                        shape: BoxShape.rectangle),
-                                    labelStyle: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.bold,
-                                      height: 0,
-                                      fontSize: 14,
-                                    ),
-                                    tabs: programProvider.schedule!.days
-                                        .map((day) {
-                                      return Tab(
-                                        height: 30,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(DateFormat('EEEE', 'hu')
-                                              .format(day.date)
-                                              .toUpperCase()),
-                                        ),
-                                      );
-                                    }).toList(),
+    return FutureBuilder(
+        future: programProvider.getProgram(selectedEvent!),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text(
+              'Error :(',
+            );
+          } else if (snapshot.hasData) {
+            return Column(
+              children: [
+                WHeader(
+                  title: selectedEvent.name,
+                  isShowBackButton: false,
+                  delegate: this,
+                ),
+                Builder(builder: (context) {
+                  return Expanded(
+                    child: Selector<ProgramProvider, bool>(
+                      selector: (_, provider) => provider.isLoading,
+                      builder: (context, isLoading, child) => isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Column(
+                              children: [
+                                /*  Selector<ProgramProvider, bool>(
+                            builder: (context, showSearch, child) => showSearch
+                                ? ProgramSearch()
+                                : TextButton(
+                                    onPressed: () => Provider.of<ProgramProvider>(
+                                            context,
+                                            listen: false)
+                                        .toggleSearch(),
+                                    child: const Text('Keresés'),
                                   ),
-                                ),
+                            selector: (_, provider) => provider.showSearch,
+                          ), 
+                          if (Provider.of<ProgramProvider>(context, listen: true)
+                              .filteredList
+                              .isEmpty)
+                              */
                                 Expanded(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            top: BorderSide(
-                                                color: Colors.grey,
-                                                width: 0.5))),
-                                    child: TabBarView(
-                                      children:
-                                          programProvider.schedule!.days.map(
-                                        (day) {
-                                          return ScheduleEventList(day);
-                                        },
-                                      ).toList(),
+                                  child: DefaultTabController(
+                                    length:
+                                        programProvider.schedule!.days.length,
+                                    initialIndex: programProvider.schedule?.days
+                                                .indexWhere(
+                                                    (day) => day.date.isToday())
+                                                .isNegative ==
+                                            true
+                                        ? 0
+                                        : programProvider.schedule?.days
+                                                .indexWhere((day) =>
+                                                    day.date.isToday()) ??
+                                            0,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xFFE5EAF0)),
+                                          child: TabBar(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 8),
+                                            unselectedLabelColor:
+                                                Colors.black54,
+                                            isScrollable: true,
+                                            indicatorWeight: 1,
+                                            labelPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                    vertical: 0),
+                                            labelColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            indicator: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                color: Colors.white,
+                                                shape: BoxShape.rectangle),
+                                            labelStyle: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.bold,
+                                              height: 0,
+                                              fontSize: 14,
+                                            ),
+                                            tabs: programProvider.schedule!.days
+                                                .map((day) {
+                                              return Tab(
+                                                height: 30,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      DateFormat('EEEE', 'hu')
+                                                          .format(day.date)
+                                                          .toUpperCase()),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                border: Border(
+                                                    top: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 0.5))),
+                                            child: TabBarView(
+                                              children: programProvider
+                                                  .schedule!.days
+                                                  .map(
+                                                (day) {
+                                                  return ScheduleEventList(day);
+                                                },
+                                              ).toList(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ],
                     ),
-            ),
-          );
-        })
-      ],
-    );
+                  );
+                })
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }
 

@@ -64,11 +64,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.pixeloid.eventapp"
+        applicationId "com.pixeloid.eszok53"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 28
-        versionName "1.4.3"
+        versionCode 1
+        versionName "1.0.0"
         multiDexEnabled true
     }
 

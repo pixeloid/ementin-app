@@ -97,7 +97,7 @@ class ProgramProvider extends ChangeNotifierSafety {
   }
 
   /// Get Tickets
-  Future<void> getProgram(EventModel event, {DateTime? date}) async {
+  Future<bool> getProgram(EventModel event, {DateTime? date}) async {
     isLoading = true;
     schedule = await _programRepository.getProgram(event, date);
     // programItems =
@@ -119,6 +119,7 @@ class ProgramProvider extends ChangeNotifierSafety {
     isLoading = false;
     // subscribe();
     notifyListeners();
+    return true;
   }
 
   @override
