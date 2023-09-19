@@ -66,6 +66,7 @@ _$_Hall _$$_HallFromJson(Map<String, dynamic> json) => _$_Hall(
           ?.map((e) => ScheduleEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
+      color: json['color'] as String?,
       accomodation: json['accomodation'] == null
           ? null
           : Hall.fromJson(json['accomodation'] as Map<String, dynamic>),
@@ -76,6 +77,7 @@ Map<String, dynamic> _$$_HallToJson(_$_Hall instance) => <String, dynamic>{
       '@id': instance.id,
       'events': instance.events,
       'name': instance.name,
+      'color': instance.color,
       'accomodation': instance.accomodation,
     };
 

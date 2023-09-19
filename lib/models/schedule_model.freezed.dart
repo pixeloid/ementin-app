@@ -691,6 +691,8 @@ mixin _$Hall {
   List<ScheduleEvent>? get events => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
   String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "color")
+  String? get color => throw _privateConstructorUsedError;
   @JsonKey(name: "accomodation")
   Hall? get accomodation => throw _privateConstructorUsedError;
 
@@ -709,6 +711,7 @@ abstract class $HallCopyWith<$Res> {
       @JsonKey(name: "@id") String id,
       @JsonKey(name: "events") List<ScheduleEvent>? events,
       @JsonKey(name: "name") String? name,
+      @JsonKey(name: "color") String? color,
       @JsonKey(name: "accomodation") Hall? accomodation});
 
   $HallCopyWith<$Res>? get accomodation;
@@ -731,6 +734,7 @@ class _$HallCopyWithImpl<$Res, $Val extends Hall>
     Object? id = null,
     Object? events = freezed,
     Object? name = freezed,
+    Object? color = freezed,
     Object? accomodation = freezed,
   }) {
     return _then(_value.copyWith(
@@ -749,6 +753,10 @@ class _$HallCopyWithImpl<$Res, $Val extends Hall>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
               as String?,
       accomodation: freezed == accomodation
           ? _value.accomodation
@@ -781,6 +789,7 @@ abstract class _$$_HallCopyWith<$Res> implements $HallCopyWith<$Res> {
       @JsonKey(name: "@id") String id,
       @JsonKey(name: "events") List<ScheduleEvent>? events,
       @JsonKey(name: "name") String? name,
+      @JsonKey(name: "color") String? color,
       @JsonKey(name: "accomodation") Hall? accomodation});
 
   @override
@@ -800,6 +809,7 @@ class __$$_HallCopyWithImpl<$Res> extends _$HallCopyWithImpl<$Res, _$_Hall>
     Object? id = null,
     Object? events = freezed,
     Object? name = freezed,
+    Object? color = freezed,
     Object? accomodation = freezed,
   }) {
     return _then(_$_Hall(
@@ -819,6 +829,10 @@ class __$$_HallCopyWithImpl<$Res> extends _$HallCopyWithImpl<$Res, _$_Hall>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String?,
       accomodation: freezed == accomodation
           ? _value.accomodation
           : accomodation // ignore: cast_nullable_to_non_nullable
@@ -835,6 +849,7 @@ class _$_Hall implements _Hall {
       @JsonKey(name: "@id") required this.id,
       @JsonKey(name: "events") final List<ScheduleEvent>? events,
       @JsonKey(name: "name") this.name,
+      @JsonKey(name: "color") this.color,
       @JsonKey(name: "accomodation") this.accomodation})
       : _events = events;
 
@@ -861,12 +876,15 @@ class _$_Hall implements _Hall {
   @JsonKey(name: "name")
   final String? name;
   @override
+  @JsonKey(name: "color")
+  final String? color;
+  @override
   @JsonKey(name: "accomodation")
   final Hall? accomodation;
 
   @override
   String toString() {
-    return 'Hall(type: $type, id: $id, events: $events, name: $name, accomodation: $accomodation)';
+    return 'Hall(type: $type, id: $id, events: $events, name: $name, color: $color, accomodation: $accomodation)';
   }
 
   @override
@@ -878,6 +896,7 @@ class _$_Hall implements _Hall {
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._events, _events) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.color, color) || other.color == color) &&
             (identical(other.accomodation, accomodation) ||
                 other.accomodation == accomodation));
   }
@@ -885,7 +904,7 @@ class _$_Hall implements _Hall {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, id,
-      const DeepCollectionEquality().hash(_events), name, accomodation);
+      const DeepCollectionEquality().hash(_events), name, color, accomodation);
 
   @JsonKey(ignore: true)
   @override
@@ -907,6 +926,7 @@ abstract class _Hall implements Hall {
       @JsonKey(name: "@id") required final String id,
       @JsonKey(name: "events") final List<ScheduleEvent>? events,
       @JsonKey(name: "name") final String? name,
+      @JsonKey(name: "color") final String? color,
       @JsonKey(name: "accomodation") final Hall? accomodation}) = _$_Hall;
 
   factory _Hall.fromJson(Map<String, dynamic> json) = _$_Hall.fromJson;
@@ -923,6 +943,9 @@ abstract class _Hall implements Hall {
   @override
   @JsonKey(name: "name")
   String? get name;
+  @override
+  @JsonKey(name: "color")
+  String? get color;
   @override
   @JsonKey(name: "accomodation")
   Hall? get accomodation;
