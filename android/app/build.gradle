@@ -67,7 +67,7 @@ android {
         applicationId "com.pixeloid.eszok53"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 4
+        versionCode 5
         versionName "1.0.0"
         multiDexEnabled true
     }
