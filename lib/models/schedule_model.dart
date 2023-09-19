@@ -53,6 +53,7 @@ class Hall with _$Hall {
     @JsonKey(name: "@id") required String id,
     @JsonKey(name: "events") List<ScheduleEvent>? events,
     @JsonKey(name: "name") String? name,
+    @JsonKey(name: "color") String? color,
     @JsonKey(name: "accomodation") Hall? accomodation,
   }) = _Hall;
   factory Hall.fromJson(Map<String, dynamic> json) => _$HallFromJson(json);
