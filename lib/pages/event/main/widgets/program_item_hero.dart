@@ -9,7 +9,6 @@ import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -252,7 +251,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
         .checkedIn;
     final List<Author>? authors = presentation.authors;
 
-    LineSplitter ls = LineSplitter();
+    LineSplitter ls = const LineSplitter();
     final unescape = HtmlUnescape();
     final body = unescape.convert(presentation.body ?? '');
     List<String> lines = ls.convert(body);
