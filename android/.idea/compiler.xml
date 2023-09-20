@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11">
-      <module name="android.app" target="17" />
-      <module name="android.connectivity_plus" target="17" />
-      <module name="android.flutter_pdfview" target="17" />
-      <module name="android.onesignal_flutter" target="17" />
-      <module name="android.package_info_plus" target="17" />
-      <module name="android.path_provider_android" target="17" />
-      <module name="android.sentry_flutter" target="17" />
-      <module name="android.shared_preferences_android" target="17" />
-      <module name="android.sqflite" target="17" />
-      <module name="android.url_launcher_android" target="17" />
+    <bytecodeTargetLevel target="17">
       <module name="com.baseflow.permissionhandler.android.permission_handler_android" target="17" />
       <module name="net.touchcapture.qr.flutterqr.android.qr_code_scanner" target="17" />
     </bytecodeTargetLevel>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.flutter:flutter_embedding_debug:1.0.0-9064459a8b0dcd32877107f6002cc429a71659d1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_debug/1.0.0-9064459a8b0dcd32877107f6002cc429a71659d1/c1900cc3d361c4b31c58467f403bb7cc31157d7/flutter_embedding_debug-1.0.0-9064459a8b0dcd32877107f6002cc429a71659d1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_debug/1.0.0-9064459a8b0dcd32877107f6002cc429a71659d1/a48c9d57e7b8b61d391353d4835d36407b98c37b/flutter_embedding_debug-1.0.0-9064459a8b0dcd32877107f6002cc429a71659d1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
