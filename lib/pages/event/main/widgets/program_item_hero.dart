@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:html_unescape/html_unescape.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/author/author.dart';
@@ -7,7 +9,6 @@ import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -249,6 +250,12 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
         .selectedEvent!
         .checkedIn;
     final List<Author>? authors = presentation.authors;
+
+    LineSplitter ls = const LineSplitter();
+    final unescape = HtmlUnescape();
+    final body = unescape.convert(presentation.body ?? '');
+    List<String> lines = ls.convert(body);
+
     return Column(
       children: [
         WHeader(
@@ -322,21 +329,13 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                                           ))
                                       .toList()),
                             const SizedBox(height: 16),
-                            Html(
-                              data: presentation.body,
-                              style: {
-                                "body": Style(
-                                    padding: EdgeInsets.zero,
-                                    fontSize: FontSize.larger,
-                                    lineHeight: LineHeight.em(1.4),
-                                    fontWeight: FontWeight.w500),
-                                "p": Style(
-                                    padding: EdgeInsets.zero,
-                                    fontSize: FontSize.larger,
-                                    lineHeight: LineHeight.em(1.4),
-                                    fontWeight: FontWeight.w500)
-                              },
-                            ),
+                            Column(children: [
+                              for (var i = 0; i < lines.length; i++)
+                                Text(lines[i]),
+                              const SizedBox(
+                                height: 8,
+                              )
+                            ]),
                           ],
                         ),
                       ),
