@@ -3,21 +3,22 @@ import 'dart:convert';
 import 'company.dart';
 
 class Sponsor {
-  Company? company;
+  Company company;
   List<dynamic>? materialUrls;
+  String? logoUrl;
 
-  Sponsor({this.company, this.materialUrls});
+  Sponsor({required this.company, this.materialUrls, this.logoUrl});
 
   factory Sponsor.fromMap(Map<String, dynamic> data) => Sponsor(
-        company: data['company'] == null
-            ? null
-            : Company.fromMap(data['company'] as Map<String, dynamic>),
+        company: Company.fromMap(data['company'] as Map<String, dynamic>),
         materialUrls: data['materialUrls'] as List<dynamic>?,
+        logoUrl: data['logoUrl'],
       );
 
   Map<String, dynamic> toMap() => {
-        'company': company?.toMap(),
+        'company': company.toMap(),
         'materialUrls': materialUrls,
+        'logoUrl': logoUrl,
       };
 
   /// `dart:convert`

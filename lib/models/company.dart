@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Company {
-  String? name;
+  String name;
   List<dynamic>? logo;
 
-  Company({this.name, this.logo});
+  Company({required this.name, this.logo});
 
   factory Company.fromMap(Map<String, dynamic> data) => Company(
-        name: data['name'] as String?,
+        name: data['name'] as String,
         logo: data['logo'] as List<dynamic>?,
       );
 
