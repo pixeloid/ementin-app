@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>ESZOK53</string>
+	<string>META2023</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -33,9 +33,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is required for ESZOK53 benefits for you</string>
+	<string>Your location is required for META2023 benefits for you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required for ESZOK53 benefits for you</string>
+	<string>Your location is required for META2023 benefits for you</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

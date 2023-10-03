@@ -64,7 +64,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.pixeloid.eszok53"
+        applicationId "com.pixeloid.meta2023"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
         versionCode 7
