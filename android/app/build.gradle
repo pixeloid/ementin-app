@@ -67,8 +67,8 @@ android {
         applicationId "com.pixeloid.meta2023"
         minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 7
-        versionName "1.0.1"
+        versionCode 1
+        versionName "1.0.0"
         multiDexEnabled true
     }
 
