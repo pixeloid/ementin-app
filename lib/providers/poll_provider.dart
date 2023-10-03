@@ -6,7 +6,6 @@ import 'package:eventapp/models/poll_session_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mercure_client/mercure_client.dart';
-import 'package:collection/collection.dart';
 
 import '../data/repository/poll_repository.dart';
 
