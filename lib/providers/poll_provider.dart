@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:eventapp/app_define/app_config.dart';
 import 'package:eventapp/models/poll_model.dart';
 import 'package:eventapp/models/poll_session_model.dart';
