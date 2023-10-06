@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/models/schedule_model.dart';
+import 'package:eventapp/pages/event/main/widgets/banner_rotator.dart';
 import 'package:eventapp/pages/event/main/widgets/program_header_simple.dart';
 import 'package:eventapp/pages/event/main/widgets/program_item.dart';
 import 'package:eventapp/providers/auth_provider.dart';
@@ -13,7 +14,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class ScheduleEventList extends StatefulWidget {
@@ -57,12 +57,12 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
     final EventModel selectedEvent =
         Provider.of<EventProvider>(context, listen: false).selectedEvent!;
     selectedEvent.ads.shuffle();
-    final ad = selectedEvent.ads.isNotEmpty ? selectedEvent.ads.first : null;
-
+    final ads = selectedEvent.ads.isNotEmpty ? selectedEvent.ads : null;
+    selectedEvent.ads.shuffle();
     final isCheckedIn =
         Provider.of<EventProvider>(context).selectedEvent?.checkedIn;
     Provider.of<AuthProvider>(context, listen: true);
-    var hasAd = isCheckedIn! && ad != null;
+    var hasAd = isCheckedIn! && ads != null;
     final count = widget.scheduleDay.eventGroups.length + (hasAd ? 1 : 0);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -79,25 +79,10 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
         itemBuilder: (_, i) {
           //  if (i >= widget.programData.length) return Container();
 
-          if (i == 0 && isCheckedIn && ad != null) {
-            return GestureDetector(
-              onTap: () => ad.url != null ? _openUrl(ad.url) : null,
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 4 / 1,
-                  child: Image(
-                    image: NetworkImage("https://home.ementin.hu${ad.image}"),
-                  ),
-                ),
-              ),
+          if (i == 0 && isCheckedIn && ads != null) {
+            return BannerRotator(
+              ads: ads,
+              rotationDuration: const Duration(seconds: 5),
             );
           } else {
             final columns =
@@ -233,15 +218,6 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
         },
       ),
     );
-  }
-
-  _openUrl(url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch $uri';
-    }
   }
 
   void scrollToIndex(int index) {

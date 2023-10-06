@@ -95,7 +95,7 @@ class EventModel {
 }
 
 class AdModel {
-  final String? image;
+  final String image;
   final String? url;
   final int id;
 
