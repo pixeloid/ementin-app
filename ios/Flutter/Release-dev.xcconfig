@@ -1,5 +1,5 @@
-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+#include? "Pods/Target Support Files/Pods-Ementin/Pods-Ementin.release.xcconfig"
 #include "Generated.xcconfig"
-#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
-#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
+#include "Pods/Target Support Files/Pods-Ementin/Pods-Ementin.release.xcconfig"
+#include "Pods/Target Support Files/Pods-Ementin/Pods-Ementin.profile.xcconfig"
 FLUTTER_TARGET=/Users/pixeloid/FlutterProjects/eventapp/lib/main_dev.dart
