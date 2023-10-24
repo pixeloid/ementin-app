@@ -79,6 +79,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   html_unescape: ^2.0.0
+  l10n_flutter: ^1.0.7
 
 
 flutter_intl:
@@ -117,6 +118,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/app/icons/
+    - assets/l10n/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -168,3 +170,19 @@ flutter:
           weight: 600
         - asset: assets/app/fonts/Poppins-ExtraBold.ttf
           weight: 700
+
+
+builders:
+  l10n_builder:
+    import: "package:l10n_flutter/builder/builder.dart"
+    builder_factories: ["l10nBuilderFactory"]
+    build_extensions: {".dart:": [".json"]}
+    build_to: source
+
+targets:
+  $default:
+    builders:
+      'l10n_flutter|l10n_builder':
+        enabled: true
+        generate_for: # the directory specified
+          - lib/models/app_ln10.dart

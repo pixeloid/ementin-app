@@ -2,6 +2,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/providers/auth_provider.dart';
+import 'package:eventapp/providers/locale_provider.dart';
 import 'package:eventapp/widgets/event_card.dart';
 import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/pages/base/base_page.dart';
@@ -28,6 +29,7 @@ class EventListPage extends StatelessWidget {
               isShowBackButton: false,
               showAuth: false,
             ),
+            Text(context.watch<LocaleProvider>().locale.toString()),
             FutureBuilder(
               builder: (ctx, snapshot) => snapshot.connectionState ==
                       ConnectionState.waiting
