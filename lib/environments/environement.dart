@@ -1,5 +1,6 @@
 import 'package:eventapp/environments/development/development_env.dart';
 import 'package:eventapp/environments/production/production_env.dart';
+import 'package:eventapp/environments/staging/staging_env.dart';
 
 class Environment {
   Environment({
@@ -18,6 +19,11 @@ class Environment {
   /// Dev environment
   factory Environment.development() {
     return DevelopmentEnvironment.development();
+  }
+
+  /// Dev environment
+  factory Environment.staging() {
+    return StagingEnvironment.staging();
   }
 
   final String graphQLEndPoint;

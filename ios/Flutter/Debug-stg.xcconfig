@@ -1,3 +1,4 @@
 #include? "Pods/Target Support Files/Pods-Ementin/Pods-Ementin.debug.xcconfig"
 #include "Generated.xcconfig"
 #include "Pods/Target Support Files/Pods-Ementin/Pods-Ementin.debug.xcconfig"
+FLUTTER_TARGET=/Users/pixeloid/FlutterProjects/eventapp/lib/main_dev.dart

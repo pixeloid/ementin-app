@@ -21,7 +21,7 @@ class SponsorMaterialsPage extends StatelessWidget with HeaderDelegate {
     return Column(
       children: [
         WHeader(
-          title: sponsor.company!.name,
+          title: sponsor.company.name,
           isShowBackButton: true,
           delegate: this,
         ),

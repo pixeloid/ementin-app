@@ -85,6 +85,29 @@ android {
            signingConfig signingConfigs.release
        }
    }
+
+       productFlavors{
+        dev{
+            dimension "flavors"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name" , "Ementin DEV"            
+        }
+
+        stg{
+            dimension "flavors"
+            applicationIdSuffix ".stg"
+            versionNameSuffix "-stg"
+            resValue "string", "app_name" , "Ementin STAGING"            
+        }
+
+        prod{
+            dimension "flavors"
+            applicationId "com.ementin.eventapp"            
+            resValue "string", "app_name" , "Ementin"            
+        }
+    }
+
 }
 
 flutter {
