@@ -4,6 +4,7 @@ import 'package:eventapp/providers/program_provider.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class FavouritesPage extends StatelessWidget {
@@ -15,8 +16,8 @@ class FavouritesPage extends StatelessWidget {
 
     return Column(
       children: [
-        const WHeader(
-          title: 'Kedvelt előadások',
+        WHeader(
+          title: AppLocalizations.of(context)!.page_title_favourites,
           isShowBackButton: false,
         ),
         Expanded(

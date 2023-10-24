@@ -108,7 +108,7 @@ class EventProgramPage extends StatelessWidget with HeaderDelegate {
                                         height: 30,
                                         child: Align(
                                           alignment: Alignment.center,
-                                          child: Text(DateFormat('EEEE', 'hu')
+                                          child: Text(DateFormat('EEEE')
                                               .format(day.date)
                                               .toUpperCase()),
                                         ),

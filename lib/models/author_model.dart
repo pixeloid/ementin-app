@@ -38,7 +38,7 @@ class AuthorModel {
   List<dynamic> get presentationDays {
     return presentations
         .map(
-          (e) => DateFormat('EEEE', 'hu').format(e.start).toUpperCase(),
+          (e) => DateFormat('EEEE').format(e.start).toUpperCase(),
         )
         .toSet()
         .toList();

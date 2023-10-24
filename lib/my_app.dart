@@ -9,8 +9,7 @@ import 'package:eventapp/services/locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:eventapp/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:eventapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eventapp/app_define/app_theme.dart';
@@ -77,20 +76,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     initOneSignal(context);
 
-    final LocaleProvider localeProvider = context.watch<LocaleProvider>();
+    final LocaleProvider localeProvider = Provider.of<LocaleProvider>(context);
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (BuildContext context, child) => MaterialApp.router(
         routerConfig: _appRouter.config(),
         locale: localeProvider.locale,
-        supportedLocales: S.delegate.supportedLocales,
-        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.fromType(ThemeType.ementin).themeData,
       ),

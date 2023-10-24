@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eventapp/models/event_model.dart';
 import 'package:eventapp/providers/event_provider.dart';
+import 'package:eventapp/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import '../app_define/app_route.gr.dart';
 
 class EventCard extends StatelessWidget {
@@ -17,12 +17,15 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LocaleProvider localeProvider =
+        Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<EventProvider>(
       builder: (context, eventProvider, child) {
         return Card(
           child: GestureDetector(
             onTap: () {
               eventProvider.selectedEventId = event.id;
+              localeProvider.locale = Locale(event.locale);
               AutoRouter.of(context)
                   .push(MainRoute(children: [EventProgramRoute()]));
             },

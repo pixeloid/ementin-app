@@ -134,7 +134,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                           children: [
                             if (!event.isTimeHidden)
                               Text(
-                                "${DateFormat('Hm').format(event.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)', 'hu').format(event.start) : ''}",
+                                "${DateFormat('Hm').format(event.start).toString()} ${widget.showDayName ? DateFormat(' (EEEE)').format(event.start) : ''}",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
@@ -280,7 +280,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               children: [
                                 if (!presentation.isTimeHidden)
                                   Text(
-                                    "${DateFormat('Hm').format(presentation.start).toString()} (${DateFormat('EEEE', 'hu').format(presentation.start).toString()})",
+                                    "${DateFormat('Hm').format(presentation.start).toString()} (${DateFormat('EEEE').format(presentation.start).toString()})",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
