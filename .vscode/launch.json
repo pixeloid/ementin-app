@@ -15,11 +15,17 @@
 
     },
     {
-      "name": "Flutter Prod",
+      "name": "Flutter Stg",
       "type": "dart",
       "request": "launch",
       "program": "lib/main_prod.dart",
       "args": ["--flavor", "stg" ]
+    },
+    {
+      "name": "Flutter Prod",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main_prod.dart",
     },
   ]
 }
