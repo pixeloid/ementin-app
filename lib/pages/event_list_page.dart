@@ -7,6 +7,7 @@ import 'package:eventapp/providers/event_provider.dart';
 import 'package:eventapp/pages/base/base_page.dart';
 import 'package:eventapp/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class EventListPage extends StatelessWidget {
         return Column(
           children: <Widget>[
             WHeader(
-              title: 'Rendezvényeink',
+              title: AppLocalizations.of(context)!.our_events,
               isShowBackButton: false,
               showAuth: false,
             ),

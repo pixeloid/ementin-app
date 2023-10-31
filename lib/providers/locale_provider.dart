@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class LocaleProvider with ChangeNotifier {
   /// Save locale
@@ -13,6 +14,7 @@ class LocaleProvider with ChangeNotifier {
   /// Update new locale
   set locale(Locale value) {
     _locale = value;
+    Intl.defaultLocale = value.languageCode;
     notifyListeners();
   }
 }

@@ -8,6 +8,7 @@ import 'package:eventapp/providers/poll_provider.dart';
 import 'package:eventapp/providers/program_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/auth_provider.dart';
 
@@ -68,7 +69,7 @@ class MainPage extends StatelessWidget {
                         BottomNavItem(
                           index: 0,
                           icon: Icons.home_rounded,
-                          label: 'Program',
+                          label: AppLocalizations.of(context)!.schedule,
                           onNavTap: () {
                             tabsRouter.setActiveIndex(0);
                           },
@@ -76,7 +77,7 @@ class MainPage extends StatelessWidget {
                         if (false)
                           BottomNavItem(
                             index: 1,
-                            label: 'Előadók',
+                            label: AppLocalizations.of(context)!.presenters,
                             icon: Icons.co_present,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(1);
@@ -85,7 +86,8 @@ class MainPage extends StatelessWidget {
                         if (isCheckedIn!)
                           BottomNavItem(
                             index: 2,
-                            label: 'Regisztrációm',
+                            label:
+                                AppLocalizations.of(context)!.my_registration,
                             icon: Icons.list_alt_rounded,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(2);
@@ -95,7 +97,7 @@ class MainPage extends StatelessWidget {
                           BottomNavItem(
                             index: 3,
                             icon: Icons.favorite_outline_sharp,
-                            label: 'Kedvencek',
+                            label: AppLocalizations.of(context)!.my_favourites,
                             badgeText: numFavourites,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(3);
@@ -113,7 +115,7 @@ class MainPage extends StatelessWidget {
                         if (hasSponsors)
                           BottomNavItem(
                             index: 5,
-                            label: 'Támogatók',
+                            label: AppLocalizations.of(context)!.sponsors,
                             icon: Icons.factory,
                             onNavTap: () {
                               tabsRouter.setActiveIndex(5);

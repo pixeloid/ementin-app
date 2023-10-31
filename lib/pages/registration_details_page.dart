@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RegistrationDetailsPage extends StatelessWidget {
@@ -23,8 +24,9 @@ class RegistrationDetailsPage extends StatelessWidget {
     return (reg != null)
         ? Column(
             children: [
-              const WHeader(
-                title: 'Regisztráció részletei',
+              WHeader(
+                title: AppLocalizations.of(context)!
+                    .page_title_registration_details,
                 isShowBackButton: false,
               ),
               Expanded(
@@ -38,9 +40,9 @@ class RegistrationDetailsPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Column(
                               children: [
-                                const Text(
-                                  'Üdvözöljük',
-                                  style: TextStyle(
+                                Text(
+                                  AppLocalizations.of(context)!.welcome,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
                                 ),
@@ -51,9 +53,9 @@ class RegistrationDetailsPage extends StatelessWidget {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 20),
                                 ),
-                                const Text(
-                                  'Az ön regisztrációja:',
-                                  style: TextStyle(
+                                Text(
+                                  '${AppLocalizations.of(context)!.your_registration}:',
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
                                 ),
@@ -64,21 +66,28 @@ class RegistrationDetailsPage extends StatelessWidget {
                             children: [
                               if (reg.accommodation != null)
                                 RegItem(children: [
-                                  Text('Szállás'.toUpperCase(),
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .accommodation
+                                          .toUpperCase(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Theme.of(context).primaryColor,
                                       )),
                                   Text('${reg.accommodation}'),
                                   Text('${reg.room}'),
-                                  Text('${reg.checkin} - ${reg.checkout}',
+                                  Text(
+                                      '${DateFormat('MMMEd').format(reg.checkin ?? DateTime.now())} - ${DateFormat('MMMEd').format(reg.checkout ?? DateTime.now())}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                       )),
                                 ]),
                               if (reg.tickets.isNotEmpty)
                                 RegItem(children: [
-                                  Text('Étkezés, programok'.toUpperCase(),
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .dining_programs
+                                          .toUpperCase(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Theme.of(context).primaryColor,
@@ -124,7 +133,7 @@ class RegistrationDetailsPage extends StatelessWidget {
                                                                   height: 1.2),
                                                         ),
                                                         Text(
-                                                            '${DateFormat('EEEE', 'hu').format(ticket.date)} (${DateFormat('MMM d.', 'hu').format(ticket.date)})',
+                                                            '${DateFormat('EEEE').format(ticket.date)} (${DateFormat('MMM d.').format(ticket.date)})',
                                                             style:
                                                                 const TextStyle(
                                                               height: 1.2,
@@ -135,7 +144,8 @@ class RegistrationDetailsPage extends StatelessWidget {
                                                       ],
                                                     ),
                                                   ),
-                                                  Text('${ticket.qty} fő',
+                                                  Text(
+                                                      '${ticket.qty} ${AppLocalizations.of(context)!.persons_unit.toLowerCase()}',
                                                       style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w600,

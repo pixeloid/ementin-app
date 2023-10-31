@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class EventRegistrationModel {
   final String iri;
   final String firstname;
@@ -8,8 +6,8 @@ class EventRegistrationModel {
   final String? accommodation;
   final String? room;
   final List<TicketModel> tickets;
-  final String? checkin;
-  final String? checkout;
+  final DateTime? checkin;
+  final DateTime? checkout;
 
   EventRegistrationModel({
     required this.iri,
@@ -39,12 +37,9 @@ class EventRegistrationModel {
           List<TicketModel>.from(tickets.map((p) => TicketModel.fromJson(p))),
       accommodation: json['accommodation'],
       room: json['room'],
-      checkin: json['checkin'] != null
-          ? DateFormat('MMMM d.', 'hu').format(DateTime.parse(json['checkin']))
-          : null,
-      checkout: json['checkout'] != null
-          ? DateFormat('MMMM d.', 'hu').format(DateTime.parse(json['checkout']))
-          : null,
+      checkin: json['checkin'] != null ? DateTime.parse(json['checkin']) : null,
+      checkout:
+          json['checkout'] != null ? DateTime.parse(json['checkout']) : null,
     );
   }
 

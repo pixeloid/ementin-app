@@ -13,6 +13,7 @@ class EventModel {
   final String address;
   final String domain;
   final String? image;
+  final String locale;
   final String? deadline;
   final String? abstractDeadline;
   final EventRegistrationModel? eventRegistration;
@@ -34,6 +35,7 @@ class EventModel {
     required this.domain,
     this.image,
     required this.name,
+    required this.locale,
     required this.checkedIn,
     this.deadline,
     this.abstractDeadline,
@@ -54,29 +56,26 @@ class EventModel {
       name: json['name'] as String,
       domain: json['domain'] as String,
       checkedIn: json['checkedIn'],
-      end:
-          DateFormat('yyyy. MMMM d.', 'hu').format(DateTime.parse(json['end'])),
+      end: DateFormat('MMMd').format(DateTime.parse(json['end'])),
       start: DateTime.parse(json['start']).millisecondsSinceEpoch,
       endDate: DateTime.parse(json['end']).toLocal(),
       startDate: DateTime.parse(json['start']).toLocal(),
       venue: json['venue'],
       image: json['image'],
+      locale: json['locale'],
       address: json['venueAddress'] ?? '',
       eventRegistration: json['eventRegistration'] != null
           ? EventRegistrationModel?.fromJson(
               json['eventRegistration'] as Map<String, dynamic>)
           : null,
       deadline: json['deadline'] != null
-          ? DateFormat('yyyy. MMMM d.', 'hu')
-              .format(DateTime.parse(json['deadline']))
+          ? DateFormat.MMMMd().format(DateTime.parse(json['deadline']))
           : null,
       abstractDeadline: json['abstractDeadline'] != null
-          ? DateFormat('yyyy. MMMM d.', 'hu')
-              .format(DateTime.parse(json['abstractDeadline']))
+          ? DateFormat('MMMMd').format(DateTime.parse(json['abstractDeadline']))
           : null,
-      daterange: DateFormat('yyyy. MMMM d', 'hu')
-              .format(DateTime.parse(json['start'])) +
-          DateFormat('-d.', 'hu').format(DateTime.parse(json['end'])),
+      daterange: DateFormat('MMMMd').format(DateTime.parse(json['start'])) +
+          DateFormat('-d.').format(DateTime.parse(json['end'])),
       isInProgress: json['isInProgress'] ?? false,
       ads: json['ads'] != null
           ? (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList()
