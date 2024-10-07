@@ -19,7 +19,7 @@ class EventProvider extends ChangeNotifierSafety {
       getDaysInBetween(selectedEvent!.startDate, selectedEvent!.endDate);
 
   EventModel? get selectedEvent {
-    return events.firstWhereOrNull((event) => event.id == 40);
+    return events.firstWhereOrNull((event) => event.id == 60);
   }
 
   get currentDayIndex => max(
