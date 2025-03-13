@@ -157,36 +157,36 @@ class WHeader extends StatelessWidget with DynamicSize {
                 ],
               ),
               if (formattedTimeRemaining != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    'Token expires in: $formattedTimeRemaining',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
-              if (title != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title!.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            height: 1.2,
-                            letterSpacing: -.5,
-                            color: Color(0xFF315565),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(vertical: 8),
+                //   child: Text(
+                //     'Token expires in: $formattedTimeRemaining',
+                //     style: const TextStyle(
+                //       fontSize: 14,
+                //       color: Colors.red,
+                //     ),
+                //   ),
+                // ),
+                if (title != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            title!.toUpperCase(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
+                              height: 1.2,
+                              letterSpacing: -.5,
+                              color: Color(0xFF315565),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
             ],
           ),
         ),
