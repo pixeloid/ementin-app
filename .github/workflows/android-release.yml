@@ -1,0 +1,35 @@
+name: Android Release Build
+
+on:
+  push:
+    branches:
+      - main # Change this to your production branch
+
+jobs:
+  build:
+    name: Build and Upload to Google Play
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.29.1" # Change to your Flutter version
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build App Bundle (AAB)
+        run: flutter build appbundle --release
+
+      - name: Upload to Google Play (Optional)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON }}
+          packageName: com.pixeloid.eventapp
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: internal # Change to production if needed
+          status: completed
