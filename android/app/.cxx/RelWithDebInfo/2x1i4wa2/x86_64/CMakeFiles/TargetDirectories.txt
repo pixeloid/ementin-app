@@ -1,0 +1,2 @@
+/Users/pixeloid/FlutterProjects/eventapp/android/app/.cxx/RelWithDebInfo/2x1i4wa2/x86_64/CMakeFiles/edit_cache.dir
+/Users/pixeloid/FlutterProjects/eventapp/android/app/.cxx/RelWithDebInfo/2x1i4wa2/x86_64/CMakeFiles/rebuild_cache.dir
