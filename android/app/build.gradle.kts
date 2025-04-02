@@ -16,14 +16,14 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.eventapp"
+    namespace = "com.pixeloid.eventapp"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.pixeloid.eventapp"
         minSdk = 21
         targetSdk = 34
-        versionCode = 120  // 🔁 Update this automatically via script if desired
+        versionCode = 123  // 🔁 Update this automatically via script if desired
         versionName = "1.4.9"
 
         multiDexEnabled = true
@@ -67,8 +67,40 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    flavorDimensions += "env"
+    productFlavors {
+        create("dev") {
+            dimension = "env"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "env"
+        }
+    }
+
 }
 
 flutter {
     source = "../.."
+}
+
+
+afterEvaluate {
+    tasks.named("assembleDevDebug").configure {
+        doLast {
+            val apkSource = file("build/outputs/apk/dev/debug/app-dev-debug.apk")
+            val flutterExpectedDir = file("../../build/app/outputs/flutter-apk")
+            val flutterExpectedApk = File(flutterExpectedDir, "app-dev-debug.apk") // ✅ the key fix
+
+            if (apkSource.exists()) {
+                flutterExpectedDir.mkdirs()
+                apkSource.copyTo(flutterExpectedApk, overwrite = true)
+                println("✅ Copied APK to ${flutterExpectedApk.path}")
+            } else {
+                println("❌ APK not found at ${apkSource.path}")
+            }
+        }
+    }
 }

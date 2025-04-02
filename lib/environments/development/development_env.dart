@@ -5,7 +5,7 @@ extension DevelopmentEnvironment on Environment {
   static Environment development() {
     return Environment(
       graphQLEndPoint: 'http://0.0.0.0/api/graphql',
-      restEndPoint: 'http://ms.test/api',
+      restEndPoint: 'https://home.ementin.hu/api',
       googleApiKey: '',
       websocketEndpoint: 'http://192.168.0.60:3000/.well-known/mercure',
       isProd: false,
