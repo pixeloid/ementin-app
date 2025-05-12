@@ -50,7 +50,7 @@ class _CheckInPageState extends State<CheckInPage> {
           : FloatingActionButton.extended(
               onPressed: () async {
                 const code =
-                    'https://gyergasztro25.ementin.hu/program%3Fcode=fac5fd673c7aeb5a3d84e9e91e2df5c5';
+                    'https://gyergasztro25.ementin.hu/program%3Fcode=c1823ae6bc8f277969560c8781098e85';
                 _checkIn(eventProvider, code, authProvider, context);
               },
               backgroundColor: Colors.primaries.first,

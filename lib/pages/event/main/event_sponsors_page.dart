@@ -67,91 +67,84 @@ class SponsorCategoryBlock extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 28,
+              height: 8, // Reduced spacing
             ),
             GridView(
               shrinkWrap: true,
-
               physics:
                   const NeverScrollableScrollPhysics(), // Disable GridView scrolling
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: level,
-                crossAxisSpacing: 10.0, // Horizontal spacing
-                mainAxisSpacing: 10.0, // Vertical spacing
+                crossAxisCount:
+                    level > 3 ? 3 : level, // Clamp level to a maximum of 3
+                crossAxisSpacing: 8.0, // Reduced horizontal spacing
+                mainAxisSpacing: 8.0, // Reduced vertical spacing
               ),
               children: category.sponsors!
                   .toList()
                   .map<Widget>(
-                    (sponsor) => Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                              bottomLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(8),
-                            ),
-                            color: const Color.fromRGBO(255, 255, 255, 1),
-                            border: Border.all(
-                              color: const Color.fromRGBO(243, 244, 246, 1),
-                              width: 1,
-                            ),
+                    (sponsor) => GestureDetector(
+                      onTap: sponsor.materialUrls!.isNotEmpty
+                          ? () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                    body: SponsorMaterialsPage(
+                                      sponsor: sponsor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                          : null,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: const Color.fromRGBO(
+                              255, 255, 255, 1), // Always white background
+                          border: Border.all(
+                            color: sponsor.materialUrls!.isNotEmpty
+                                ? const Color.fromRGBO(
+                                    0, 123, 255, 1) // Highlighted border
+                                : const Color.fromRGBO(243, 244, 246, 1),
+                            width: 1,
                           ),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: AspectRatio(
-                                  aspectRatio:
-                                      1.4, // 1:1 aspect ratio for a square image
-                                  child: Image.network(
-                                    'https://home.ementin.hu/${sponsor.logoUrl}', // Replace with your image URL
-                                    fit: BoxFit
-                                        .contain, // Adjust the fit as needed
+                        ),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: AspectRatio(
+                                aspectRatio: 1, // 1:1 aspect ratio for a square
+                                child: Container(
+                                  color: Colors.white, // White background
+                                  child: Center(
+                                    // Center the image in all directions
+                                    child: Image.network(
+                                      'https://home.ementin.hu/${sponsor.logoUrl}', // Replace with your image URL
+                                      fit: BoxFit
+                                          .contain, // Adjust the fit as needed
+                                    ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        //   SizedBox(
-                        //     height: 10,
-                        //   ),
-                        //   Text(
-                        //     sponsor.company.name,
-                        //     textAlign: TextAlign.center,
-                        //     style: const TextStyle(
-                        //       fontSize: 11,
-                        //       fontWeight: FontWeight.w600,
-                        //       color: Color(0xFF1F2937),
-                        //       height: 1.2,
-                        //     ),
-                        //   ),
-                        (sponsor.materialUrls!.isNotEmpty)
-                            ? Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 0),
-                                child: TextButton(
-                                  style: const ButtonStyle(),
-                                  onPressed: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => Scaffold(
-                                        body: SponsorMaterialsPage(
-                                          sponsor: sponsor,
-                                        ),
-                                      ),
-                                    ),
+                            ),
+                            if (sponsor.materialUrls!.isNotEmpty)
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.circle,
                                   ),
-                                  child: const Text(
-                                    'További információk',
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios, // Arrow icon
+                                    color: Colors.white,
+                                    size: 16,
                                   ),
                                 ),
-                              )
-                            : const SizedBox(
-                                height: 2,
-                              )
-                      ],
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   )
                   .toList(),

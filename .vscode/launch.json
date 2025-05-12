@@ -7,7 +7,6 @@
             "request": "launch",
             "program": "lib/main_dev.dart",
             "args": ["--flavor", "dev", "-t", "lib/main_dev.dart"],
-            "flutterMode": "debug"
         },
         {
             "name": "ementin_flutter (profile mode)",
