@@ -5,7 +5,11 @@
       "Bash(python3:*)",
       "Read(//private/tmp/**)",
       "Bash(flutter analyze:*)",
-      "Bash(flutter pub run build_runner build:*)"
+      "Bash(flutter pub run build_runner build:*)",
+      "Bash(pod install:*)",
+      "Bash(flutter clean:*)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter build:*)"
     ],
     "deny": [],
     "ask": []

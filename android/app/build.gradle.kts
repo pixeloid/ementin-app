@@ -24,7 +24,7 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 126  // 🔁 Update this automatically via script if desired
-        versionName = "1.4.11"
+        versionName = "1.4.12"
 
         multiDexEnabled = true
     }
