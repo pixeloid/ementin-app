@@ -201,10 +201,12 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                         Row(
                           children: [
                             if (author != null && !widget.hideAuthor)
-                              AuthorWidget(
-                                author: author,
-                                hideDescription: true,
-                                structuredAuthors: event.structuredAuthors,
+                              Expanded(
+                                child: AuthorWidget(
+                                  author: author,
+                                  hideDescription: true,
+                                  structuredAuthors: event.structuredAuthors,
+                                ),
                               ),
                             if (checkedIn)
                               Row(

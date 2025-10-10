@@ -22,14 +22,27 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build App Bundle (AAB)
-        run: flutter build appbundle --release
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      - name: Upload to Google Play (Optional)
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=upload-keystore.jks
+          EOF
+
+      - name: Build App Bundle (AAB)
+        run: flutter build appbundle --release --flavor prod -t lib/main_prod.dart
+
+      - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.pixeloid.eventapp
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: internal # Change to production if needed
+          releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+          track: production
           status: completed

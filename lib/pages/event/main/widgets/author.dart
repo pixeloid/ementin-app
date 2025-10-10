@@ -17,116 +17,64 @@ class AuthorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  author.name,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: const TextStyle(
-                    color: Color(0xFF554577),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.2,
-                  ),
-                ),
-                /*   Row(
-                  children: author.presentationDays!
-                      .map((day) => Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: context.theme().greyWeak),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 1),
-                              child: Text(
-                                day.toString(),
-                                style: const TextStyle(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w600,
-                                  // color: context.theme().accentTxt,
-                                ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ), */
-                // Display first institution from structuredAuthors if available
-                if (structuredAuthors != null &&
-                    structuredAuthors!.institutions.isNotEmpty)
-                  () {
-                    final firstInstitution = structuredAuthors!.institutions
-                        .where((inst) => inst.name != null && inst.name!.isNotEmpty)
-                        .firstOrNull;
-
-                    if (firstInstitution != null) {
-                      return Container(
-                        constraints: const BoxConstraints(maxWidth: 200),
-                        child: Text(
-                          firstInstitution.name!,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            height: 1.2,
-                            color: Color(0xFF6B7280),
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  }()
-                else if (author.workplaces != null && author.workplaces!.isNotEmpty)
-                  // Fallback to first workplace if structuredAuthors not available
-                  Container(
-                    constraints: const BoxConstraints(maxWidth: 200),
-                    child: Text(
-                      author.workplaces!.first.name ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        height: 1.2,
-                        color: Color(0xFF6B7280),
-                      ),
-                    ),
-                  )
-                else
-                  // Placeholder when no workplace is available
-                  Text(
-                    'Munkahely nincs megadva',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      height: 1.2,
-                      color: Colors.grey.shade400,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                if (author.description != null && !hideDescription!)
-                  Container(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      author.description ?? '',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        height: 1.3,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
+        Text(
+          author.name,
+          style: const TextStyle(
+            color: Color(0xFF554577),
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            height: 1.2,
+          ),
         ),
+        // Display first institution from structuredAuthors if available
+        if (structuredAuthors != null &&
+            structuredAuthors!.institutions.isNotEmpty)
+          () {
+            final firstInstitution = structuredAuthors!.institutions
+                .where((inst) => inst.name != null && inst.name!.isNotEmpty)
+                .firstOrNull;
+
+            if (firstInstitution != null) {
+              return Text(
+                firstInstitution.name!,
+                softWrap: true,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  height: 1.2,
+                  color: Color(0xFF6B7280),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          }()
+        else if (author.workplaces != null && author.workplaces!.isNotEmpty)
+          // Fallback to first workplace if structuredAuthors not available
+          Text(
+            author.workplaces!.first.name ?? '',
+            softWrap: true,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              height: 1.2,
+              color: Color(0xFF6B7280),
+            ),
+          ),
+        if (author.description != null && !hideDescription!)
+          Container(
+            padding: const EdgeInsets.only(top: 5),
+            child: Text(
+              author.description ?? '',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.3,
+              ),
+            ),
+          ),
       ],
     );
   }

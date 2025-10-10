@@ -35,7 +35,7 @@ class ProgramHeaderSimple extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
           overflow: TextOverflow.ellipsis,
-          maxLines: 4,
+          maxLines: 3,
         ),
       ],
     );
