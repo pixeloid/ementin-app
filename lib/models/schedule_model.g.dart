@@ -107,6 +107,7 @@ _ScheduleEvent _$ScheduleEventFromJson(Map<String, dynamic> json) =>
           .toList(),
       media: json['media'] as String?,
       rate: (json['rate'] as num?)?.toDouble(),
+      groupName: json['groupName'] as String?,
     );
 
 Map<String, dynamic> _$ScheduleEventToJson(_ScheduleEvent instance) =>
@@ -129,6 +130,7 @@ Map<String, dynamic> _$ScheduleEventToJson(_ScheduleEvent instance) =>
       'authors': instance.authors,
       'media': instance.media,
       'rate': instance.rate,
+      'groupName': instance.groupName,
     };
 
 _StructuredAuthors _$StructuredAuthorsFromJson(Map<String, dynamic> json) =>

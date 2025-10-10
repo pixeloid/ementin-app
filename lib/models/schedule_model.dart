@@ -83,6 +83,7 @@ abstract class ScheduleEvent with _$ScheduleEvent {
     @JsonKey(name: "authors") List<Author>? authors,
     @JsonKey(name: "media") String? media,
     @JsonKey(name: "rate") required double? rate,
+    @JsonKey(name: "groupName") String? groupName,
   }) = _ScheduleEvent;
   factory ScheduleEvent.fromJson(Map<String, dynamic> json) =>
       _$ScheduleEventFromJson(json);

@@ -23,7 +23,7 @@ android {
         applicationId = "com.pixeloid.eventapp"
         minSdk = 21
         targetSdk = 34
-        versionCode = 125  // 🔁 Update this automatically via script if desired
+        versionCode = 126  // 🔁 Update this automatically via script if desired
         versionName = "1.4.11"
 
         multiDexEnabled = true

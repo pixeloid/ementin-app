@@ -1,28 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ementin_flutter/models/author/author.dart';
+import 'package:ementin_flutter/models/schedule_model.dart';
 import 'package:flutter/material.dart';
 
 class AuthorWidget extends StatelessWidget {
   final bool? hideDescription;
+  final StructuredAuthors? structuredAuthors;
 
   const AuthorWidget({
     Key? key,
     required this.author,
     required this.hideDescription,
+    this.structuredAuthors,
   }) : super(key: key);
 
   final Author author;
-
-  String getInitials(name) {
-    List<String> names = name.split(" ");
-    String initials = "";
-    int numWords = 2;
-
-    for (var i = 0; i < numWords; i++) {
-      initials += names[i][0];
-    }
-    return initials;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +22,6 @@ class AuthorWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: Colors.grey.shade800,
-              backgroundImage: (author.image != null)
-                  ? CachedNetworkImageProvider(
-                      'https://home.ementin.hu${author.image}') // Provide your custom image
-
-                  : null,
-              child: (author.image == null)
-                  ? Text(
-                      getInitials(author.name),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13,
-                        height: 1.2,
-                      ),
-                    )
-                  : null,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -88,22 +57,59 @@ class AuthorWidget extends StatelessWidget {
                           ))
                       .toList(),
                 ), */
-                if (author.workplaces != null)
-                  Column(
-                    children: author.workplaces!
-                        .map(
-                          (workplace) => Text(
-                            workplace.name ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              height: 1.2,
-                            ),
+                // Display first institution from structuredAuthors if available
+                if (structuredAuthors != null &&
+                    structuredAuthors!.institutions.isNotEmpty)
+                  () {
+                    final firstInstitution = structuredAuthors!.institutions
+                        .where((inst) => inst.name != null && inst.name!.isNotEmpty)
+                        .firstOrNull;
+
+                    if (firstInstitution != null) {
+                      return Container(
+                        constraints: const BoxConstraints(maxWidth: 200),
+                        child: Text(
+                          firstInstitution.name!,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            height: 1.2,
+                            color: Color(0xFF6B7280),
                           ),
-                        )
-                        .toList(),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }()
+                else if (author.workplaces != null && author.workplaces!.isNotEmpty)
+                  // Fallback to first workplace if structuredAuthors not available
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 200),
+                    child: Text(
+                      author.workplaces!.first.name ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        height: 1.2,
+                        color: Color(0xFF6B7280),
+                      ),
+                    ),
+                  )
+                else
+                  // Placeholder when no workplace is available
+                  Text(
+                    'Munkahely nincs megadva',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      height: 1.2,
+                      color: Colors.grey.shade400,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 if (author.description != null && !hideDescription!)
                   Container(

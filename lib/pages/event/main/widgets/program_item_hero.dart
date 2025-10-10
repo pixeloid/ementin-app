@@ -161,21 +161,40 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                             )
                           ],
                         ),
-                        Row(children: [
-                          Flexible(
-                            child: Text(
-                              event.title,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 4,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937),
-                                height: 1.2,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (event.groupName != null && event.groupName!.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Text(
+                                  event.groupName!,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF2C2B7A),
+                                    height: 1.2,
+                                    letterSpacing: 0.3,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ]),
+                            Row(children: [
+                              Flexible(
+                                child: Text(
+                                  event.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 4,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF1F2937),
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ],
+                        ),
                         const SizedBox(
                           height: 6,
                         ),
@@ -185,6 +204,7 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                               AuthorWidget(
                                 author: author,
                                 hideDescription: true,
+                                structuredAuthors: event.structuredAuthors,
                               ),
                             if (checkedIn)
                               Row(
@@ -301,6 +321,20 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               ],
                             ),
                             const SizedBox(height: 8),
+                            if (presentation.groupName != null && presentation.groupName!.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  presentation.groupName!,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF2C2B7A),
+                                    height: 1.2,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
                             Row(children: [
                               Flexible(
                                 child: Text(
@@ -326,6 +360,7 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                                       .map((e) => AuthorWidget(
                                             author: e,
                                             hideDescription: false,
+                                            structuredAuthors: presentation.structuredAuthors,
                                           ))
                                       .toList()),
                             const SizedBox(height: 16),

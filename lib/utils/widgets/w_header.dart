@@ -131,16 +131,19 @@ class WHeader extends StatelessWidget with DynamicSize {
                                         ),
                                       )
                                     : TextButton(
-                                        onPressed: () {
-                                          Provider.of<AuthProvider>(context,
+                                        onPressed: () async {
+                                          final router = AutoRouter.of(
+                                              context); // Store AutoRouter instance
+                                          await Provider.of<AuthProvider>(
+                                                  context,
                                                   listen: false)
-                                              .logout()
-                                              .then((value) => {
-                                                    AutoRouter.of(context)
-                                                        .navigate(
-                                                      EventProgramRoute(),
-                                                    )
-                                                  });
+                                              .logout();
+                                          if (router.navigatorKey
+                                                  .currentContext !=
+                                              null) {
+                                            router.navigate(
+                                                const EventListRoute());
+                                          }
                                         },
                                         child: const Align(
                                           alignment: Alignment.centerRight,
@@ -206,7 +209,7 @@ class CheckInOverlay extends ModalRoute<void> {
   bool get barrierDismissible => true;
 
   @override
-  Color get barrierColor => Colors.black.withValues(alpha: 0.5);
+  Color get barrierColor => Colors.black.withOpacity(0.5);
 
   @override
   String get barrierLabel => 'Barrrier label';

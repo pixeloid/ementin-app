@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -H \"event: meta2025\" \"https://home.ementin.hu/api/schedule\")",
+      "Bash(python3:*)",
+      "Read(//private/tmp/**)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter pub run build_runner build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

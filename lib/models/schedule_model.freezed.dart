@@ -997,6 +997,8 @@ mixin _$ScheduleEvent {
   String? get media;
   @JsonKey(name: "rate")
   double? get rate;
+  @JsonKey(name: "groupName")
+  String? get groupName;
 
   /// Create a copy of ScheduleEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1039,35 +1041,39 @@ mixin _$ScheduleEvent {
             (identical(other.chairs, chairs) || other.chairs == chairs) &&
             const DeepCollectionEquality().equals(other.authors, authors) &&
             (identical(other.media, media) || other.media == media) &&
-            (identical(other.rate, rate) || other.rate == rate));
+            (identical(other.rate, rate) || other.rate == rate) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      type,
-      id,
-      eventId,
-      eventClass,
-      title,
-      originalStart,
-      originalEnd,
-      const DeepCollectionEquality().hash(children),
-      favourite,
-      isTimeHidden,
-      isRatable,
-      structuredAuthors,
-      body,
-      subtitle,
-      chairs,
-      const DeepCollectionEquality().hash(authors),
-      media,
-      rate);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        type,
+        id,
+        eventId,
+        eventClass,
+        title,
+        originalStart,
+        originalEnd,
+        const DeepCollectionEquality().hash(children),
+        favourite,
+        isTimeHidden,
+        isRatable,
+        structuredAuthors,
+        body,
+        subtitle,
+        chairs,
+        const DeepCollectionEquality().hash(authors),
+        media,
+        rate,
+        groupName
+      ]);
 
   @override
   String toString() {
-    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, originalStart: $originalStart, originalEnd: $originalEnd, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, media: $media, rate: $rate)';
+    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, originalStart: $originalStart, originalEnd: $originalEnd, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, media: $media, rate: $rate, groupName: $groupName)';
   }
 }
 
@@ -1095,7 +1101,8 @@ abstract mixin class $ScheduleEventCopyWith<$Res> {
       @JsonKey(name: "chairs") String? chairs,
       @JsonKey(name: "authors") List<Author>? authors,
       @JsonKey(name: "media") String? media,
-      @JsonKey(name: "rate") double? rate});
+      @JsonKey(name: "rate") double? rate,
+      @JsonKey(name: "groupName") String? groupName});
 
   $StructuredAuthorsCopyWith<$Res>? get structuredAuthors;
 }
@@ -1131,6 +1138,7 @@ class _$ScheduleEventCopyWithImpl<$Res>
     Object? authors = freezed,
     Object? media = freezed,
     Object? rate = freezed,
+    Object? groupName = freezed,
   }) {
     return _then(_self.copyWith(
       type: null == type
@@ -1205,6 +1213,10 @@ class _$ScheduleEventCopyWithImpl<$Res>
           ? _self.rate
           : rate // ignore: cast_nullable_to_non_nullable
               as double?,
+      groupName: freezed == groupName
+          ? _self.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -1245,7 +1257,8 @@ class _ScheduleEvent extends ScheduleEvent {
       @JsonKey(name: "chairs") this.chairs,
       @JsonKey(name: "authors") final List<Author>? authors,
       @JsonKey(name: "media") this.media,
-      @JsonKey(name: "rate") required this.rate})
+      @JsonKey(name: "rate") required this.rate,
+      @JsonKey(name: "groupName") this.groupName})
       : _children = children,
         _authors = authors,
         super._();
@@ -1320,6 +1333,9 @@ class _ScheduleEvent extends ScheduleEvent {
   @override
   @JsonKey(name: "rate")
   final double? rate;
+  @override
+  @JsonKey(name: "groupName")
+  final String? groupName;
 
   /// Create a copy of ScheduleEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1366,35 +1382,39 @@ class _ScheduleEvent extends ScheduleEvent {
             (identical(other.chairs, chairs) || other.chairs == chairs) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
             (identical(other.media, media) || other.media == media) &&
-            (identical(other.rate, rate) || other.rate == rate));
+            (identical(other.rate, rate) || other.rate == rate) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      type,
-      id,
-      eventId,
-      eventClass,
-      title,
-      originalStart,
-      originalEnd,
-      const DeepCollectionEquality().hash(_children),
-      favourite,
-      isTimeHidden,
-      isRatable,
-      structuredAuthors,
-      body,
-      subtitle,
-      chairs,
-      const DeepCollectionEquality().hash(_authors),
-      media,
-      rate);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        type,
+        id,
+        eventId,
+        eventClass,
+        title,
+        originalStart,
+        originalEnd,
+        const DeepCollectionEquality().hash(_children),
+        favourite,
+        isTimeHidden,
+        isRatable,
+        structuredAuthors,
+        body,
+        subtitle,
+        chairs,
+        const DeepCollectionEquality().hash(_authors),
+        media,
+        rate,
+        groupName
+      ]);
 
   @override
   String toString() {
-    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, originalStart: $originalStart, originalEnd: $originalEnd, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, media: $media, rate: $rate)';
+    return 'ScheduleEvent(type: $type, id: $id, eventId: $eventId, eventClass: $eventClass, title: $title, originalStart: $originalStart, originalEnd: $originalEnd, children: $children, favourite: $favourite, isTimeHidden: $isTimeHidden, isRatable: $isRatable, structuredAuthors: $structuredAuthors, body: $body, subtitle: $subtitle, chairs: $chairs, authors: $authors, media: $media, rate: $rate, groupName: $groupName)';
   }
 }
 
@@ -1424,7 +1444,8 @@ abstract mixin class _$ScheduleEventCopyWith<$Res>
       @JsonKey(name: "chairs") String? chairs,
       @JsonKey(name: "authors") List<Author>? authors,
       @JsonKey(name: "media") String? media,
-      @JsonKey(name: "rate") double? rate});
+      @JsonKey(name: "rate") double? rate,
+      @JsonKey(name: "groupName") String? groupName});
 
   @override
   $StructuredAuthorsCopyWith<$Res>? get structuredAuthors;
@@ -1461,6 +1482,7 @@ class __$ScheduleEventCopyWithImpl<$Res>
     Object? authors = freezed,
     Object? media = freezed,
     Object? rate = freezed,
+    Object? groupName = freezed,
   }) {
     return _then(_ScheduleEvent(
       type: null == type
@@ -1535,6 +1557,10 @@ class __$ScheduleEventCopyWithImpl<$Res>
           ? _self.rate
           : rate // ignore: cast_nullable_to_non_nullable
               as double?,
+      groupName: freezed == groupName
+          ? _self.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
