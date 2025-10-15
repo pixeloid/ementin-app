@@ -22,8 +22,8 @@ android {
     defaultConfig {
         applicationId = "com.pixeloid.eventapp"
         minSdk = 21
-        targetSdk = 34
-        versionCode = 127  // 🔁 Update this automatically via script if desired
+        targetSdk = 35
+        versionCode = 129  // 🔁 Update this automatically via script if desired
         versionName = "1.4.12"
 
         multiDexEnabled = true

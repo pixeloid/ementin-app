@@ -182,8 +182,6 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                               Flexible(
                                 child: Text(
                                   event.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 4,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -341,8 +339,6 @@ class ProgramItemFullHeroPage extends StatelessWidget with HeaderDelegate {
                               Flexible(
                                 child: Text(
                                   presentation.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 4,
                                   style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w700,

@@ -161,8 +161,6 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
                                       if (event.chairs != null)
                                         Text(
                                           event.chairs.toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
                                           style: const TextStyle(
                                             color: Color(0xFF554577),
                                             fontWeight: FontWeight.w500,

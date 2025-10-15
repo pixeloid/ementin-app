@@ -34,8 +34,6 @@ class ProgramHeaderSimple extends StatelessWidget {
             color: Color(0xFF2C2B7A),
             fontWeight: FontWeight.w700,
           ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 3,
         ),
       ],
     );
