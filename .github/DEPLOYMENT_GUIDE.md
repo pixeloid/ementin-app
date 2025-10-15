@@ -5,11 +5,13 @@ This guide will help you set up automatic Android app deployment to Google Play 
 ## ✅ What's Already Set Up
 
 1. **GitHub Actions Workflow** (`.github/workflows/android-release.yml`)
+
    - Automatically triggers on push to `main` branch
    - Builds production-signed AAB
    - Uploads to Google Play production track
 
 2. **Build Configuration** (`android/app/build.gradle.kts`)
+
    - Smart signing config (uses keystore if available, fallback to debug)
    - Multi-flavor support (dev, staging, prod)
 
@@ -26,17 +28,18 @@ Go to your GitHub repository:
 
 Add these 5 secrets (see [SECRETS_SETUP.md](./SECRETS_SETUP.md) for details):
 
-| Secret Name | Description | Example |
-|-------------|-------------|---------|
-| `KEYSTORE_BASE64` | Your keystore file encoded in base64 | `MIIKyAIBAz...` |
-| `KEYSTORE_PASSWORD` | Keystore password | `myStorePass123` |
-| `KEY_PASSWORD` | Key password | `myKeyPass456` |
-| `KEY_ALIAS` | Key alias | `upload` |
-| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Google Play service account JSON | `{"type":"service_account",...}` |
+| Secret Name                        | Description                          | Example                          |
+| ---------------------------------- | ------------------------------------ | -------------------------------- |
+| `KEYSTORE_BASE64`                  | Your keystore file encoded in base64 | `MIIKyAIBAz...`                  |
+| `KEYSTORE_PASSWORD`                | Keystore password                    | `myStorePass123`                 |
+| `KEY_PASSWORD`                     | Key password                         | `myKeyPass456`                   |
+| `KEY_ALIAS`                        | Key alias                            | `upload`                         |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Google Play service account JSON     | `{"type":"service_account",...}` |
 
 ### Step 2: Create/Upload Your Keystore
 
 **Option A: Use existing keystore**
+
 ```bash
 # Encode your existing keystore
 base64 -i android/app/upload-keystore.jks | tr -d '\n'
@@ -44,6 +47,7 @@ base64 -i android/app/upload-keystore.jks | tr -d '\n'
 ```
 
 **Option B: Generate new keystore**
+
 ```bash
 keytool -genkey -v -keystore android/app/upload-keystore.jks \
   -keyalg RSA -keysize 2048 -validity 10000 \
@@ -64,6 +68,7 @@ keytool -genkey -v -keystore android/app/upload-keystore.jks \
 ### Step 4: Test the Workflow
 
 1. **Make a commit and push to main:**
+
    ```bash
    git add .
    git commit -m "Set up automatic deployment"
@@ -71,6 +76,7 @@ keytool -genkey -v -keystore android/app/upload-keystore.jks \
    ```
 
 2. **Watch the workflow:**
+
    - Go to **Actions** tab in GitHub
    - Click on "Android Release Build"
    - Monitor the progress
@@ -105,7 +111,7 @@ graph LR
 Before each release, update the version in `android/app/build.gradle.kts`:
 
 ```kotlin
-versionCode = 127  // Must be higher than current production
+versionCode = 128  // Must be higher than current production
 versionName = "1.4.13"  // Semantic version
 ```
 
@@ -114,7 +120,7 @@ versionName = "1.4.13"  // Semantic version
 You can change the deployment track in the workflow:
 
 ```yaml
-track: production  # production, beta, alpha, or internal
+track: production # production, beta, alpha, or internal
 ```
 
 ### Manual Deployment
@@ -134,9 +140,11 @@ flutter build appbundle --release
 ## 🐛 Troubleshooting
 
 ### Build fails with "null cannot be cast to String"
+
 - ✅ Fixed! The build.gradle.kts now handles missing keystore gracefully
 
 ### Keystore decode fails
+
 ```bash
 # Verify your base64 encoding has no newlines
 echo "$KEYSTORE_BASE64" | base64 --decode > test.jks
@@ -144,11 +152,13 @@ file test.jks  # Should say "Java KeyStore"
 ```
 
 ### Google Play upload fails
+
 - Check service account permissions
 - Verify package name: `com.pixeloid.eventapp`
 - Ensure version code is incremented
 
 ### "Version code has already been used"
+
 - Increment `versionCode` in `build.gradle.kts`
 
 ## 🔐 Security Checklist
