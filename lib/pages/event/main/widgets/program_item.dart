@@ -36,6 +36,7 @@ class ScheduleEventWidget extends StatelessWidget {
           showBody: false,
           prefix: prefix,
           showLoveButton: true,
+          hasDetails: mediaUrl != null || scheduleEvent.body != null,
           onTap: mediaUrl != null
               ? () {
                   Navigator.of(context).push(MaterialPageRoute(

@@ -25,6 +25,7 @@ class ProgramItemHero extends StatefulWidget {
   final bool showLoveButton;
   final bool showDayName;
   final bool hideAuthor;
+  final bool hasDetails;
   final String? prefix;
 
   const ProgramItemHero({
@@ -36,6 +37,7 @@ class ProgramItemHero extends StatefulWidget {
     this.prefix,
     this.showDayName = false,
     this.hideAuthor = false,
+    this.hasDetails = false,
   }) : super(key: key);
 
   @override
@@ -153,6 +155,15 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xFFABAAB5),
                                       height: 1.2,
+                                    ),
+                                  ),
+                                if (widget.hasDetails && checkedIn)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Icon(
+                                      PhosphorIcons.article,
+                                      size: 20,
+                                      color: Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
                                 if (checkedIn && widget.showLoveButton)
