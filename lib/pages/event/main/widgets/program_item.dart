@@ -9,6 +9,7 @@ import 'program_item_hero.dart';
 class ScheduleEventWidget extends StatelessWidget {
   final String? prefix;
   final bool showDayName;
+  final bool hideGroupName;
   final ScheduleEvent scheduleEvent;
 
   const ScheduleEventWidget({
@@ -16,6 +17,7 @@ class ScheduleEventWidget extends StatelessWidget {
     required this.scheduleEvent,
     this.prefix,
     this.showDayName = false,
+    this.hideGroupName = false,
   });
 
   @override
@@ -36,6 +38,7 @@ class ScheduleEventWidget extends StatelessWidget {
           showBody: false,
           prefix: prefix,
           showLoveButton: true,
+          hideGroupName: hideGroupName,
           hasDetails: mediaUrl != null || scheduleEvent.body != null,
           onTap: mediaUrl != null
               ? () {

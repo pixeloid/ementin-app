@@ -26,6 +26,7 @@ class ProgramItemHero extends StatefulWidget {
   final bool showDayName;
   final bool hideAuthor;
   final bool hasDetails;
+  final bool hideGroupName;
   final String? prefix;
 
   const ProgramItemHero({
@@ -38,6 +39,7 @@ class ProgramItemHero extends StatefulWidget {
     this.showDayName = false,
     this.hideAuthor = false,
     this.hasDetails = false,
+    this.hideGroupName = false,
   }) : super(key: key);
 
   @override
@@ -175,7 +177,9 @@ class _ProgramItemHeroState extends State<ProgramItemHero> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (event.groupName != null && event.groupName!.isNotEmpty)
+                            if (!widget.hideGroupName &&
+                                event.groupName != null &&
+                                event.groupName!.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: Text(

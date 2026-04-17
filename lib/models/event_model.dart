@@ -74,8 +74,11 @@ class EventModel {
       abstractDeadline: json['abstractDeadline'] != null
           ? DateFormat('MMMMd').format(DateTime.parse(json['abstractDeadline']))
           : null,
-      daterange: DateFormat('MMMMd').format(DateTime.parse(json['start'])) +
-          DateFormat('-d.').format(DateTime.parse(json['end'])),
+      daterange: (() {
+        final start = DateTime.parse(json['start']);
+        final end = DateTime.parse(json['end']);
+        return '${start.year}. ${DateFormat('MMMM').format(start)} ${start.day}-${end.day}.';
+      })(),
       isInProgress: json['isInProgress'] ?? false,
       ads: json['ads'] != null
           ? (json['ads'] as List).map((ad) => AdModel.fromJson(ad)).toList()

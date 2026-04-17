@@ -174,25 +174,8 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            ListView.separated(
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return const SizedBox(
-                                                  height: 12,
-                                                );
-                                              },
-                                              itemCount: event.children.length,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              itemBuilder: (_, i) {
-                                                return ScheduleEventWidget(
-                                                  scheduleEvent:
-                                                      event.children[i],
-                                                );
-                                              },
-                                            )
+                                            ..._buildGroupedChildren(
+                                                event.children),
                                           ],
                                         )
                                     ],
@@ -221,5 +204,66 @@ class _ScheduleEventListState extends State<ScheduleEventList> {
         index: index,
       );
     }
+  }
+
+  List<Widget> _buildGroupedChildren(List<ScheduleEvent> children) {
+    final List<Widget> widgets = [];
+    int i = 0;
+    while (i < children.length) {
+      final groupName = children[i].groupName;
+      final hasGroup = groupName != null && groupName.isNotEmpty;
+
+      if (!hasGroup) {
+        if (widgets.isNotEmpty) widgets.add(const SizedBox(height: 12));
+        widgets.add(ScheduleEventWidget(scheduleEvent: children[i]));
+        i++;
+        continue;
+      }
+
+      int j = i;
+      while (j < children.length && children[j].groupName == groupName) {
+        j++;
+      }
+      final groupItems = children.sublist(i, j);
+
+      if (widgets.isNotEmpty) widgets.add(const SizedBox(height: 12));
+      widgets.add(Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: const Color(0xFF2C2B7A).withOpacity(0.25),
+            width: 1,
+          ),
+        ),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, left: 2),
+              child: Text(
+                groupName,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF2C2B7A),
+                  height: 1.2,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ),
+            for (int k = 0; k < groupItems.length; k++) ...[
+              if (k > 0) const SizedBox(height: 12),
+              ScheduleEventWidget(
+                scheduleEvent: groupItems[k],
+                hideGroupName: true,
+              ),
+            ],
+          ],
+        ),
+      ));
+      i = j;
+    }
+    return widgets;
   }
 }
