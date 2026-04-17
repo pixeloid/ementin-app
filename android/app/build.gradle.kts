@@ -23,8 +23,8 @@ android {
         applicationId = "com.pixeloid.eventapp"
         minSdk = 21
         targetSdk = 35
-        versionCode = 132  // 🔁 Update this automatically via script if desired
-        versionName = "1.4.14"
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
 
         multiDexEnabled = true
     }

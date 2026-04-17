@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:ementin_flutter/data/api/shared_preference_helper.dart';
 import 'package:ementin_flutter/models/event_registration_model.dart';
 import 'package:ementin_flutter/providers/event_provider.dart';
+import 'package:ementin_flutter/services/locator.dart';
 import 'package:ementin_flutter/utils/widgets/w_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:ementin_flutter/l10n/app_localizations.dart';
 
 @RoutePage()
@@ -16,6 +19,7 @@ class RegistrationDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context, listen: true);
     final reg = eventProvider.selectedEvent!.eventRegistration;
+    final checkinCode = getIt.get<SharedPreferenceHelper>().getCheckinCode();
     late Iterable<TicketModel> tickets;
     if (reg != null) {
       tickets =
@@ -62,6 +66,23 @@ class RegistrationDetailsPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          if (checkinCode != null && checkinCode.isNotEmpty)
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Center(
+                                child: QrImageView(
+                                  data: checkinCode,
+                                  version: QrVersions.auto,
+                                  size: 220,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                            ),
                           Column(
                             children: [
                               if (reg.accommodation != null)

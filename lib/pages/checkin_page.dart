@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:ementin_flutter/app_define/app_route.gr.dart';
+import 'package:ementin_flutter/data/api/shared_preference_helper.dart';
 import 'package:ementin_flutter/providers/auth_provider.dart';
 import 'package:ementin_flutter/providers/event_provider.dart';
+import 'package:ementin_flutter/services/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
@@ -88,6 +90,8 @@ class _CheckInPageState extends State<CheckInPage> {
       OneSignal.login(checkIn['eventRegistration']['user']['id'].toString())
           .then((results) {})
           .catchError((error) {});
+
+      await getIt.get<SharedPreferenceHelper>().setCheckinCode(code: code);
 
       // Move this outside of setState
       await authProvider.loginWithCode(code);
