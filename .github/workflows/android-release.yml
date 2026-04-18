@@ -39,7 +39,7 @@ jobs:
           echo "SHA256:"
           sha256sum android/app/upload-keystore.jks
           echo "Verifying with keytool:"
-          keytool -list -keystore android/app/upload-keystore.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | head -20 || echo "keytool verification failed"
+          keytool -list -keystore android/app/upload-keystore.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | head -20
 
       - name: Create key.properties
         run: |
