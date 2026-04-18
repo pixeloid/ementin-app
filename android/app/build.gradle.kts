@@ -106,4 +106,20 @@ afterEvaluate {
             }
         }
     }
+
+    tasks.named("bundleProdRelease").configure {
+        doLast {
+            val aabSource = file("build/outputs/bundle/prodRelease/app-prod-release.aab")
+            val flutterExpectedDir = file("../../build/app/outputs/bundle/prodRelease")
+            val flutterExpectedAab = File(flutterExpectedDir, "app-prod-release.aab")
+
+            if (aabSource.exists()) {
+                flutterExpectedDir.mkdirs()
+                aabSource.copyTo(flutterExpectedAab, overwrite = true)
+                println("✅ Copied AAB to ${flutterExpectedAab.path}")
+            } else {
+                println("❌ AAB not found at ${aabSource.path}")
+            }
+        }
+    }
 }
