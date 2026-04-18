@@ -30,7 +30,15 @@ jobs:
 
       - name: Decode Keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          printf '%s' "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          echo "Keystore size:"
+          ls -la android/app/upload-keystore.jks
+          echo "File type:"
+          file android/app/upload-keystore.jks
+          echo "SHA256:"
+          sha256sum android/app/upload-keystore.jks
+          echo "Verifying with keytool:"
+          keytool -list -keystore android/app/upload-keystore.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | head -20 || echo "keytool verification failed"
 
       - name: Create key.properties
         run: |
